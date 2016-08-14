@@ -135,14 +135,80 @@
 	- #### 4. 圈子板块
 		- 4.1 查找我的圈子的搜索框
 			- 4.1.1 搜索圈子的名称
+             - 前端说明:
+          - 尽量屏蔽掉一个专门的搜索按钮，开一个异步线程监听输入的字符是否是enter。
+          - 当搜索的编辑框获得焦点时，把下方的内容变灰色，enter之后，跳转搜索结果展示界面。
+           - implements:
+              - count: [integer]，每页的数目
+              - q: [String]，（搜索的内容）
+              - page: [integer]，页数
+              - code: [integer]，（返回码，标识成功还是失败或者异常）
+              - data: [String]，（一个大Json对象）,调用Umeng接口。
+                - Json：category[integer]类别，标识结果属于某一类。
+                - Json：results: [JsonArray]，该类目下面的搜索结果放在一个Json数组里，单个搜索结果作为一个数组的一个对象。
+           - request:
+              - count: [integer]
+              - q: [String]
+              - page: [integer]
+           - response:
+             - 见下方4.1.2
 			- 4.1.2 展示结果为圈子列表
 				- 点击圈子列表的某一个item，进入”圈子详情板块“
+				- implements:
+                  - circle_id:[integer] 圈子id。
+                  - circle_name:[String]圈子名称。
+                  - circle_img:[String]圈子头像的Url。
+                  - 以上内容封装在大Json对象data中。
+                - response:
+                  - data[String]
+                    -  circle_id:[integer]
+                    -  circle_name:[String]
+                    -  circle_img:[String]
 		- 4.2 创建圈子的选项[todo: to complete]：
 			- 问卷
 			- 条件筛选
 			- 创建原因，圈子用途自述，人工审核
+			- 前端说明：
+              - 1、圈子分类界面，点击某个分类，记录分类信息进一个category字段[String]。
+              - 2、创建圈子资料界面，添加圈子头像，填写圈子名称，点击下一步，本地先进行审核（是否为空？是否出现奇葩字符？），若通过，发送一个请求给服务器进行验证，诸如是否重名？是否出现敏感字符？当服务器审核通过之后，进入设置界面，填写详细信息。（这些信息仍然存在内存当中，在第三步一起传到服务器作为参数创建圈子。）
+              - 3、圈子详情设置界面，填写信息后，点击完成，先进行本地审核，审核通过发送给服务器（发送的信息包括第一个界面的category、第二个界面的头像Url，圈子名称等），如果审核通过，建立圈子并且返回成功，否则报错，终端根据返回的错误码进行判断是哪个部分出错并提升用户，必要时在错误部分后面显示一个小红X符号标识。
+			- implements:
+			  - 1、分类界面：
+                - category: [String] 分类：圈子所属的分类。
+              - 2、创建圈子资料界面：
+                - circle_img: [String] 圈子头像Url，可以本地，也可以网络图片。
+                - circle_name: [String] 圈子名称。
+              - 3、圈子详情设置界面：
+                - reason: [String]，圈子创建的原因。
+                - question: [String]，申请加入圈子时审核的问题。
+                - question_id: [integer]，问题的id。
+                - 当点击更多（+）后，增加一个问题item，内容如上，question_id自增。
+                - cities:[String[]]，选取几个城市作为据点。
+                - years:[integer，integer]，两个整型值，划分一个区间。
+                - schools:[String[]]，选取几个，作为主要院系据点。
+            - request:
+              - 1、
+                - category: [String]
+              - 2、
+                - circle_img: [String]
+                - circle_name: [String]
+              - 3、
+                - reason: [String]
+                - question: [String]
+                - question_id: [integer]
+                - cities:[String[]]
+                - years:[integer，integer]
+                - schools:[String[]]
+            - response:
+              - code: [integer]
 		- 4.3 发现新圈子的选项
 			- 4.3.1 点击进入发现圈子页面：
+              - implements:
+                - 发送拉取数据的请求，服务器返回一个大的Json对象，对象里面按左边侧边栏分类，又分为各个子对象，子对象里包含圈子id，圈子头像和圈子名称等。
+              - request:
+                - operation:[String]
+              - response:
+                - data:[String]
 				- 4.3.1.1 搜索功能
 				- 4.3.1.2 二级分类展示圈子列表：
 					- 4.3.1.2.1 左边竖栏为可滑动，点击 的分类列表
@@ -159,36 +225,133 @@
 				- 圈子的群主发的通知
 			- 4.4.2 圈子列表的item点击后，进入“圈子详情板块”
 			- 4.4.3 能看到我创建的圈子，我管理的圈子，我加入的圈子的分隔条，当某个条目被挪到最顶端之后，这个条栏在上方置顶而不是消失。
+			- implements:
+              - 在切换进该页面或者进行下拉刷新时，向服务器申请数据。
+              - data: [String]，一个大Json对象，里面包含了各个圈子的信息，这些信息又封装在一个小Json对象里。
+                  - circle_id:[integer] 圈子id。
+                  - circle_permissions:[integer]圈子所属（我创建？管理？加入？）
+                  - circle_name:[String]圈子名称。
+                  - circle_img:[String]圈子头像的Url。
+                  - latest_msg:[String]最新消息。
+                  - latest_conut:[integer] 新增内容数。
+             - request:
+               - operation: [String]
+             - response:
+               - data: [String]
 	- #### 5. 圈子详情板块：
 		- 5.1 显示圈子名
 		- 5.2 申请加入/申请退出/管理圈子
 			- 5.2.1 这是一个动态显示的可以点击的按钮，根据圈子和用户的关系不同而不同：
 				- 5.2.1.1 用户不是圈子的成员：显示申请加入
 					- 点击进入申请界面
+                      - implements:
+                        - circle_id:[integer]待加入的圈子id
+                      - request:
+                        - operation:[String]
+                        - circle_id:[integer]
+                      - response:
+                        - code: [integer]
 				- 5.2.1.2 用户是圈子成员：显示退出圈子
 					- 点击弹窗，是否确认退出圈子？
+					  - implements:
+                        - circle_id:[integer]待加入的圈子id
+                      - request:
+                        - operation:[String]
+                        - circle_id:[integer]
+                      - response:
+                        - code: [integer]
 				- 5.2.1.3 用户是圈子的管理员或者创建者：显示管理圈子
 					- 点击进入管理圈子界面[todo :to complete] 
 						- 管理员：
 							- 审核人员，踢人
+                              - implements:
+                                - operation:[String]审核人员还是踢人？
+                                - circle_id:[integer] 圈子id。
+                                - target_uid: [integer] 目标用户的id。
+                                - code: [integer]状态码，表示是否成功执行操作？
+                              - request:
+                                - operation:[String]
+                                - target_uid: [integer]
+                                - circle_id:[integer] 
+                              - response:
+                                - code: [integer]
 							- 发布圈子通知
+                              - implements
+                                - circle_id:[integer] 圈子id。
+                                - note:[String] 通知内容，图文混排待定。
+                                - time:[String] 发布时间。
+                                - code:[integer] 状态码
+                              - request:
+                                - circle_id:[integer]
+                                - note:[String]
+                                - time:[String]
+                              - response:
+                                - code:[integer]
 							- 其他待定
 						- 创始人：
 							- 拥有管理员的功能
 							- 任命管理员
 							- 撤销管理员
+                              - implements:
+                                - operation:[String]任命、取消？
+                                - circle_id:[integer] 圈子id。
+                                - target_uid: [integer] 目标用户的id。
+                                - code: [integer]状态码，表示是否成功执行操作？
+                              - request:
+                                - operation:[String]
+                                - circle_id:[integer]
+                                - target_uid: [integer]
+                              - response:
+                                - code:[integer]
 							- 编辑圈子信息[群简介，群标签]
+                              - implements:
+                                - circle_intro:[String] 简介
+                                - circle_label:[String[]]一组标签内容。
+                                - code:[integer]返回码。
+                              - request:
+                                - circle_intro:[String]
+                                - circle_label:[String[]]
+                              - response:
+                                - code:[integer]
 		- 5.3 成员列表
 			- 这是一个可以上下拖动的列表
 			- 成员列表的item点击之后，进入”个人信息展示板块“
+              - implements:
+                - 这些信息均封装在一个大Json中，里面包含了包含用户id、名称、头像Url的小Json对象。
+                - data:[String]大Json对象。
+                  - uid:[integer] 圈子某个成员id。
+                  - uimg:[String]头像Url。
+                  - uname:[String]名称。
+                - request:
+                  - operation:[String]
+                - response:
+                  - data:[String]
 		- 5.4 公告栏[发布公告]
 			- 这是一个可以上下拖动的列表
 			- 下滑可以刷新这个列表
 			- 上拉可以查看历史公告
 			- 点击公告列表的item，进入”公告详情板块“
+            - implements:
+              - operation:[String]操作码,下拉刷新还是上拉加载
+              - page:[integer]当前的页码
+              - count:[integer]每页的公告数量。
+              - data:[String]大Json，包含了公告的日期，发布的管理员，公告的内容。
+            - request:
+              - operation:[String]
+              - page:[integer]
+              - count:[integer]
+            - response:
+              -  data:[String]
 		- 5.4 群介绍[todo:to complete]
 			- 群简介
+              - implements:
+                - circle_intro:[String]群简介内容。
+              - request:
+                不需要单独请求，在打开这个界面的时候发一个网络请求，一同打包传递。
+              - response:
+                - circle_intro:[String]
 			- 人员分布[年龄分布，地域分布，专业分布]
+              - todo
 			- 群通知[待定]
 		- 5.5 [2.0]群聊
 		- 5.6 右上角有按钮可以发布公告到圈子公告栏
@@ -197,17 +360,64 @@
 				- [2.0]:带排版功能的长文本
 				- 插入最多9张图片
 				- 设置开放度：默认公开，可以修改成仅圈内可见。
+				- implements:
+                   - time: [String] 格式化的时间字符串。
+                   - content: [String] 动态内容。
+                   - image_url: [String[]] 图片地址数组。
+              - 以上内容放在一个Json对象data中。
+			- request:
+              - time: [String] 
+              - content: [String] 
+              -  image_url: [String[]]
+            - response:
+              - code:[integer] 是否成功？
 	- #### 6. 公告详情展示板块
 		- 6.1 展示信息
 			- 姓名，头像，入学年份，院系，职业，发表时间
 			- 动态内容
 			- 图片
+			- implements:
+              - feed_id: [integer] 标识该公告的id。
+              - creator: [integer] 这个公告的发布者。
+              - username: [String] 发布者的姓名。
+              - icon_url: [String] 发布者头像的Url。
+              - admission year: [integer] 发布者入学年份。
+              - major [String] 院系。
+              - carrer: [String] 职业。
+              - time: [String] 格式化的时间字符串。
+              - content: [String, ] 动态内容。
+              - image_url: [String] 图片地址。
+              - liked: [integer] 点赞数目。
+              - comments: [integer] 评论数目。
+              - 以上内容放在一个Json对象data中。
+			- request:
+              - feed_id: [integer] 
+            - response:
+              - data: [String]
 		- 6.2 点赞按钮：
 			- 按钮能看到点赞数
 			- 点击能够点赞/取消点赞
+              - implements:
+              - feed_id: [integer] 标识该公告的id。
+              - action:[boolean] 操作行为：点赞为真，取消为假。
+              - code:[integer] 状态码，表示该行为是否执行成功。
+              - request:
+                - feed_id: [integer]
+                - action:[boolean]
+              - response:
+                - code:[integer]
 		- 6.3 评论：
 			- 能够看到评论个数
 			- 能够进行评论
+              - implements:
+              - feed_id: [integer] 标识该公告的id。
+              - msg: [String] 评论的内容，可以附件emoji表情，附加图片？
+              - code:[integer] 状态码，表示该行为是否执行成功。
+              - request：
+                - feed_id: [integer] 
+                - msg: [String]
+              - response:
+                - code:[integer]
 			- 点击某一个用户能够对用户的评论进行回复
 		- 6.4 点击发布者的头像，进入该用户的”个人信息展示界面“
 	- #### 7. 个人信息展示板块：
@@ -219,16 +429,60 @@
 					- 除非特殊处理，不然是对圈内人公开的。
 					- 除非用户选择，不然是不对非同圈的人士公开的
 					- 在名片版面能够点击这些选项弹出，如果没有对应选项，弹出则为空
+				- 给每个属性附加一个整形常量字段，在服务器获取信息时进行筛选，如果无权获取的信息，则用空标识，客户端正常解析，遇空不显示。
+				- implements:
+				- target_uid: [integer], 对方用户的id。
+				- data: [String], 一部分调用Umeng接口进行，另一部分附加我们自己收集的信息，在服务器端进行二次权限筛选，然后传一个Json对象给终端。这个Json格式兼容Umeng的格式。
+				- request:
+                  - target_uid: [integer]
+                - response:
+                  - data: [String]
 			- 7.1.2 公开动态- 不同用户组有不同的开放程度
 				- 是一个按钮
 				- 点开查看用户的公开动态
 				- 如果是圈内人士，查看他的圈内动态+公开动态
+				- implements:
+				  - count: [integer]，每页接收的数目。
+                  - page: [integer]，页数。
+                  - target_uid: [integer]，表示目标用户的id。
+                  - data: [String]，一个超大的Json对象，里面用数组封装了各条信息，对于权限的验证，应当放在服务器那边。（调用Umeng接口）
+				- requeset:
+                  - count: [integer]
+                  - page: [integer]
+                  - target_uid: [integer]
+                - response:
+                  - data: [String]
 			- 7.1.3 留言 [todo:即时通讯：环信。如果是留言功能，环信能够实现么？]
 				- 是一个按钮
 				- 点击进入聊天对话框
+				- implements:
+				  - (初步设想)
+                  - target_uid: [integer]，对方的用户id。
+                  - msg: [String], 留言内容（图文混排？）
+                  - time: [String], 留言时间。
+                  - code:[integer], 状态码，标识是否留言成功，如果服务器未能接收到留言的数据，则不应该更新留言的状态（比如用一个等待的转圈状态表示），应当等到服务器返回成功的状态码时，才能更新留言的数据。
+                  - data:[String]，仅限于被留言者，当被留言者发送任何http请求时，服务器自动检测是否含有留言信息，如果有留言信息，则自动附加在其它响应的尾部，终端解析可得到留言信息。
+				- request:
+                  - (初步设想)
+                  - target_uid: [integer]
+                  - msg: [String]
+                  - time: [String]
+                - response:
+                  - code:[integer]
+                  - data:[String]
 			- 7.1.4 收藏名片/取消收藏
 				- 是一个按钮
 				- 根据用户是否已经搜藏而显示不同内容
+				- implements:
+                  - target_uid:[integer]，被收藏名片者的用户id。
+                  - action:[boolean]，收藏为true，取消为false。
+				  - code: [integer]，状态码，标识成功还是失败。
+                  - 要注意返回之后根据状态码进行显示内容的更新。
+                - request:
+                  - target_uid:[integer]
+                  - action:[boolean]
+                - response:
+                  - code: [integer]
 
 	- #### [todo]:引导板块
 	- #### 动画效果[todo: to complete]：
@@ -246,7 +500,8 @@
 			- [2.0]讨论功能
 		- 搜索版块：
 	- #### [已删除: 搜索个性化到圈子搜索和人脉搜索]搜索版块[把搜索写成一个 专门的搜索控件，附带一个专门的界面。]--搜索模块已经个性化，不用专门的模块
-
+      - #### 圈子搜索：
+      - 见4
 
 
 - ## 分工：
