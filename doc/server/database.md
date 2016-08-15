@@ -137,7 +137,17 @@
 
 message table:
 m_id
+type:
 message:
+type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
+{
+	"topic name"
+	“result”: true of false,
+    [if "result" == true]
+    [if "result" == false]
+    "reason":手工填写的拒绝理由
+}
+type:1 申请人发给管理员的消息
 	{
     	"topic"：{
         	“id”:topic id 当用户需要获取该圈子的详情的时候，可以通过这个topic id 来找到这个话题的详细信息。
@@ -162,6 +172,7 @@ message:
             ……
         }
     }
+type:2  申请人接受到的消息，他发出的消息的处理结果
     {
     	"topic"：{
         	“id”:topic id 当用户需要获取该圈子的详情的时候，可以通过这个topic id 来找到这个话题的详细信息。
@@ -171,3 +182,25 @@ message:
         "result":true or false.
     }
 deal:[bool]
+
+manual_review table
+
+review_id:
+name:
+icon_url:
+creator_uid:[umeng uid]:创建者的id
+circle_name：圈子的名字
+circle_icon_url:圈子的图标
+circle_type:圈子类别
+create_reason_message:创建者填写的创建理由
+question_list[json]：圈子申请需填写的问题
+city_filter_list[json]：圈子的城市筛选信息
+admission_min_year[int]：圈子的允许进入的入学年份最小值
+adminssion_max_year[int]：圈子的允许进入的入学年份最大值
+major_filter_list[json]：圈子的允许进入专业的筛选
+deal[int] 0 not deal yet. 1 agree.2 disagree
+
+user_message_table:
+id:
+uid:
+message_queue[array]
