@@ -173,19 +173,19 @@
               - 2、创建圈子资料界面，添加圈子头像，填写圈子名称，点击下一步，本地先进行审核（是否为空？是否出现奇葩字符？），若通过，发送一个请求给服务器进行验证，诸如是否重名？是否出现敏感字符？当服务器审核通过之后，进入设置界面，填写详细信息。（这些信息仍然存在内存当中，在第三步一起传到服务器作为参数创建圈子。）
               - 3、圈子详情设置界面，填写信息后，点击完成，先进行本地审核，审核通过发送给服务器（发送的信息包括第一个界面的category、第二个界面的头像Url，圈子名称等），如果审核通过，建立圈子并且返回成功，否则报错，终端根据返回的错误码进行判断是哪个部分出错并提升用户，必要时在错误部分后面显示一个小红X符号标识。
 			- implements:
-			  - 1、分类界面：
-                - category: [String] 分类：圈子所属的分类。
-              - 2、创建圈子资料界面：
-                - circle_img: [String] 圈子头像Url，可以本地，也可以网络图片。
-                - circle_name: [String] 圈子名称。
-              - 3、圈子详情设置界面：
-                - reason: [String]，圈子创建的原因。
-                - question: [String]，申请加入圈子时审核的问题。
-                - question_id: [integer]，问题的id。
-                - 当点击更多（+）后，增加一个问题item，内容如上，question_id自增。
-                - cities:[String[]]，选取几个城市作为据点。
-                - years:[integer，integer]，两个整型值，划分一个区间。
-                - schools:[String[]]，选取几个，作为主要院系据点。
+				- 1、分类界面：
+                	- category: [String] 分类：圈子所属的分类。
+              	- 2、创建圈子资料界面：
+                	- circle_img: [String] 圈子头像Url，可以本地，也可以网络图片。
+                	- circle_name: [String] 圈子名称。
+              	- 3、圈子详情设置界面：
+                	- reason: [String]，圈子创建的原因。
+                    - question: [String]，申请加入圈子时审核的问题。
+                    - question_id: [integer]，问题的id。
+                    - 当点击更多（+）后，增加一个问题item，内容如上，question_id自增。
+                    - cities:[String[]]，选取几个城市作为据点。
+                    - years:[integer，integer]，两个整型值，划分一个区间。
+                    - schools:[String[]]，选取几个，作为主要院系据点。
             - request:
               - 1、
                 - category: [String]
