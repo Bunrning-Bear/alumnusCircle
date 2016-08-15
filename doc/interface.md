@@ -1,4 +1,9 @@
-- ## 功能模块划分2.0：
+1. 写出每个需要的数据。[最后再整理数据库]:data
+2. 写出请求和返回值：key-value，是否必要，类型: request and response
+3. 写出实现逻辑:implement
+4. 不知道如何实现的写[todo：难点]
+5. 暂时不打算实现的，写[2.0]
+- ## 前后台接口：
 	- #### 1.登录模块[登录，注册，忘记密码]
 		-  1.1 登陆
 			- 1.1.1 通过手机号，密码登陆
@@ -35,7 +40,7 @@
                 - Umeng,ES:
                     - uid [int] --- source id
                     - telephone [string] ---- user name
-                    - icon [url] 
+                    - icon [url]
                     - cumstom
                         - admission year [int]
                         - major [string] [or int depend on school sql]
@@ -62,31 +67,95 @@
 			- 1.4.2 微信登陆成功之后，还需要验证信息： 入学年份，学院，专业，真实姓名，性别。
 	- #### 2.我板块
 		- 2.1 展示我的头像，我的姓名
-			- implement: 在登陆的时候就从umeng获取的info json中携带 icon url and name
-
+			- implement:
+				- 在登陆的时候就从umeng获取的info json, 携带用户在我的板块需要的所有信息。
+				- 不需要单独的发送http请求
 		- 2.2 点击头像，进入我的“个人信息详情板块”
-			- implement:访问个人信息
+			- implement:
+				- 访问获取个人信息的接口
+				- 服务器判断请求用户和目标用户的关系 [todo]
 			- data:
+				- type [int] 0 self ;1 stranger;2 cicle friends.
 			- request:
 				- uid：
-				- type:[访问个人信息的是本人/非圈内好友/圈内好友]，用来反馈不同的信息。
+			- response:
+				- info json: 个人信息
+				- type:[访问个人信息的是本人/非圈内好友/圈内好友]，用来显示的信息。[todo: 我的信息是否在登陆的时候直接展示，不需要再次获取]
 		- 2.3 编辑资料，可以编辑个人全部资料
-			- 2.3.1 个人资料包括：
-				- 2.3.1.1 公开程度待商榷
+			- 2.3.1 个人资料包括：[change]
+				- 2.3.1.1 公开程度说明：
+					- 姓名，头像，职业，公司，个人简介，入学年份，院系，必须公开。
+					- 岗位年龄，联系方式，工作经历，常驻城市，可选公开。
 				- 2.3.1.2 信息表格：附录
-				- 
             - 2.3.2 非必须公开的信息，其公开程度有：隐私，圈内开放，公开
             - 2.3.3 用户可选信息：可否通过模糊搜索找到你
+            - implement:
+            	- 客户端提交info json的信息给服务器，[包括修改的和未修改的信息]
+            	- 服务器直接写入新信息，旧信息作废
+            	- 服务器把更新的数据返回给客户端
+           	- data:
+           		- work year publicity [int] 工龄公开度
+           		- private telephone publicity [int] 个人电话公开度
+           		- public telephone publicity [int] 公共电话公开度
+           		- qq publicity [int] QQ公开度
+           		- wechat publicity [int] 微信公开度
+           		- career publicity [int] 工作经历公开度
+           		- if can be find [bool] 记录是否能够被搜索到
+                - 
+           		- work year [int] 工龄
+           		- private telephone [array] 个人电话
+           		- public telephone [array] 公共电话
+           		- qq [string] 个人
+           		- wechat [string]
+           		- career [json]
+           		-
+            	[note:
+                    elasticearch store all of information will be use while search.
+                    sql store all of information to check user's identifier.
+                    umeng:duplicate all of information from elasticearch.[todo:duplicate all of information need to show in list]
+                    to guarantee server needn't query sql after search in elasticsearch
+                ]
+           	- request:
+           		- uid
+           		- info json [above]
+           	- response:
+           		- code,message
 		- 2.4 我的信息[模仿微博私信部分]
 			- 2.4.1 我的评论 item
+				- 在item看到评论信息数[change]
 				- 点击打开查看别人对我的评论列表
 					- 点击每一个item，可以对评论回复
+
 			- 2.4.2 我的点赞 item
+				- 可以在item中看到点赞消息数[change]
 				- 点击查看别人对我的点赞列表
-			- 2.4.3 下面是我的对话记录
-				- 点击进入聊天对话框界面
+			- implement:获取点赞评论数
+				- 点击我的信息之后，后台访问Umeng的接口，获取通知数，点赞数
+				- 可以直接调用“/0/user/message'\_'box” 获得，不需要请求数据，只需要用户处于登陆状态
+			- data:
+			- request:
+			- response:
+				- comment amount
+				- like amount
+            - implement:获取评论/点赞列表
+                - 调用Umeng的接口，获取用户收到的评论列表，反馈给用户[公告栏需要在友盟实现，可见度的逻辑重新设计]
+            - data:
+            - request:
+            	- target:[int] 0:feed. 1:comment
+                - count [int] [define:返回的结果数量]
+                - type: [string] = received.[define:umeng 中用来定义是收到]
+                - page:[int]
+            - response：
+                - page
+                - count
+                - total
+                - next_page_url: ???
+                - results: 每个评论是results里面的一个元素，是包括了评论的所有信息的字段
+			- 2.4.3 下面是我的对话记录[todo]
+				- 能看到未读消息数
+				- 点击进入“留言”对话框界面
 				- 长按删除对话[包括聊天记录][聊天记录存储在本地]
-		- 2.5 [2.0] 二维码，如果技术难度低，考虑实现
+		- 2.5 [2.0] 二维码[change]
 		- 2.6 “我的动态” 合并到个人信息详情列表，这里的item删除
 		- 2.7 我的收藏：
 			- 2.7.1 点击查看我收藏的“需求”列表
@@ -97,15 +166,26 @@
 					- 需求前150字摘要
 					- 动态备注 [todo]: 友盟是否有对应接口
 			- 2.7.2 点击一个item进入需求详情展示板块
+			- implement:
+				- 直接调用友盟的接口
 		- 2.8 意见反馈
 			- 提交内容：意见内容文本；联系方式；
-		- 2.9 注销
+			- implement
+				- 直接调用友盟的接口
+		- 2.9 注销：
+			- implement：
+				- 注销cookie
+				- 注销服务器维护的user dict 字典
+			- data:
+			- resquest:
+			- response:
+				- code,message:
 	- #### 3. 人脉板块[原通讯录]
 		- 3.1 “淘名片“
 			- 3.1.1 [2.0] 添加手机联系人
 			- 3.1.2 [2.0] 邀请校友号
 			- 3.1.3 [2.0] 扫一扫添加好友
-			- 3.1.4 综合搜索：姓名，职业，公司，专业，校友圈号
+			- 3.1.4 综合搜索：姓名，职业，公司，专业，校友圈号[手机号]
 				- 3.1.4.1 显示搜索结果
 					- 3.1.4.1.1 搜索结果为个人信息列表，用户点击列表的某个 item 则进入“个人信息详情板块”
 					- 3.1.4.1.2 搜索结果值展示公开的用户，也就是 2.3.3. 选项为”是“的用户
@@ -126,19 +206,52 @@
 						- 默认展示一行，点击三角号展示下拉窗口，展示所有院系
 						- 可选0个或者多个
 						- 没有选择该项目，则为不筛选院系
+				- implement:
+					- 使用elasticsearch完成搜索功能
+					- 如果搜索字段是符合手机号正则表达式的字段,直接使用Umeng的搜索用户字段[telephone 是 友盟的 username 字段 可以直接进行搜索返回结果]
+					- 如果不是手机号，进入模糊搜索模式，对用户的“标签”，“个人简介”，“工作经历”，“职业“，”姓名“[todo]，”公司“，”专业“，"职业"进行模糊搜索。
+					- [todo:实际上，姓名不属于模糊搜索的范畴，用模糊搜索来做，反而会有副作用，应该重新设计这方面的UI]
+					- 查看是否有筛选字段：城市筛选，年份数值筛选，院系筛选。[这部分用的是ES的条件查询]
+					- 取结果按照相关度倒排。
+					- 分页返回给用户。
+				- data：
+				- request：
+					- q：必须字段
+					- city list:[array of string] 如果没有这个筛选需求，不需要提交对应字段
+					- admission year min:[int] 如果没有这个筛选需求，不需要提交对应字段
+					- admission year max:[int] 如果没有这个筛选需求，不需要提交对应字段
+					- major year:[array of string] 如果没有这个筛选需求，不需要提交对应字段
+					- page:[int]
+				- response:
+					- code, message
+					- info json.
 		- 3.2 查找我的名片[搜索本地的名片]
 			-  3.2.1 搜索内容为收藏的人的姓名
 			-  3.2.2 展示的结果为名片列表
 				- 点击名片列表的某一个项目，进入”个人信息详情板块“
 		- 3.3 我的名片列表
 			- 点击名片列表的某一个项目，进入”个人信息详情“
+		- implement：我已经有的名片
+            - 登陆之后需要查看本地是否有缓存，没有缓存的话，需要从服务器获取我的名片
+            - 获取我的名片，直接调用友盟的获取关注列表的接口[返回全部数据]
+        - implement: 进入”个人信息详情板块“：
+        	- 名片列表需要绑定一个target uid
+        	- 进入公开度筛选函数[见贴吧讨论]
+        - data:
+        - request:
+        	- target uid
+       	- response：
+       		- code
+       		- message
 	- #### 4. 圈子板块
 		- 4.1 查找我的圈子的搜索框
 			- 4.1.1 搜索圈子的名称
-             - 前端说明:
-          - 尽量屏蔽掉一个专门的搜索按钮，开一个异步线程监听输入的字符是否是enter。
-          - 当搜索的编辑框获得焦点时，把下方的内容变灰色，enter之后，跳转搜索结果展示界面。
+
            - implements:
+           	- 前端说明:
+          		- 尽量屏蔽掉一个专门的搜索按钮，开一个异步线程监听输入的字符是否是enter。
+          		- 当搜索的编辑框获得焦点时，把下方的内容变灰色，enter之后，跳转搜索结果展示界面。
+          - data:
               - count: [integer]，每页的数目
               - q: [String]，（搜索的内容）
               - page: [integer]，页数
@@ -147,33 +260,39 @@
                 - Json：category[integer]类别，标识结果属于某一类。
                 - Json：results: [JsonArray]，该类目下面的搜索结果放在一个Json数组里，单个搜索结果作为一个数组的一个对象。
            - request:
-              - count: [integer]
-              - q: [String]
-              - page: [integer]
+               - count: [integer]
+               - q: [String]
+               - page: [integer]
            - response:
-             - 见下方4.1.2
+             	- 见下方4.1.2
 			- 4.1.2 展示结果为圈子列表
 				- 点击圈子列表的某一个item，进入”圈子详情板块“
-				- implements:
-                  - circle_id:[integer] 圈子id。
-                  - circle_name:[String]圈子名称。
-                  - circle_img:[String]圈子头像的Url。
-                  - 以上内容封装在大Json对象data中。
-                - response:
-                  - data[String]
-                    -  circle_id:[integer]
-                    -  circle_name:[String]
-                    -  circle_img:[String]
+            - implement:获取圈子列表
+                - 用户登陆的时候，检查本地缓存，如果没有的话，获取我关注的圈子的详情信息返回给用户
+                - 直接调用友盟的”我关注的话题“
+                - 真正进行搜索的时候，不访问网络
+                - 点击某个圈子详情的时候，访问圈子详情板块的信息
+            - data：
+                - prority：[int] 用来表明，这个圈子我是群成员，还是管理员，还是群主
+            - request：
+              	- 以上内容封装在大Json对象data中。
+			- response：
+				- code
+				- message
+                    - circle id:[integer] 圈子id。
+                    - circle name:[String]圈子名称。
+                    - circle img:[String]圈子头像的Url。
+                    - circle new message [int] 圈子新更新的动态
 		- 4.2 创建圈子的选项[todo: to complete]：
-			- 问卷
+			- 问卷[问答题][2.0选择题:选择题有答案自动筛选]
 			- 条件筛选
 			- 创建原因，圈子用途自述，人工审核
-			- 前端说明：
-              - 1、圈子分类界面，点击某个分类，记录分类信息进一个category字段[String]。
-              - 2、创建圈子资料界面，添加圈子头像，填写圈子名称，点击下一步，本地先进行审核（是否为空？是否出现奇葩字符？），若通过，发送一个请求给服务器进行验证，诸如是否重名？是否出现敏感字符？当服务器审核通过之后，进入设置界面，填写详细信息。（这些信息仍然存在内存当中，在第三步一起传到服务器作为参数创建圈子。）
-              - 3、圈子详情设置界面，填写信息后，点击完成，先进行本地审核，审核通过发送给服务器（发送的信息包括第一个界面的category、第二个界面的头像Url，圈子名称等），如果审核通过，建立圈子并且返回成功，否则报错，终端根据返回的错误码进行判断是哪个部分出错并提升用户，必要时在错误部分后面显示一个小红X符号标识。
-			- implements:
-				- 1、分类界面：
+			- implement:
+				- 前端说明：
+                  - 1、圈子分类界面，点击某个分类，记录分类信息进一个category字段[String]。
+                  - 2、创建圈子资料界面，添加圈子头像，填写圈子名称，点击下一步，本地先进行审核（是否为空？是否出现奇葩字符？），若通过，发送一个请求给服务器进行验证，诸如是否重名？是否出现敏感字符？当服务器审核通过之后，进入设置界面，填写详细信息。（这些信息仍然存在内存当中，在第三步一起传到服务器作为参数创建圈子。）
+                  - 3、圈子详情设置界面，填写信息后，点击完成，先进行本地审核，审核通过发送给服务器（发送的信息包括第一个界面的category、第二个界面的头像Url，圈子名称等），如果审核通过，建立圈子并且返回成功，否则报错，终端根据返回的错误码进行判断是哪个部分出错并提升用户，必要时在错误部分后面显示一个小红X符号标识。
+                -  1、分类界面：
                 	- category: [String] 分类：圈子所属的分类。
               	- 2、创建圈子资料界面：
                 	- circle_img: [String] 圈子头像Url，可以本地，也可以网络图片。
@@ -261,7 +380,7 @@
                       - response:
                         - code: [integer]
 				- 5.2.1.3 用户是圈子的管理员或者创建者：显示管理圈子
-					- 点击进入管理圈子界面[todo :to complete] 
+					- 点击进入管理圈子界面[todo :to complete][change]
 						- 管理员：
 							- 审核人员，踢人
                               - implements:
@@ -288,6 +407,7 @@
                               - response:
                                 - code:[integer]
 							- 其他待定
+
 						- 创始人：
 							- 拥有管理员的功能
 							- 任命管理员
@@ -376,7 +496,9 @@
 			- 姓名，头像，入学年份，院系，职业，发表时间
 			- 动态内容
 			- 图片
-			- implements:
+			- implement:
+				- 直接获取友盟的api请求
+			- data:
               - feed_id: [integer] 标识该公告的id。
               - creator: [integer] 这个公告的发布者。
               - username: [String] 发布者的姓名。
@@ -391,18 +513,18 @@
               - comments: [integer] 评论数目。
               - 以上内容放在一个Json对象data中。
 			- request:
-              - feed_id: [integer] 
+              - feed_id: [integer]
             - response:
               - data: [String]
 		- 6.2 点赞按钮：
 			- 按钮能看到点赞数
 			- 点击能够点赞/取消点赞
               - implements:
-              - feed_id: [integer] 标识该公告的id。
-              - action:[boolean] 操作行为：点赞为真，取消为假。
-              - code:[integer] 状态码，表示该行为是否执行成功。
+                  - feed id: [integer] 标识该公告的id。
+                  - action:[boolean] 操作行为：点赞为真，取消为假。
+                  - code:[integer] 状态码，表示该行为是否执行成功。
               - request:
-                - feed_id: [integer]
+                - feed id: [integer]
                 - action:[boolean]
               - response:
                 - code:[integer]
@@ -410,11 +532,11 @@
 			- 能够看到评论个数
 			- 能够进行评论
               - implements:
-              - feed_id: [integer] 标识该公告的id。
+              - feed id: [integer] 标识该公告的id。
               - msg: [String] 评论的内容，可以附件emoji表情，附加图片？
               - code:[integer] 状态码，表示该行为是否执行成功。
               - request：
-                - feed_id: [integer] 
+                - feed id: [integer]
                 - msg: [String]
               - response:
                 - code:[integer]
@@ -429,12 +551,12 @@
 					- 除非特殊处理，不然是对圈内人公开的。
 					- 除非用户选择，不然是不对非同圈的人士公开的
 					- 在名片版面能够点击这些选项弹出，如果没有对应选项，弹出则为空
-				- 给每个属性附加一个整形常量字段，在服务器获取信息时进行筛选，如果无权获取的信息，则用空标识，客户端正常解析，遇空不显示。
 				- implements:
-				- target_uid: [integer], 对方用户的id。
+                	- 给每个属性附加一个整形常量字段，在服务器获取信息时进行筛选，如果无权获取的信息，则用空标识，客户端正常解析，遇空不显示。
+				- target uid: [integer], 对方用户的id。
 				- data: [String], 一部分调用Umeng接口进行，另一部分附加我们自己收集的信息，在服务器端进行二次权限筛选，然后传一个Json对象给终端。这个Json格式兼容Umeng的格式。
 				- request:
-                  - target_uid: [integer]
+                  - target uid: [integer]
                 - response:
                   - data: [String]
 			- 7.1.2 公开动态- 不同用户组有不同的开放程度
@@ -483,7 +605,25 @@
                   - action:[boolean]
                 - response:
                   - code: [integer]
-
+			- 7.1.5 具体功能点：[change]
+				- 7.1.5.1. 显示头像；
+				- 7.1.5.2. 用固定的文字模板展示动态信息：比如：hello！我是XXX,是xx级xx（专业）毕业生，现在在xx任xx(角色)
+                - 7.1.5.3. 将用户的个性签名动态展示成一个艺术字，然后显示出来；
+                - 7.1.5.4. 联系我，工作经历 这些公开程度可选的信息。有一个点击出现下拉列表的动画。根据用户的关系不同而显示不同的东西
+                - 7.1.5.5. 有 收藏 取消收藏 按钮 根据用户关系展示不同
+                - 7.1.5.6. 留言按钮
+	- #### 8. 留言对话框界面：
+		- 下拉查看对话历史记录
+		- 上拉刷新看新的消息[如果是socket的连接[也就是即时通讯]，就不需要这个选项]
+		- 对话双方的头像和姓名，发送消息的时间
+		- 发送消息的内容：
+			- 文字
+			- 图片
+			- 语音[看是否方便实现而定]
+		- 发送消息按钮
+			- 文本
+			- 添加图片
+			- 发送语音[方便实现的话]
 	- #### [todo]:引导板块
 	- #### 动画效果[todo: to complete]：
 		- 1. 点击搜索框之后，下面的界面变成黑色
@@ -503,12 +643,7 @@
       - #### 圈子搜索：
       - 见4
 
-
-- ## 分工：
-    - 吴正凡：登录注册，搜索，动态
-    - 白洋： 我，个人信息，广场
-    - 曾博晖： 圈子，通讯录
-
+- ## 数据设计：
 ------------------
 | 项目 | 可修改 | 必填 | 必须公开 |
 |--------|--------|
@@ -520,7 +655,7 @@
 |现在职业|是|否|否|
 |公司|是|否|否|
 |工龄|是|否|否|
-|常驻城市|是|否|否|
-|个人简介|是|否|否|
+|常驻城市|是|是[默认保密]|否|
+|个人简介|是|否|是|
 |联系方式[包括QQ,微信,手机，邮箱]|是|否|否|
 |标签|是|否|是|
