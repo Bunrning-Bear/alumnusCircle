@@ -138,6 +138,7 @@
 message table:
 m_id
 type:
+time：
 message:
 type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
 {
@@ -147,7 +148,19 @@ type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
     [if "result" == false]
     "reason":手工填写的拒绝理由
 }
-type:1 申请人发给管理员的消息
+type：2 全体成员都能接受到的消息，由圈子的管理员或者创始人发送：
+{
+	”topic“：{
+    	”id“：
+        ”name“：
+    }，
+    ”message“:{
+        "umeng id ":[被任免的用户的id].
+        "username":[被任免的用户的用户名]
+        "method":[操作名 set or cancel]
+    }
+}
+type:3 申请人发给管理员的消息[加入圈子的审核消息]
 	{
     	"topic"：{
         	“id”:topic id 当用户需要获取该圈子的详情的时候，可以通过这个topic id 来找到这个话题的详细信息。
@@ -172,19 +185,20 @@ type:1 申请人发给管理员的消息
             ……
         }
     }
-type:2  申请人接受到的消息，他发出的消息的处理结果
+type:4  申请人接受到的消息，他发出的消息的处理结果
     {
-    	"topic"：{
+    	"topic":{
         	“id”:topic id 当用户需要获取该圈子的详情的时候，可以通过这个topic id 来找到这个话题的详细信息。
-            “name”:话题的文本名称，用于直接在前端显示,
-            [todo]"topic_url"
+            “name”:话题的文本名称，用于直接在前端显示
         },
-        "result":true or false.
+        "method": "set or cancel"
+        "member":{
+        	"name":用于显示的名字,
+            "umengid":用于查找详细信息的umengid
+        }
     }
-deal:[bool]
 
 manual_review table
-
 review_id:
 name:
 icon_url:
@@ -203,4 +217,16 @@ deal[int] 0 not deal yet. 1 agree.2 disagree
 user_message_table:
 id:
 uid:
+umengid:设置索引
 message_queue[array]
+
+
+circle_message_table:
+cm_id:
+time:
+circle_id:
+m_id:[message_id 的id,记录的这条消息]
+
+redis:里面需要有专门的字段用来记录用户是否已经成功接受到消息了：
+deal:[bool]
+这几个message表的特点:记录数据库，只有读写操作，没有修改操作的数据操作。试试可否进行高效的处理
