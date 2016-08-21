@@ -13,7 +13,7 @@ example:
 """
 import tornado.web
 import tornado.gen
-
+import request
 import base
 from request import RequestHandler
 """
@@ -27,8 +27,8 @@ class FollowsListHandler(RequestHandler):
         self.methodUsed = 'GET'
         self.count =10
         self.requestName = 'followsList'   
-    
-    @base.authenticated('followsList')
+
+    @request.authenticated('followsList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
@@ -60,7 +60,7 @@ class FansListHandler(RequestHandler):
         self.count =10
         self.requestName = 'fansList'   
     
-    @base.authenticated('fansList')
+    @request.authenticated('fansList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -90,7 +90,7 @@ class FavouriteslistHandler(RequestHandler):
         self.count =10
         self.requestName = 'favourites'
 
-    @base.authenticated('favourites')
+    @request.authenticated('favourites')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def get(self):

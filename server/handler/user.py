@@ -19,6 +19,7 @@ import tornado.gen
 
 import user
 import base
+import request
 from common.lib.prpcrypt import prpcrypt,set_encrypt
 from request import RequestHandler
 from base import BaseHandler
@@ -102,7 +103,7 @@ class UserHandler(RequestHandler):
         message = ''
         # check all of key-value is valid through UserModule._check function
         for key, value in Data.items():
-            logging.info("key:%s value:%s"%(str(key),str(value)))
+            # logging.info("key:%s value:%s"%(str(key),str(value)))
             equal = self._check_unit(str(key),str(value))
             message = key
             if not equal:
@@ -131,7 +132,7 @@ class RegisterHandler(UserHandler):
         "user_info":{"name":str(Data[self._user_module._user_phone])},
         "source_uid":str(Data[self.user_module._user_phone]),
         "source":source} 
-        logging.info("umengdata: %s"%UmengData)
+        # logging.info("umengdata: %s"%UmengData)
         cryptedData = set_encrypt(self._aes_key,UmengData)
         return cryptedData
 
@@ -159,10 +160,10 @@ class RegisterHandler(UserHandler):
         if count == len(Data):
             hasRegister = self.user_module.find_user_phone(Data[self.user_module._user_phone])
             if hasRegister:
-                count =count + 1 
+                code =code + 1 
                 message = "User phone:%s has been register "%Data[self.user_module._user_phone]
             else:
-                count = count + 1
+                code = code + 1
                 message = "register successful!"
                 cryptedData = self.__get_cryptedData(Data)
                 url = self._prefix+"/0/get_access_token?ak=" + self._appkey
@@ -227,9 +228,9 @@ class RegisterHandler(UserHandler):
                     "custom":custom
                     # "uid":uid
                     }
-                    code,message = yield self.Umeng_asyn_request(access_token,Data)
-                    logging.info('after umeng request, code is %s'%code)
-                    if code == 2700:
+                    code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+                    logging.info('after umeng request, code is %s message is %s'%(code,message))
+                    if code == 0:
                         # set umeng data success.
                         # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
                         self.user_list_module.set_info_to_user(
@@ -242,26 +243,8 @@ class RegisterHandler(UserHandler):
         self.return_to_client(code,message)
         self.finish()
 
-
+#[todo]:2016.8.21 add auto login logic
 class LoginHandler(UserHandler):
-    def __get_cryptedData(self,Data):
-        """Encrypted data from user infromation to Umeng.
-        
-        Args:
-        Data:[json] this is the request from client.
-
-        Returns:
-        encrypted data.
-        """
-        source = "self_account"
-        UmengData = {
-        "user_info":{"name":Data[self._user_module._user_name]},
-        "source_uid":str(Data[self.user_module._user_phone]),
-        "source":source} 
-        logging.info("umengdata: %s"%UmengData)
-        cryptedData = set_encrypt(self._aes_key,UmengData)
-        return cryptedData
-
     def post(self):
         """
         Request from client:
@@ -279,24 +262,25 @@ class LoginHandler(UserHandler):
             phone = Data[self.user_module._user_phone]
             entity = self.user_module.get_info_from_phone(phone)
             if entity == []:
-                count = count + 1
+                code = code + 1
                 message = "the phone has not been register now."
-                count = count + 1
+                self.return_to_client(code,message)
+                self.finish()
             else:
                 if Data[self._user_module._user_password] != entity[0][self._user_module._user_password]:
                     message = "your input a wrong password"
                 else:
                     uid = str(entity[0][self.user_module._uid]) 
-                    count = count + 1
+                    code = code + 1
                     result = self.user_dict_check(str(uid), str(_xsrf))
                     # logging.info("login uid is %s _xsrf is %s result is %s"%(uid,_xsrf,result))
                     if result == 0:
                         message = "login successfully!"
                     elif result == 1:
-                        count = count + 1
+                        code = code + 1
                         message = "login successfully! another user been logout!"
                     else:
-                        count = count + 2
+                        code = code + 2
                         message = "you have login! needn't do it again!"
                     access_token = entity[0]['access_token']
                     uid = entity[0]['uid']
@@ -305,8 +289,8 @@ class LoginHandler(UserHandler):
                     # set cookie and dict
                     self.set_user_dict(str(uid),_xsrf,access_token)
                     self.set_secure_cookie('uid',str(uid))
-        self.return_to_client(code,message,Data[0])
-        self.finish()
+                    self.return_to_client(code,message,Data[0])
+                    self.finish()
 
 
 class LogoutHandler(UserHandler):
@@ -314,7 +298,7 @@ class LogoutHandler(UserHandler):
         super(LogoutHandler, self).__init__(*argc, **argkw)
         self.requestName = 'logout'
 
-    @base.authenticated(str('logout'))
+    @request.authenticated(str('logout'))
     def post(self):
         """
         Request just nothing.
@@ -340,3 +324,73 @@ class LogoutHandler(UserHandler):
         self.return_to_client(count,message)
         self.finish()
 
+# [todo]: 2016.8.21 ,we just save all of list include contact_list job_list as json string.
+# it will be low-efficient when update, but it is convenient.
+# consider that update is not a high frequent operate
+# so we just save data as a json string rather than some entities for each contact record and job record.  
+class UpdataInfoHandler(UserHandler):
+    def __init__(self, *argc, **argkw):
+        super(UpdataInfoHandler, self).__init__(*argc, **argkw)
+        self.requestName = 'update_user_info'
+
+    @request.authenticated(str('update_user_info'))
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine    
+    def post(self):
+        """
+        POST from client:
+        POST['list_info_has_update']:bool: if list info has been update, set value true[1].
+        info_json:
+            'custom':json： if list_info_has_update, client dumps custom field to this parameter.
+                "admission_year":admission_year,
+                "faculty_id":faculty_id,
+                "major_id":major_id,
+                "job":job,
+                "uid":user_id,
+                "publicity_level":0,
+                "city":city,
+                "real_name":real_name,
+            'telephone': this parameter must be stored in client.
+        [those field is used in Umeng update].
+        POST['icon_url']:
+        POST['publicity_level']:
+        POST['city']:
+        POST['job']:
+        POST['public_contact_list']
+        POST['protect_contact_list']
+        POST['job_list']
+        POST['job_list_level']
+        POST['company']
+        POST['company_publicity_level ']
+        POST['instoduction']
+        """
+        self.url = '/0/user/update'
+        self.methodUsed = 'PUT'
+        code = 0 
+        uid = self.get_secure_cookie('uid')
+        update_list = self.get_argument('list_info_has_update')
+        logging.info("update_list%s"%update_list)
+        if update_list:
+            DataJson = self.get_argument('info_json')
+            Data = json.loads(DataJson)            
+            access_token = self.get_user_dict(uid)[1]
+            code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+            logging.info("in update_list to umeng")
+        if code != 0:
+            # request Umeng error!
+            self.return_to_client(code,message)
+            self.finish()
+        else:
+            icon_url = self.get_optional_argument('icon_url')
+            publicity_level = self.get_optional_argument('publicity_level')
+            city = self.get_optional_argument('city')
+            job = self.get_optional_argument('job')
+            public_contact_list = self.get_optional_argument('public_contact_list')
+            protect_contact_list = self.get_optional_argument('protect_contact_list')
+            job_list = self.get_optional_argument('job_list')
+            job_list_level = self.get_optional_argument('job_list_level')
+            company = self.get_optional_argument('company')
+            company_publicity_level = self.get_optional_argument('company_publicity_level')
+            instoduction = self.get_optional_argument('instoduction')
+        if update_list:
+            

@@ -17,6 +17,7 @@ import tornado.web
 
 import user
 import base
+import request
 from common.lib.prpcrypt import prpcrypt,set_encrypt
 from request import RequestHandler
 from base import BaseHandler
@@ -28,7 +29,7 @@ class CeateTopicHandler(RequestHandler):
         self.methodUsed = 'POST'    
         self.requestName ='topic'
 
-    @base.authenticated('topic')
+    @request.authenticated('topic')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
@@ -41,8 +42,8 @@ class CeateTopicHandler(RequestHandler):
         code = 0
         access_token = self.get_user_dict(uid)[1]
         logging.info("access %s and Data %s:"%(access_token,Data))
-        code,message =yield self.Umeng_asyn_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         count = count + 1
         self.finish()
 
@@ -61,6 +62,6 @@ class DetailTopicHandler(RequestHandler):
         uid = self.get_secure_cookie('uid')
         code = 0
         access_token = self._public_access
-        code,message = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         self.finish()

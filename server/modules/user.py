@@ -6,6 +6,7 @@ from common.variables import AP
 import logging
 from base import BaseModule
 #[todo]:2016.8.21: all of global variables should be saved in variables.py not conf.ini
+#[todo]:2016.8.21:all of three class should add to userModule.
 """
     all of user module should inherit to this module.
     this module define some common data member
@@ -15,17 +16,20 @@ class UserModule(BaseModule):
         BaseModule.__init__(self,db)
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+'common/conf.ini'))
-        self._user_table = self.prefix+'user_common_info'
-        self._uid = config.get(self._user_table,"uid")
-        self._admission_year = config.get(self._user_table,"admission_year")
-        self._faculty_id = config.get(self._user_table,"faculty_id")
-        self._major_id = config.get(self._user_table,"major_id")
-        self._name = config.get(self._user_table,"name")
-        self._gender = config.get(self._user_table,"gender")
-        self._job = config.get(self._user_table,"job")
-        self._icon_url = config.get(self._user_table,"icon_url")
-        self._city = config.get(self._user_table,"city")
+        self._user_common_table = self.prefix+'user_common_info'
+        self._uid = config.get(self._user_common_table,"uid")
+        self._admission_year = config.get(self._user_common_table,"admission_year")
+        self._faculty_id = config.get(self._user_common_table,"faculty_id")
+        self._major_id = config.get(self._user_common_table,"major_id")
+        self._name = config.get(self._user_common_table,"name")
+        self._gender = config.get(self._user_common_table,"gender")
+        self._job = config.get(self._user_common_table,"job")
+        self._icon_url = config.get(self._user_common_table,"icon_url")
+        self._city = config.get(self._user_common_table,"city")
 
+
+    def update_optional_argu(argu):
+        if 
 """
 UserInfoModule is a Module operate to mysql table ac_user_base_info
 """
@@ -34,12 +38,12 @@ class UserInfoModule(UserModule):
         UserModule.__init__(self,db)
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+'common/conf.ini'))
-        self._user_table = self.prefix+'user_base_info'
-        self._user_access_token = config.get(self._user_table,"access_token")
-        self._user_password = config.get(self._user_table,"password")
-        self._user_phone = config.get(self._user_table,"phone")     
-        self._user_stu_id = config.get(self._user_table,"stu_id")
-        self._user_update_time = config.get(self._user_table,"update_time")
+        self._user_base_table = self.prefix+'user_base_info'
+        self._user_access_token = config.get(self._user_base_table,"access_token")
+        self._user_password = config.get(self._user_base_table,"password")
+        self._user_phone = config.get(self._user_base_table,"phone")     
+        self._user_stu_id = config.get(self._user_base_table,"stu_id")
+        self._user_update_time = config.get(self._user_base_table,"update_time")
         
     def get_info_from_phone(self,phone):
         """Get all of user information from user_table.
@@ -51,14 +55,14 @@ class UserInfoModule(UserModule):
             a dict mapping key to corresponding row data fetch.
             if there are not such user phone, return []
         """
-        entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._user_phone +" = %s LIMIT 1",phone)
+        entity = self.db.query("SELECT * FROM " + self._user_base_table + " WHERE "+ self._user_phone +" = %s LIMIT 1",phone)
         return entity
 
     def find_user_phone(self,phone):
         """Get all of user
 
         """
-        entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._user_phone +" = %s LIMIT 1",phone)
+        entity = self.db.query("SELECT * FROM " + self._user_base_table + " WHERE "+ self._user_phone +" = %s LIMIT 1",phone)
         hasRegister = True
         if entity == []:
             hasRegister = False
@@ -78,7 +82,7 @@ class UserInfoModule(UserModule):
             return user_id in user_base_info table of this user.
         """        
         author_id = self.db.execute(
-            "INSERT INTO " + self._user_table + " ( " + self._user_access_token + " , "
+            "INSERT INTO " + self._user_base_table + " ( " + self._user_access_token + " , "
             + self._user_password + " , " + self._user_phone+
             " , " + self._user_stu_id  + " )" +
             "VALUES (%s, %s, %s, %s )",access_token,  passwd, int(user_phone), str(stu_id))
@@ -123,6 +127,7 @@ class UserListModule(UserModule):
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city)
         return author_id
 
+    def update_info_to_user(self,job,icon_url,city):
 
 """
 UserListModule is a module operate mysql table: ac_user_detail_info

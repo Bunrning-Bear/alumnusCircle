@@ -17,6 +17,7 @@ import tornado.httpclient
 import tornado.web
 from request import RequestHandler
 import base
+import request
 """
 pub my comment to a feed.
 """
@@ -27,7 +28,7 @@ class PubCommentHandler(RequestHandler):
         self.methodUsed = 'POST'
         self.requestName = 'pubComment'
 
-    @base.authenticated('pubcomment')
+    @request.authenticated('pubcomment')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -45,8 +46,8 @@ class PubCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
         uid = self.get_secure_cookie('uid')
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        self.return_to_client(code,message,Data)
 
 """
 delete a comment by pub user or feed creator.
@@ -59,7 +60,7 @@ class DeleteCommentHandler(RequestHandler):
         self.methodUsed = 'DELETE'
         self.requestName = 'deleteComment'
 
-    @base.authenticated('deleteComment')
+    @request.authenticated('deleteComment')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -73,9 +74,9 @@ class DeleteCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
 
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)       
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message)
+        self.return_to_client(code,message,Data)
 
 
 """
@@ -87,7 +88,7 @@ class LikeHandler(RequestHandler):
         self.url = '/0/like/'
         self.requestName = 'like'
 
-    @base.authenticated('like')
+    @request.authenticated('like')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -105,9 +106,9 @@ class LikeHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)    
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message)
+        self.return_to_client(code,message,Data)
 
 # [toodo] can not be used now!!!
 """
@@ -121,7 +122,7 @@ class ForwoardHandler(RequestHandler):
         self.methodUsed = 'POST'
         self.requestName = 'forward'
 
-    @base.authenticated('forward')
+    @request.authenticated('forward')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -138,8 +139,8 @@ class ForwoardHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)    
-        self.return_to_client(code,message)    
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        self.return_to_client(code,message,Data)    
 
 """
 This handler is to favourite a feed or cancel a favourited feed. 
@@ -151,7 +152,7 @@ class FavouritesHandler(RequestHandler):
         self.requestName = 'favourites'
         self.methodUsed = 'POST'
 
-    @base.authenticated('favourites')
+    @request.authenticated('favourites')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -168,8 +169,8 @@ class FavouritesHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)    
-        self.return_to_client(code,message)    
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        self.return_to_client(code,message,Data)    
 
 
 """
@@ -196,8 +197,8 @@ class DetailHandler(RequestHandler):
         feed_id = self.get_argument('feed_id')
         Data = {'page':page,'count':self.count,'feed_id':feed_id}
         access_token = self._public_access
-        code,message = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         self.finish()
 
 
@@ -223,6 +224,6 @@ class CommentListHandler(RequestHandler):
         feed_id = self.get_argument('feed_id')
         Data = {'page':page,'count':self.count,'feed_id':feed_id}
         access_token = self._public_access
-        code,message = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         self.finish()

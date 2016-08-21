@@ -50,7 +50,7 @@ class Application(tornado.web.Application):
         (r'/register',handler.user.RegisterHandler),
         (r'/login',handler.user.LoginHandler),
         (r'/logout',handler.user.LogoutHandler),
-        (r'/userdetail',handler.user.DetailHandler),
+        (r'/updateinfo',handler.user.UpdataInfoHandler),
         (r'/uploadfile',handler.base.UploadFileHandler),
 
         (r'/follow',handler.opt_user.FollowHandler),
