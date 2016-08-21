@@ -18,7 +18,7 @@ user_message_table:用户消息队列表
 circle_message_table：圈子消息队列[用于群发消息]
 redis：
 - 存放用户idumengid uid 
-- 消息处理列表：user message queue ，circle message queue 
+- 消息处理列表：user message queue ，circle message queue
 - 更新时间：update time 
 - 记录是否处理消息：deal
 ### 具体分析：
