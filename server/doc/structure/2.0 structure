@@ -1,0 +1,135 @@
+2.0 structure
+
+login
+    umeng part:
+        register and login and forget password
+            
+            * sql user_info:
+                user_id
+                username
+                password
+                telephone[phone check 2.0]
+                stu_id
+                uni_id---relation table uni_name.        
+            
+            register: [the same as papacamera] 
+                        +add we should check user's stu_id[2.0]
+   
+                        need login:                 
+            login: [the same as papacamera] telephone and password
+                        need login:
+            forget password:
+                telephone check[2.0].replace as stu_id check.
+                        need login:
+
+            
+my:
+    set information, query information and search information by user_id.[most important]
+    
+        * elasticsearch- user_info 
+            user_id[sql_relation] 
+            name[string]
+            icon:[image]
+            entrance_data[integer] 2014,2015
+            major[string]
+            job_exp[array] [dif]
+            edu_exp[array] [dif]
+            job_now
+            city[string]
+            company[string] 
+            self_introduction[string]
+            active_level[int] to order the result[todo: how to calculate active level]
+            public_level[int] to determine show or not. [dif] [todo:for all kind of information?]
+            telephone
+            wechat
+            qq
+
+        * umeng:
+            user_id.
+            nick_name.
+            icon.
+
+            [note:
+                elasticearch store all of information will be use while search.
+                sql store all of information to check user's identifier.
+                umeng:duplicate all of information from elasticearch.[todo:duplicate all of information need to show in list]
+                to guarantee server needn't query sql after search in elasticsearch
+            ]
+
+        change user's[only user itself] information.[papa]
+            
+            request:all of information above, information changed.
+            response: status code.
+            
+            need login:
+
+        search a specific user_id's information[include user it self]
+            request:user_id.
+            reponse: json of user_info
+                    
+            need login:
+
+        fliter search: [dif]
+            entrance_data
+            city
+            job
+            majoy
+            company
+            [2.0 complex fliter search]
+            
+            need login:
+        fuzzy search: [dif]
+            relate information: name, major, job experience.
+            
+            need login:
+   
+    user iteraction:
+        collect card cancel collect card and show collect card list and get somebody's information.
+            collect card:
+                [papa]
+                implement: implement through umeng, record user's uid, when we need get detail of one's information, then request in elasticsearch.
+                papa implement: implement trhough umeng.
+
+                request:
+                    uid [through access_token to judge user]
+                response:
+                    code
+                    id
+                    has_followed
+
+                need login:yes
+
+            cancel collect card:
+                [papa]
+                implement: the same to collect card.
+                
+                request: 
+                    uid
+                response:
+                    code
+                    id
+                    has_followed
+
+                need login: yes
+
+        friend.[todo: how to implement?]
+            implement:
+                send information to target user information queue id.
+                [todo:just store request Umeng_uid]
+                [todo: store message in redis]
+                suppose A send friend request to B
+
+                A send friend request to server.
+                user_dict[B]['friend_request'] store A's Umeng_uid who send friend request  
+                when B send http request, check if there are information in user_idct[B]['friend_request'], 
+            need login:        
+
+
+
+circle
+address book
+square
+my
+search
+
+analyze[dif:too difficult to complete.]
