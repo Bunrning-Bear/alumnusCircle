@@ -81,6 +81,10 @@
 		7AB0F9D61D644B510098CEDF /* Alumn */ = {
 			isa = PBXGroup;
 			children = (
+				7AB0F9FF1D644DEB0098CEDF /* People */,
+				7AB0F9FE1D644DDB0098CEDF /* Circle */,
+				7AB0F9FD1D644DD10098CEDF /* Me */,
+				7AB0F9FC1D644DB60098CEDF /* LoginAndRegister */,
 				7AB0F9DA1D644B510098CEDF /* AppDelegate.h */,
 				7AB0F9DB1D644B510098CEDF /* AppDelegate.m */,
 				7AB0F9DD1D644B510098CEDF /* ViewController.h */,
@@ -109,6 +113,34 @@
 				7AB0F9F31D644B510098CEDF /* Info.plist */,
 			);
 			path = AlumnUITests;
+			sourceTree = "<group>";
+		};
+		7AB0F9FC1D644DB60098CEDF /* LoginAndRegister */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = LoginAndRegister;
+			sourceTree = "<group>";
+		};
+		7AB0F9FD1D644DD10098CEDF /* Me */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Me;
+			sourceTree = "<group>";
+		};
+		7AB0F9FE1D644DDB0098CEDF /* Circle */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Circle;
+			sourceTree = "<group>";
+		};
+		7AB0F9FF1D644DEB0098CEDF /* People */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = People;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,6 +432,7 @@
 				7AB0F9F81D644B510098CEDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7AB0F9F91D644B510098CEDF /* Build configuration list for PBXNativeTarget "AlumnUITests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +441,7 @@
 				7AB0F9FB1D644B510098CEDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
