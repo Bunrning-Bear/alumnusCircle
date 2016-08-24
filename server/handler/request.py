@@ -45,7 +45,7 @@ def authenticated(request):
 #               logging.info("not argument target, continue")
 #               target = ""
             if not self.current_user:
-                code = self.return_code_process(request,29) 
+                code = self.return_code_process(29) 
                 message = "your login information has been cleared or you have not login when you are tring to "+ request
                 self.return_to_client(code,message)
                 self.finish()

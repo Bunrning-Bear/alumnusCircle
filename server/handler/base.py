@@ -120,8 +120,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def delete_user_dict(self,uid):
         del self._user_dict[uid]
-
-    def return_code_process(self,handler,code):
+    # [todo]:2016.8.26 restructure the logic of return code.
+    def return_code_process(self,code):
         """Return status code to client after get a code from handler.
 
         Args:
@@ -131,7 +131,7 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
         [string] global status code.
         """
-        return self._code_dict[handler] + code
+        return self._code_dict[self.requestName] + code
 
     @tornado.web.asynchronous
     def return_to_client(self,code,message, Data = {}):

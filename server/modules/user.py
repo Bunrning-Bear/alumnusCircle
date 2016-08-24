@@ -28,8 +28,40 @@ class UserModule(BaseModule):
         self._city = config.get(self._user_common_table,"city")
 
 
-    def update_optional_argu(argu):
-        if 
+    def update_optional_argu_unit(self,argu):
+        return argu + "= %s"
+
+    def update_optional_argu(self,table,dic_argu):
+        update = "UPDATE " + table + " SET "
+        assignment = ''
+        for key,value in dic_argu.items():
+            assignment = assignment + self.update_optional_argu_unit(key) + " , "
+        return update + assignment[:-2]
+
+    def update_filter(self,dic):
+        """filter useless dic key of request, just hold those useful which define by __changed_allowed list
+
+        """
+        dic_return = {}
+        for value in self._change_allowed:
+           if  dic.has_key(value):
+                dic_return[value] = dic[value]
+        return dic_return
+
+    def update_info_to_user(self,dic,uid):
+        """
+        """
+        dic = self.update_filter(dic)
+        sql = self.update_optional_argu(self._user_table, dic)
+        temp_list = []
+        for key,value in dic.items():
+            temp_list.append(str(value))
+        temp_list.append(str(uid))
+        para = tuple(temp_list)
+
+        sql =sql + "WHERE "+ self._uid + " = %s"
+        logging.info("sql is : %s  %s"%(sql,para))
+        return self.db.updatemany(sql,[para]) 
 """
 UserInfoModule is a Module operate to mysql table ac_user_base_info
 """
@@ -105,6 +137,8 @@ class UserListModule(UserModule):
        # self._my_circle_list = config.get(self._user_table,"my_circle_list")
        # self._job_list = config.get(self._user_table,"job_list")
        # self._contact_list = config.get(self._user_table,"contact_list")
+        self._change_allowed = (self._job, self._icon_url,self._city,self._publicity_level)
+
 
     def set_info_to_user(self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city):
         """Insert new user to mysql, this function only use when register.
@@ -127,7 +161,8 @@ class UserListModule(UserModule):
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city)
         return author_id
 
-    def update_info_to_user(self,job,icon_url,city):
+
+
 
 """
 UserListModule is a module operate mysql table: ac_user_detail_info
@@ -140,10 +175,18 @@ class UserDetailModule(UserModule):
         self._user_table = self.prefix+'user_detail_info'
         self._detail_id = config.get(self._user_table,"detail_id")
         self._company = config.get(self._user_table,"company")
+        self._company_publicity_level = config.get(self._user_table,"company_publicity_level")
         self._my_circle_list = config.get(self._user_table,"my_circle_list")
         self._job_list = config.get(self._user_table,"job_list")
-        self._contact_list = config.get(self._user_table,"public_contact_list")
-        self._contact_list = config.get(self._user_table,"protect_contact_list")
+        self._job_list_level = config.get(self._user_table,"job_list_level")
+        self._public_contact_list = config.get(self._user_table,"public_contact_list")
+        self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
+        self._instroduction = config.get(self._user_table,"instroduction")
+
+        self._change_allowed = (
+            self._job, self._icon_url,self._city,self._company,self._instroduction,
+            self._job_list,self._public_contact_list,self._protect_contact_list,
+            self._company_publicity_level,self._job_list_level)
 
     def set_info_to_user(
         self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,company):

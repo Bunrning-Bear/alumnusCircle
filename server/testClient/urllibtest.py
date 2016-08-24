@@ -154,11 +154,57 @@ def updateInfoTest():
     otherPara = {}
     dic[num] = {
     }
-    otherPara[num] = {
-        "icon_url":"default",
-        "list_info_has_update":0
+    update_json = {
+        "icon_url":"defauslts",        
     }
-    setMessage(message,num,"更新信息，icon_url 是 default")
+    update_json = json.dumps(update_json)
+    otherPara[num] = {
+        "list_info_has_update":0,
+        "update_json":update_json
+    }
+    setMessage(message,num,"更新信息，icon_url 是 defaults")
+    num += 1
+    dic[num] = {
+    }
+    update_json = {
+        "icon_url":"default",
+        "job":"worker"+str(random.randint(1,120))     
+    }
+    update_json = json.dumps(update_json)
+    otherPara[num] = {
+        "list_info_has_update":0,
+        "update_json":update_json
+    }
+    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker")
+    num += 1
+    dic[num] = {
+    }
+    update_json = {
+        "icon_url":"default",
+        "job":"worker"+str(random.randint(1,120)),
+        "city":"321"      
+    }
+    update_json = json.dumps(update_json)
+    otherPara[num] = {
+        "list_info_has_update":0,
+        "update_json":update_json
+    }
+    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321")   
+    num += 1
+    dic[num] = {
+    }
+    update_json = {
+        "icon_url":"default",
+        "job":"worker"+str(random.randint(1,120)),
+        "city":"321",
+        "company":"another company"
+    }
+    update_json = json.dumps(update_json)
+    otherPara[num] = {
+        "list_info_has_update":0,
+        "update_json":update_json
+    }
+    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321,company = another company")   
     do_request(api,dic,message,"POST",otherPara)
 registerTest()    
 loginTest()
