@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="#FFFFFF">
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingTop="10dp">
+        <com.alumnuscircle.connections.Image.CircleNetworkImage
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:id="@+id/headImg"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="130dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:id="@+id/userName_textView"
+            android:hint="姓名"
+            android:textColor="#666666"
+            />
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="年级"
+                android:id="@+id/grade_textView"
+                android:textColor="#666666"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="班级"
+                android:textColor="#666666"
+                android:id="@+id/class_textView"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="软件工程师"
+            android:paddingLeft="10dp"
+            android:textColor="#666666"
+            android:id="@+id/job_textView"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="15dp"
+        >
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/addr"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="地址"
+            android:textColor="#666666"
+            android:id="@+id/addr_textView"/>
+    </LinearLayout>
+
+</LinearLayout>
