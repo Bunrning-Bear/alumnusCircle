@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="101dp"
+    android:background="#FFFFFF">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:layout_gravity="left|center_vertical">
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="left|center_vertical">
+            <com.alumnuscircle.connections.Image.CircleNetworkImage
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/me_item_circleImg"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/me_item_circleName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center_vertical|left"
+            android:layout_margin="15dp"
+            android:background="@color/colorTransparent"
+            android:hint="圈子名称"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/colorLine"
+        android:scaleType="fitXY"
+        android:background="@color/colorLine"/>
+</LinearLayout>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:background="@mipmap/me_bg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorTransparent"
+                android:src="@color/colorTransparent"
+                android:scaleType="fitXY"/>
+
+            <!--置顶的布局-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorTransparent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="@string/me_my"
+                    android:background="@color/colorTransparent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:background="@color/colorTransparent">
+
+                    <!--填充背景的图片-->
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="85"
+                        android:src="@color/colorTransparent"
+                        android:scaleType="fitXY"
+                        android:background="@color/colorTransparent"/>
+
+                    <!--右上方的设置按钮-->
+                    <ImageButton
+                        android:id="@+id/me_setting_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="18"
+                        android:src="@mipmap/me_setting"
+                        android:scaleType="centerInside"
+                        android:background="@color/colorTransparent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorTransparent"/>
+
+            <RelativeLayout
+                android:id="@+id/me_camera_btn"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@color/colorTransparent">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/me_headimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    fresco:actualImageScaleType="centerInside"
+                    fresco:roundAsCircle="true"
+                    fresco:backgroundImage="@color/colorTransparent" />
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@mipmap/me_camera"
+                    android:scaleType="centerInside"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginRight="4dp"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorTransparent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                android:background="@color/colorTransparent">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:background="@color/colorTransparent">
+                    <TextView
+                        android:id="@+id/me_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="用户名"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"/>
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorTransparent"
+                        android:src="@color/colorTransparent"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/me_user_career"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="用户职业"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorWhite"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:background="@color/colorTransparent">
+                    <TextView
+                        android:id="@+id/me_user_major"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:hint="艺术学院2012级 · 工业设计专业"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorWhite"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!--这个线性布局是中间导航栏-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/colorTransparent">
+
+        <!--这是导航栏的收藏的名片按钮-->
+        <LinearLayout
+            android:id="@+id/me_collect_cards_btn"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/colorTransparent"
+            android:clickable="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorTransparent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="收藏的名片"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/me_collect_cards_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/me_tab_underline_sele"
+                android:scaleType="fitXY"
+                android:background="@color/colorTransparent"/>
+        </LinearLayout>
+
+        <!--这是导航栏的参与的圈子按钮-->
+        <LinearLayout
+            android:id="@+id/me_join_circle_btn"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/colorTransparent"
+            android:clickable="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorTransparent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="参与的圈子"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/me_join_circle_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/me_tab_underline_sele"
+                android:scaleType="fitXY"
+                android:background="@color/colorTransparent"/>
+        </LinearLayout>
+
+        <!--这是导航栏的管理的圈子按钮-->
+        <LinearLayout
+            android:id="@+id/me_admin_circle_btn"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/colorTransparent"
+            android:clickable="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorTransparent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="管理的圈子"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/me_admin_circle_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/me_tab_underline_sele"
+                android:scaleType="fitXY"
+                android:background="@color/colorTransparent"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!--这是下面3个Fragment的容器，这4个Fragment分别是CollectCards、JoinCircle、AdminCircle-->
+    <FrameLayout
+        android:id="@+id/contentFragmentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:background="@color/colorWhite">
+    </FrameLayout>
+
+</LinearLayout>
