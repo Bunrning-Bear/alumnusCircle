@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">校友圈</string>
+    <string name="homepage">主页</string>
+    <string name="contacts">人脉</string>
+    <string name="findcircle">发现圈子</string>
+    <string name="msg">消息</string>
+    <string name="me">个人</string>
+</resources>
