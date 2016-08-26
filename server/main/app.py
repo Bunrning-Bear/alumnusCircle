@@ -34,6 +34,7 @@ define("mysql_password", default = "zp19950310", help = "community database pass
 logging.basicConfig(level=logging.INFO)
 #                    filename='err.log',  
 #                   filemode='w')
+#这两行注释去掉的话，报错写在err.log
 
 class Application(tornado.web.Application):
     def __init__(self):

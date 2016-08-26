@@ -53,7 +53,6 @@ class DeleteFeedHandler(RequestHandler):
         super(RequestHandler, self).__init__(*argc, **argkw)
         self.url = '/0/feed/destroy'
         self.methodUsed = 'DELETE'
-        
     @base.authenticated('delete')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
