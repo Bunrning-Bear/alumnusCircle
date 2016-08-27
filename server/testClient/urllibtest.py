@@ -30,7 +30,8 @@ def set_resquest(api,data,method):
     request.get_method = lambda: method # or 'DELETE' 
     return request
 def setMessage(message,num,content):
-   message[num] = "No.%s"%num + content  
+   message[num] = "No.%s "%num + content + "\r\n"
+
 def set_info_json(dic):
     info_json = json.dumps
 def do_request(api,dic,message,method,otherPara):
@@ -103,21 +104,21 @@ def loginTest():
     otherPara = {}
     dic[num] = {
         "password":"zp123455",
-        "telephone":"15105861442"
+        "telephone":"15196175063"
     }
     otherPara[num] = {}
     setMessage(message,num,"密码错误")
     num = num + 1
     dic[num] = {
-        "password":"zp19950310",
-        "telephone":"15105861442"
+        "password":"cxh1234567",
+        "telephone":"15196175063"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
     num = num + 1
     dic[num] = {
-        "password":"zp19950310",
-        "telephone":"15105861442"
+        "password":"cxh1234567",
+        "telephone":"15196175063"
     }
     otherPara[num] = {}
     setMessage(message,num,"重复登陆")
@@ -206,7 +207,71 @@ def updateInfoTest():
     }
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321,company = another company")   
     do_request(api,dic,message,"POST",otherPara)
+
+def editTest():
+    api ='/edittopic'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    dic[num] = {
+        "description":"changed!",
+        "topic_id":"57bfa306ee78507903b49a06"
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"change description")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
+def detailTest():
+    api = '/detailtopic'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    dic[num] = {
+        "topic_id":"57bfa306ee78507903b49a06"
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"get topic detail")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
+def gettypetopicTest():
+    api = '/gettypetopic'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    dic[num] = {
+    "t_cat_id":"57bdcad0d0146385e6abb6be"
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"get topic type")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
+def searchTopicTest():
+    api = '/searchtopic'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    dic[num] = {
+        "count":10,
+        "q":"软院",
+        "page":1
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"search topic")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)    
+
+
 registerTest()    
 loginTest()
-# logoutTest()
 updateInfoTest()
+editTest()
+detailTest()
+searchTopicTest()
+gettypetopicTest()

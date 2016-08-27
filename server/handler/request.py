@@ -90,7 +90,7 @@ def public_access_decorator(method):
             self._public_access = config.get('app','public_access')
             access_token = self._public_access
             logging.info("public access in decorator: %s"%(access_token))
-            (code,message) = yield method(self, *args, **kwargs)
+            (code,message,Data) = yield method(self, *args, **kwargs)
             logging.info("code: %s message : %s. agin = %s"%(code,message,again))
             if code == 50005:
                 again = again + 1
@@ -106,7 +106,7 @@ def public_access_decorator(method):
             code = 1
             message = "get public access token error, please requset latter"
             
-        raise tornado.gen.Return((code,message))
+        raise tornado.gen.Return((code,message,Data))
     return wrapper
 
 

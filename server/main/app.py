@@ -13,6 +13,7 @@ import tornado.httpserver
 import tornado.ioloop 
 import tornado.options
 import tornado.web
+import redis
 
 import handler.index
 import handler.user
@@ -24,6 +25,7 @@ import handler.opt_user
 import handler.topic
 
 from common.variables import AP 
+from common.variables import USER_DICT
 from tornado.options import define, options
 define("port", default = 8000, help = "run on the given port", type = int)
 define("mysql_host", default = "127.0.0.1", help = "community database host")
@@ -32,15 +34,17 @@ define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
 logging.basicConfig(level=logging.INFO)
-#                    filename='err.log',  
-#                   filemode='w')
+                #filename='err.log',  
+                #filemode='w')
 
 class Application(tornado.web.Application):
     def __init__(self):
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
-        self._user_dict = {}
+        self._user_dict = redis.Redis(host='localhost',port=6379)
+
+        logging.info("print there??")
         settings = dict(
             cookie_secret=cookie_secret,
             xsrf_cookies=True
@@ -65,6 +69,9 @@ class Application(tornado.web.Application):
 
         (r'/createtopic',handler.topic.CeateTopicHandler),
         (r'/detailtopic',handler.topic.DetailTopicHandler),
+        (r'/edittopic',handler.topic.EditTopicHandler),
+        (r'/gettypetopic',handler.topic.GetTopicTypeHandler),
+        (r'/searchtopic',handler.topic.SearchTopicHandler),
 
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
         (r'/deletecomment',handler.opt_feed.DeleteCommentHandler),
@@ -72,7 +79,7 @@ class Application(tornado.web.Application):
         (r'/forward',handler.opt_feed.ForwoardHandler),
         (r'/favourite',handler.opt_feed.FavouritesHandler),
         (r'/detail',handler.opt_feed.DetailHandler),
-        (r'/commentlist',handler.opt_feed.CommentListHandler)
+        (r'/commentlist',handler.opt_feed.CommentListHandler),
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
         # add db to global variable.

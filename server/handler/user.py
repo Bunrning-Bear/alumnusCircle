@@ -72,7 +72,6 @@ class UserHandler(RequestHandler):
             False: did not matched.
             True: matched.
         """
-        logging.info("regex dict:%s"%self._regex_dict)
 #        if check_type == self._user_module._user_password: 
 #            pdb.set_trace()
         regex = self._regex_dict[check_type]
@@ -249,6 +248,7 @@ class RegisterHandler(UserHandler):
                             user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city)
                         self.user_detail_module.set_info_to_user(
                             user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,company)
+                        self.user_message_module.set_user_to_message(user_id)
                         message = "register successfully!"
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
@@ -344,6 +344,7 @@ class LogoutHandler(UserHandler):
         self.return_to_client(count,message)
         self.finish()
 
+
 # [todo]: 2016.8.21 ,we just save all of list include contact_list job_list as json string.
 # it will be low-efficient when update, but it is convenient.
 # consider that update is not a high frequent operate
@@ -416,18 +417,3 @@ class UpdataInfoHandler(UserHandler):
                 message = self.user_detail_module.update_info_to_user(update_dic,uid)
             code = self.return_code_process(count)
             self.return_to_client(code,message)
-
-            """
-            icon_url = self.get_optional_argument('icon_url')
-            publicity_level = self.get_optional_argument('publicity_level')
-            city = self.get_optional_argument('city')
-            job = self.get_optional_argument('job')
-            public_contact_list = self.get_optional_argument('public_contact_list')
-            protect_contact_list = self.get_optional_argument('protect_contact_list')
-            job_list = self.get_optional_argument('job_list')
-            job_list_level = self.get_optional_argument('job_list_level')
-            company = self.get_optional_argument('company')
-            company_publicity_level = self.get_optional_argument('company_publicity_level')
-            instoduction = self.get_optional_argument('instoduction')
-            """
-            

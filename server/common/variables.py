@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-USER_DICT = {}
+import redis
+import logging
+USER_DICT = redis.Redis(host='localhost',port=6379)
 AP = "/home/burningbear/CodePlace/python/web/alumnusCircle/server/"
 CODE_DICT = {
     # server part

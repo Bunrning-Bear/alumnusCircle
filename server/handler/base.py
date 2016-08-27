@@ -65,10 +65,12 @@ class BaseHandler(tornado.web.RequestHandler):
         self._appkey = config.get('app','appkey')
         self._prefix = config.get('url','prefix')
         self._public_access = config.get('app','public_access')
+        self._virtual_access = config.get('app','virtual_access')
         # load all of module operate into BaseHandler.
         self._user_module = modules.user.UserInfoModule(self._db)
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
+        self._user_message_module = modules.user.UserMessageModule(self._db)
         self._code_dict =CODE_DICT         
 
     @property
@@ -83,6 +85,10 @@ class BaseHandler(tornado.web.RequestHandler):
     def user_detail_module(self):
         return self._user_detail_module
 
+    @property
+    def user_message_module(self):
+        return self._user_message_module
+    
     def get_current_user(self):
         """
         If this function return None 0 or [], function which has decorator
@@ -105,21 +111,24 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._user_dict.has_key(uid):
+        if not self._user_dict.hexists(uid,"_xsrf"):
             return 0
-        elif self._user_dict[uid][0] != _xsrf:
+        elif self._user_dict.hget(uid,"_xsrf") != _xsrf:
             return 1
         else:
             return 2
 
     def set_user_dict(self,uid,_xsrf,access_token):
-        self._user_dict[uid]=(_xsrf,access_token)
+        """Set User_dict when login.
+        """
+        dic = {"_xsrf":_xsrf,"access_token":access_token}
+        self._user_dict.hmset(uid,dic)
 
     def get_user_dict(self,uid):
-        return self._user_dict[uid]
+        return self._user_dict.hvals(uid)
 
     def delete_user_dict(self,uid):
-        del self._user_dict[uid]
+        self._user_dict.hdel(uid,"_xsrf")
     # [todo]:2016.8.26 restructure the logic of return code.
     def return_code_process(self,code):
         """Return status code to client after get a code from handler.
