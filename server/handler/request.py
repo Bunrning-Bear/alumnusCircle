@@ -91,7 +91,7 @@ def public_access_decorator(method):
             access_token = self._public_access
             logging.info("public access in decorator: %s"%(access_token))
             (code,message,Data) = yield method(self, *args, **kwargs)
-            logging.info("code: %s message : %s. agin = %s"%(code,message,again))
+            logging.info("code: %s message : %s. again = %s"%(code,message,again))
             if code == 50005:
                 again = again + 1
                 get_times = 1

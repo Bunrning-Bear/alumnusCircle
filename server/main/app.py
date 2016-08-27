@@ -33,9 +33,9 @@ define("mysql_database", default = "alumnuscircle", help = "community database n
 define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
-logging.basicConfig(level=logging.INFO)
-                #filename='err.log',  
-                #filemode='w')
+logging.basicConfig(level=logging.INFO,
+                filename='err.log',  
+                filemode='w')
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -67,11 +67,14 @@ class Application(tornado.web.Application):
         (r'/timefeedList',handler.feed_list.TimelineHandler),
         (r'/myfavouritelist',handler.user_list.FavouriteslistHandler),
 
-        (r'/createtopic',handler.topic.CeateTopicHandler),
+        (r'/createTopic',handler.topic.CeateTopicHandler),
         (r'/detailtopic',handler.topic.DetailTopicHandler),
         (r'/edittopic',handler.topic.EditTopicHandler),
         (r'/gettypetopic',handler.topic.GetTopicTypeHandler),
         (r'/searchtopic',handler.topic.SearchTopicHandler),
+
+        (r'/reviewlisttopic',handler.topic.ReviewListHandler),
+        (r'/reviewResult',handler.topic.ReviewResultHandler),
 
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
         (r'/deletecomment',handler.opt_feed.DeleteCommentHandler),

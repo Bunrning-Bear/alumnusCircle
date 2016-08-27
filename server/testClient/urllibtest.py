@@ -40,6 +40,7 @@ def do_request(api,dic,message,method,otherPara):
         info_json = json.dumps(dic[count])
         para = otherPara[count]
         para['info_json'] = info_json
+        # print "do request :" + str(para) + str(ot)
         req = set_resquest(api,para,method)
         response = urllib2.urlopen(req)
         the_page = response.read()
@@ -268,6 +269,59 @@ def searchTopicTest():
     do_request(api,dic,message,"POST",otherPara)    
 
 
+def createTopic():
+    api = '/createTopic'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {
+    }
+    dic[num] = {
+
+    }
+    otherPara[num] = {
+        "circle_name":"new circle",
+        "circle_icon_url":"default",
+        "creator_uid":123,
+        "circle_type_id":1,
+        "reason_message":"I love you!",
+        "description":" the circle will be beautiful!"
+    }
+    setMessage(message,num,"create topic")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
+def reviewListTest():
+    api = "/reviewlisttopic"
+    num = 0
+    dic = {}
+    message ={}
+    otherPara = {}
+    dic[num] = {}
+    otherPara[num] ={
+        "result":0,
+        "since_id":1,
+        "limit_num":5
+    }
+    setMessage(message,num,"review create topic list")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
+def reviewTest():
+    api = "/reviewResult"
+    num = 0
+    dic = {}
+    message ={}
+    otherPara = {}
+    dic[num] = {}
+    otherPara[num] ={
+        "result":1,
+        "review_id":2,
+    }
+    setMessage(message,num,"review topic")
+    num = num + 1
+    do_request(api,dic,message,"POST",otherPara)
+
 registerTest()    
 loginTest()
 updateInfoTest()
@@ -275,3 +329,6 @@ editTest()
 detailTest()
 searchTopicTest()
 gettypetopicTest()
+createTopic()
+reviewListTest()
+reviewTest()    

@@ -61,7 +61,9 @@ class UserModule(BaseModule):
 
         sql =sql + "WHERE "+ self._uid + " = %s"
         logging.info("sql is : %s  %s"%(sql,para))
-        return self.db.updatemany(sql,[para]) 
+        return self.db.updatemany(sql,[para])
+
+
 """
 UserInfoModule is a Module operate to mysql table ac_user_base_info
 """

@@ -26,5 +26,7 @@ CODE_DICT = {
     "topic":2400,
     "topicdetail":2500,
     "userdetail":2600,
-    "update_user_info":2700
+    "update_user_info":2700,
+    "create_topic":2800,
+    "review_topic":2900
 }
