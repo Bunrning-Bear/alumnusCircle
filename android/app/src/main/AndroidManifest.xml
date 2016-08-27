@@ -22,6 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".connections.Activity.particularActivity">
+           <intent-filter>
+               <action android:name="connections.activity.ptc"/>
+               <category android:name="android.intent.category.DEFAULT"/>
+           </intent-filter>
+        </activity>
     </application>
 
 </manifest>

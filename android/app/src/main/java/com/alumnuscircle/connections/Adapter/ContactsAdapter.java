@@ -49,7 +49,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name_text.setText(contactsItemList.get(position).getUserName());
         holder.addr_text.setText(contactsItemList.get(position).getUserLocation());
-        holder.grade_text.setText(contactsItemList.get(position).getUserGrade());
+        holder.grade_text.setText(contactsItemList.get(position).getUserFaculty()+
+                contactsItemList.get(position).getUserGrade());
         holder.class_text.setText(contactsItemList.get(position).getUserClass());
         holder.job_text.setText(contactsItemList.get(position).getUserJob());
         Load_HeadPortrait(holder.head_img,

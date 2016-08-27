@@ -7,42 +7,39 @@
     android:background="#4DD489"
     android:minHeight="?attr/actionBarSize"
     >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <ImageButton
         android:id="@+id/search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/search"
+        android:layout_width="10dp"
+        android:layout_height="20dp"
+        android:src="@mipmap/back"
         android:background="#4DD489"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingLeft="1dp"
+            android:text="@string/back"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/toolbar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="人脉"
+        android:text="@string/highlyFilter"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="@color/colorTransparent"
-        android:id="@+id/clickable_filter"
-        >
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/filter_btn"
+        android:layout_gravity="right"
         android:src="@mipmap/filter"
         android:background="#4DD489"
         />
-        <View
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorTransparent">
-
-        </View>
-    </LinearLayout>
 
 
 

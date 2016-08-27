@@ -5,4 +5,10 @@
     <string name="findCircle">发现圈子</string>
     <string name="message">消息</string>
     <string name="me">我的</string>
+    <string name="back">返回</string>
+
+    <string name="ptcActivity">人脉详情</string>
+    <string name="leaveMsg">留言</string>
+
+    <string name="highlyFilter">高级筛选</string>
 </resources>

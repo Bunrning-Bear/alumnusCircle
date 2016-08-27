@@ -1,6 +1,7 @@
 package com.alumnuscircle.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -18,10 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alumnuscircle.R;
+import com.alumnuscircle.connections.Activity.particularActivity;
 import com.alumnuscircle.connections.Adapter.ContactsAdapter;
 import com.alumnuscircle.connections.Item.ContactsItem;
 import com.alumnuscircle.connections.ItemDecrotion.DividerItemDecoration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private Button btn_check1;
     private Button btn_check2;
     private Button btn_check3;
+    private Boolean IsFilterbtnpressed;
     private Boolean IsBox1Selected;
     private Boolean IsBox2Selected;
     private Boolean IsBox3Selected;
@@ -68,6 +72,27 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         recyclerView_contacts.setAdapter(mAdapter = new ContactsAdapter(getActivity(),mDatas));
         recyclerView_contacts.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL_LIST));
+        mAdapter.setOnItemClickListener(new ContactsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent=new Intent("connections.activity.ptc");
+                Bundle bundle=new Bundle();
+                bundle.putString("headImgUrl",mDatas.get(position).getHeadImgUrl());
+                bundle.putString("name",mDatas.get(position).getUserName());
+                bundle.putString("location",mDatas.get(position).getUserLocation());
+                bundle.putString("department",mDatas.get(position).getUserFaculty());
+                bundle.putString("grade",mDatas.get(position).getUserGrade());
+                bundle.putString("class",mDatas.get(position).getUserClass());
+                bundle.putString("job",mDatas.get(position).getUserJob());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
+
     }
 
     /**
@@ -80,23 +105,40 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mDatas = new ArrayList<>();
         ContactsItem contect1=new ContactsItem(
                 "http://img2.imgtn.bdimg.com/it/u=3413454958,4293050372&fm=11&gp=0.jpg",
-                "赵小雨","南京","艺术学院2012级","工业设计1班",
+                "赵小雨","南京","艺术学院","2012级","工业设计1班",
                 "彩妆师"
         );
         ContactsItem contect2=new ContactsItem(
                 "http://v1.qzone.cc/avatar/201508/30/00/39/55e1e026dc781749.jpg%21200x200.jpg",
-                "李崇","苏州","信息学院2012级","电子电路4班",
+                "李崇","苏州","信息学院","2012级","电子电路4班",
                 "软件工程师"
         );
         ContactsItem contect3=new ContactsItem(
                 "http://img2.imgtn.bdimg.com/it/u=3529368069,13239119&fm=21&gp=0.jpg",
-                "苏小陌","杭州","经管学院2012级","投资路4班",
+                "苏小陌","杭州","经管学院","2012级","投资路4班",
                 "高级理财师"
+        );
+        ContactsItem contect4=new ContactsItem(
+                "http://img5.imgtn.bdimg.com/it/u=146486684,2713066059&fm=11&gp=0.jpg",
+                "李大嘴","武汉","软件学院","2010级","卓工班",
+                "高级架构师"
+        );
+        ContactsItem contect5=new ContactsItem(
+                "http://www.th7.cn/d/file/p/2016/07/26/b18e716fdfa5e890c4c9ebcb5f7e1afe.jpg",
+                "崔皓宇","扬州","软件学院","2014级","卓工班",
+                "高级码农"
+        );
+        ContactsItem contect6=new ContactsItem(
+                "http://img3.a0bi.com/upload/ttq/20160825/1472114871781.png",
+                "白洋","尼古拉斯","软件学院","2014级","特级卓工班",
+                "特级架构师"
         );
         mDatas.add(contect1);
         mDatas.add(contect2);
         mDatas.add(contect3);
-
+        mDatas.add(contect4);
+        mDatas.add(contect5);
+        mDatas.add(contect6);
     }
 
     /**
@@ -104,6 +146,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
      * 2016年8月23日15:21:48 曾博晖
      * 创建*/
     private void initView(View view){
+        IsBox1Selected=false;
+
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
         btn_search=(ImageButton)view.findViewById(R.id.search_btn);
@@ -121,14 +165,21 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                         Toast.LENGTH_SHORT).show();
                 break;
             case R.id.filter_btn:
-                Toast.makeText(getActivity(),"筛选人脉",
-                        Toast.LENGTH_SHORT).show();
-                showPopWindow();
+                if(popupWindow==null) {
+                    showPopWindow();
+                }
+                if(!popupWindow.isShowing()) {
+                    Toast.makeText(getActivity(), "筛选人脉",
+                            Toast.LENGTH_SHORT).show();
+                    showPopWindow();
+                } else {
+                    popupWindow.dismiss();
+                }
                 break;
             case R.id.checkbox1:
                 IsBox1Selected=true;
                 btn_check1.setBackgroundResource(R.mipmap.checkbox_ok);
-            break;
+                break;
             case R.id.checkbox2:
                 IsBox2Selected=true;
                 btn_check2.setBackgroundResource(R.mipmap.checkbox_ok);
@@ -148,6 +199,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                 //跳转到高级筛选界面
                 popupWindow.dismiss();
             default:
+                popupWindow.dismiss();
                 break;
         }
 
@@ -164,10 +216,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         popupWindow = new PopupWindow(contentView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setContentView(contentView);
+        popupWindow.setOutsideTouchable(true);
         initPopView(contentView);
+
         //显示PopupWindow
         View rootview = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_contacts, null);
-        popupWindow.showAtLocation(rootview, Gravity.TOP, 0,100);
+        popupWindow.showAtLocation(rootview, Gravity.TOP, 0,110);
     }
     private void initPopView (View contentView)
     {
