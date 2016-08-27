@@ -2,12 +2,14 @@ package com.alumnuscircle;
 
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
 import android.view.View;
+
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 
 import com.alumnuscircle.fragment.ContactsFragment;
@@ -26,11 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MessageFragment messageFragment;
     private FragmentTransaction switchFragment;//更换fragment
 
-    private Button home;
-    private Button contacts;
-    private Button findCir;
-    private Button msg;
-    private Button me;
+    private ImageView home;
+    private ImageView contacts;
+    private ImageView findCir;
+    private ImageView msg;
+    private ImageView me;
 
 
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
     }
 
     /**
@@ -50,21 +53,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  void InitView()
     {
         //初始化按钮
-        home = (Button)findViewById(R.id.homepage);
-        contacts = (Button)findViewById(R.id.contacts);
-        findCir =(Button)findViewById(R.id.findcircle);
-        msg = (Button)findViewById(R.id.message);
-        me = (Button)findViewById(R.id.me);
-
+        home = (ImageView) findViewById(R.id.homepage);
+        contacts = (ImageView)findViewById(R.id.contacts);
+        findCir =(ImageView)findViewById(R.id.findcircle);
+        msg = (ImageView)findViewById(R.id.message);
+        me = (ImageView)findViewById(R.id.me);
 
         home.setBackgroundResource(R.mipmap.homepage_pressed);
         contacts.setBackgroundResource(R.mipmap.contacts);
         findCir.setBackgroundResource(R.mipmap.findcircle);
         me.setBackgroundResource(R.mipmap.me);
         msg.setBackgroundResource(R.mipmap.message);
-
-
-
 
         //初始化fragment
         switchFragment = getFragmentManager().beginTransaction();
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * 初始化监听的fragment
-     * 每次点击底边边框按钮时调用
      */
     private void InitFragment()
     {
@@ -121,11 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         me.setBackgroundResource(R.mipmap.me);
     }
 
-    /**
-     * 对底边边框的按钮添加监听事件
-     * 先调用InitFragment对碎片初始化
-     * 2016年8月23日
-     * 白洋创建*/
     @Override
     public void onClick(View v) {
 
@@ -142,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else{
                     switchFragment.show(homeFragment);
-
                 }
 
                 home.setBackgroundResource(R.mipmap.homepage_pressed);
@@ -200,5 +192,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             break;
         }
         switchFragment.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+        //阻止保存状态解决fragment重叠
     }
 }

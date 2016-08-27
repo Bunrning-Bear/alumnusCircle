@@ -54,7 +54,7 @@ public class particularActivity extends AppCompatActivity implements View.OnClic
 
     }
     /**
-     * 初始化空间列表
+     * 初始化控件列表
      * 2016年8月26日14:43:14
      * 曾博晖
      * 创建
@@ -101,7 +101,7 @@ public class particularActivity extends AppCompatActivity implements View.OnClic
         collectLayout.setOnClickListener(this);
     }
     /**
-     * 利用Volley的Http请求进行加载头像的操作
+     * 利用Volley的Http请求进行加载图片的操作
      * 曾博晖
      * 2016年8月6日 创建
      * */

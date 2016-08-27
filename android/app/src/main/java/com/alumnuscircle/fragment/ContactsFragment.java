@@ -133,12 +133,18 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                 "白洋","尼古拉斯","软件学院","2014级","特级卓工班",
                 "特级架构师"
         );
+        ContactsItem contect7=new ContactsItem(
+                "http://v1.qzone.cc/avatar/201501/17/14/52/54ba06b65074b350.jpg%21200x200.jpg",
+                "陈小辉","德玛西亚","软件学院","2014级","特级卓工班",
+                "国家级特级架构师"
+        );
         mDatas.add(contect1);
         mDatas.add(contect2);
         mDatas.add(contect3);
         mDatas.add(contect4);
         mDatas.add(contect5);
         mDatas.add(contect6);
+        mDatas.add(contect7);
     }
 
     /**
