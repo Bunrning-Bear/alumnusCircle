@@ -20,7 +20,7 @@ import json
 import logging
 import functools
 
-import base
+import request
 from request import RequestHandler
 
 """Get feed list by timeline

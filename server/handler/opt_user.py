@@ -12,6 +12,7 @@ import tornado.web
 import tornado.gen
 
 import base
+import request
 from request import RequestHandler
 
 """
@@ -25,7 +26,7 @@ class FollowHandler(RequestHandler):
         self.methodUsed = 'POST'
         self.requestName = 'follow'
 
-    @base.authenticated('follow')
+    @request.authenticated('follow')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def post(self):
@@ -41,8 +42,8 @@ class FollowHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)       
-        self.return_to_client(code,message)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
+        self.return_to_client(code,message,Data)
 
 """
 search a user by part of "username"
@@ -56,7 +57,7 @@ class SearchUserHandler(RequestHandler):
         self.requestName = 'searchuser'
         self.count = 10
 
-    @base.authenticated('searchuser')
+    @request.authenticated('searchuser')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def get(self):
@@ -70,5 +71,11 @@ class SearchUserHandler(RequestHandler):
         q = self.get_argument('q')
         Data = {"count":self.count,"page":page,"q":q}
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)       
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         self.return_to_client(code,message)
+        self.finish()
+
+
+"""Update user's information to database.
+
+"""

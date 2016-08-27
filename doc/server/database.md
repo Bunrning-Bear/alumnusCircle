@@ -151,9 +151,9 @@ message:
 type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
 {
 	"topic name"
-	“result”: true of false,
-    [if "result" == true]
-    [if "result" == false]
+	“agree”: true of false,
+    [if "agree" == true]
+    [if "agree" == false]
     "reason":手工填写的拒绝理由
 }
 type：2 全体成员都能接受到的消息，由圈子的管理员或者创始人发送：
@@ -216,17 +216,11 @@ circle_name：圈子的名字
 circle_icon_url:圈子的图标
 circle_type:圈子类别
 create_reason_message:创建者填写的创建理由
-question_list[json]：圈子申请需填写的问题
-city_filter_list[json]：圈子的城市筛选信息
-admission_min_year[int]：圈子的允许进入的入学年份最小值
-adminssion_max_year[int]：圈子的允许进入的入学年份最大值
-major_filter_list[json]：圈子的允许进入专业的筛选
-deal[int] 0 not deal yet. 1 agree.2 disagree
+deal[int] 0 not deal yet. 1 agree	.2 disagree
 
 user_message_table:
 id:
 uid:
-umengid:设置索引
 message_queue[array]
 
 

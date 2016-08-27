@@ -12,7 +12,7 @@ import ConfigParser
 import encrypted
 ## TODO: sys should been locate to another place.
 import sys
-location = '/home/burningbear/CodePlace/python/web/papacamera'
+location = '/home/burningbear/CodePlace/python/web/alumnusCircle/server/'
 sys.path.append(location)
 from common.variables import USER_DICT
 
@@ -31,26 +31,25 @@ class RegisterHandler(object):
           `user_wechat_id` varchar(20) DEFAULT NULL COMMENT '用户微信号'
         """
         randomNum = str(random.randint(1,1000))
-        user_name = "Burningbear"+randomNum
+        user_name = "virtual_admin"
         icon_url = "http://umeng.com/1.jpg"
-        user_id = randomNum
+        user_id = str(-1)
         source = "self_account"
         data = {"user_info":{"name":user_name,"icon_url":icon_url},"source_uid":user_id,"source":source} 
-        data = {}
         data = json.dumps(data)
         data = struct.pack(">I",len(data)) + data
         return data
 
     def __get_encrypted_data(self):
         data = self.__getUserData()
-        data = encrypted.prpcrypt("2f5c5f18353cdd1b56e077c19bd3ebc5").encrypt(data)
+        data = encrypted.prpcrypt("224477ddffb25d994302d4b0c7b87482").encrypt(data)
         encrypted_data = base64.b64encode( data )
         return encrypted_data
 
     def register(self):
         prefix = "https://rest.wsq.umeng.com"
         encrypted_data = self.__get_encrypted_data()
-        url = prefix+"/0/get_access_token?ak=" + "579c674c67e58eebcb00275a"
+        url = prefix+"/0/get_access_token?ak=" + "57b18b2ee0f55ac368001dc8"
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     	  
         body = urllib.urlencode({"encrypted_data":encrypted_data})
@@ -140,10 +139,10 @@ if __name__ == '__main__':
     access = registerObj.register()
     loginObj = LogHandler()
     user_id = "406"
-    access_token = "91ecfda554562b067956f6a8ae927d288dd96616acf8f6427bf95cb267bb069deeadfda4432fa1ac82a0cef16f65b40598d359c15cad20ced3d8c375b0c1b122"
+    access_token = "635755b350420c81c446da313733de1efd666c2fb56f49a3ef2da01345cb81f7b7501f95fab96fea6c98f926c28da46a192420aa93389f91d8cd777f493abd63"
     userDict = loginObj.login(user_id,1234,access_token)
-    print "userDict"
-    print userDict["406"]
+    #print "userDict"
+    #print userDict
     print "access_token"
     print access
     # 91ecfda554562b067956f6a8ae927d288dd96616acf8f6427bf95cb267bb069d17a74a7c5d2c78aed60572e4f127099f1db4065e88f7fce65df0ef51e28bc96f

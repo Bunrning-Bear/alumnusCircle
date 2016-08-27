@@ -52,95 +52,6 @@ from common.lib.prpcrypt import set_encrypt
 from common.variables import AP,CODE_DICT
 
 
-def authenticated(request):
-    """
-    This is a decorator for all of request process function which login is needed.
-
-    authenticated will check if the request has the same _xsrf in server.
-    authenticated will check the _xsrf in user_dict after then.
-
-    Args:
-        request:[string] is the request name such as "logout".
-        Look for papacamera/common/variables for detail
-    
-    Returns:
-        If server did not find current_user in client (look get current_user function for detail),
-        server will return a error code instand of execute its statement.
-    """
-    def decorator(method):
-        @functools.wraps(method)
-        def wrapper(self, *args, **kwargs):            
-#[todo] can target add to request? 
-#          logging.info("client xsrf is %s server xsrf is: %s"%(_xsrf,self.xsrf_token))
-#            try:
-#                target = self.get_argument('target')
-#           except tornado.web.MissingArgumentError, e:
-#               logging.info("not argument target, continue")
-#               target = ""
-            if not self.current_user:
-                code = self.return_code_process(request,29) 
-                message = "your login information has been cleared or you have not login when you are tring to "+ request
-                self.return_to_client(code,message)
-                self.finish()
-                return
-            else:
-                uid = self.get_secure_cookie('uid')   
-                code,message = self.request_identifier_check(uid,self.requestName)
-                # code == 3,means it is the real user.
-                if code != 3:
-                    code = self.return_code_process(self.requestName,code)
-                    self.return_to_client(code,message)
-                    self.finish()
-                    return
-                else:
-                    return method(self,*args, **kwargs)
-        return wrapper
-    return decorator
-
-def public_access_decorator(method):
-    """This decorator should be use in all of public access to umeng.
-
-    This decorator will check if public access token in server has outdate.
-    Then change it and request again if outdate
-
-    Args:
-        method:[generator] should be a generator, this generator will return code and message
-        when code == 50005, it means the public access has outdate.
-
-    Returns:
-        return the code and message after get the new public access token.
-    """
-    @tornado.gen.coroutine
-    @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        again = 1
-        while again>=0 and again <= 10:
-            code = 0
-            message = ''            
-            config = ConfigParser.ConfigParser()
-            config.readfp(open(AP+'/common/conf.ini'))
-            self._public_access = config.get('app','public_access')
-            access_token = self._public_access
-            logging.info("public access in decorator: %s"%(access_token))
-            (code,message) = yield method(self, *args, **kwargs)
-            logging.info("code: %s message : %s. agin = %s"%(code,message,again))
-            if code == 50005:
-                again = again + 1
-                get_times = 1
-                while get_times <=10:
-                    get_times = self.update_public_access_token(get_times,access_token)
-                    if get_times == 0:
-                        logging.info("in get times == 0 ")
-                        break
-            else:
-                again = -1
-        if again == 11:
-            code = 1
-            message = "get public access token error, please requset latter"
-            
-        raise tornado.gen.Return((code,message))
-    return wrapper
-
 
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *argc, **argkw):
@@ -154,10 +65,12 @@ class BaseHandler(tornado.web.RequestHandler):
         self._appkey = config.get('app','appkey')
         self._prefix = config.get('url','prefix')
         self._public_access = config.get('app','public_access')
+        self._virtual_access = config.get('app','virtual_access')
         # load all of module operate into BaseHandler.
         self._user_module = modules.user.UserInfoModule(self._db)
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
+        self._user_message_module = modules.user.UserMessageModule(self._db)
         self._code_dict =CODE_DICT         
 
     @property
@@ -172,6 +85,10 @@ class BaseHandler(tornado.web.RequestHandler):
     def user_detail_module(self):
         return self._user_detail_module
 
+    @property
+    def user_message_module(self):
+        return self._user_message_module
+    
     def get_current_user(self):
         """
         If this function return None 0 or [], function which has decorator
@@ -194,23 +111,26 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._user_dict.has_key(uid):
+        if not self._user_dict.hexists(uid,"_xsrf"):
             return 0
-        elif self._user_dict[uid][0] != _xsrf:
+        elif self._user_dict.hget(uid,"_xsrf") != _xsrf:
             return 1
         else:
             return 2
 
     def set_user_dict(self,uid,_xsrf,access_token):
-        self._user_dict[uid]=(_xsrf,access_token)
+        """Set User_dict when login.
+        """
+        dic = {"_xsrf":_xsrf,"access_token":access_token}
+        self._user_dict.hmset(uid,dic)
 
     def get_user_dict(self,uid):
-        return self._user_dict[uid]
+        return self._user_dict.hvals(uid)
 
     def delete_user_dict(self,uid):
-        del self._user_dict[uid]
-
-    def return_code_process(self,handler,code):
+        self._user_dict.hdel(uid,"_xsrf")
+    # [todo]:2016.8.26 restructure the logic of return code.
+    def return_code_process(self,code):
         """Return status code to client after get a code from handler.
 
         Args:
@@ -220,73 +140,7 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
         [string] global status code.
         """
-        return self._code_dict[handler] + code
-
-
-    def update_public_access_token(self,times,old_token):
-        """When public access token was outdate, we will call this function.
-            
-        server will request Umeng server to get a new public access token to user.
-        
-        Args:
-            times[int]:record request times to Umeng.
-                To avoid request too much times to Umeng and did not get a new public access token.
-            old_token[sting]:pass the public access_token before call this function.
-                to Avoid too much user request public access_token together.
-                This function will ignore requests after public access_token 
-                has been updated by other request before.
-        
-        Returns:
-            public access token:this function will store new public access token [if get it] to self._public_access
-            times: if get new access token, return times = 0, else return times = times + 1.
-
-        """
-        code = 0
-        message = ''
-        result = times + 1
-        #When a new public_access_token get, server will ignore update operate after it.
-        logging.info("self public access: %s old token %s"%(self._public_access,old_token))
-        if self._public_access == old_token:
-            data = {}
-            cryptedData = set_encrypt(self._aes_key,data)
-            url = self._prefix+"/0/get_access_token?ak=" + self._appkey
-            headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-            body = urllib.urlencode({"encrypted_data":cryptedData})
-            client = tornado.httpclient.HTTPClient()
-            request = tornado.httpclient.HTTPRequest(
-                url=url,
-                method="POST",
-                headers=headers,
-                body=body
-            )
-            response = client.fetch(request)
-            body =  json.loads(response.body)
-            code,message = self.set_UmengCode(code,body)
-            logging.info("in get public access token:code :%s message:%s </br> body is: %s"%(code,message,body))
-            if 'access_token' in body:
-                result = 0
-                self._public_access = body['access_token']
-                config = ConfigParser.ConfigParser()
-                config.readfp(open(AP+'/common/conf.ini'))
-                config.set('app','public_access',self._public_access)
-                config.write(open(AP+'/common/conf.ini',"w"))
-                logging.info("access_token in body and self.public_access = %s"%self._public_access)
-                new_access = config.get('app','public_access')
-                logging.info("new access : %s"%new_access)
-            return result
-        else:
-            return 0
-
-    def set_UmengCode(self,count,body):
-        code = 0
-        message = ''
-        if "err_code" in body:
-            code = body['err_code']
-            message = body['err_msg']
-        else:
-            message = body               
-            code = self.return_code_process(self.requestName,count)
-        return code,message
+        return self._code_dict[self.requestName] + code
 
     @tornado.web.asynchronous
     def return_to_client(self,code,message, Data = {}):

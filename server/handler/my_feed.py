@@ -14,6 +14,7 @@ import tornado.httpclient
 import tornado.web
 from request import RequestHandler
 import base
+import request
 
 """
 To update a new feed user upload.
@@ -24,7 +25,7 @@ class UpdateFeedHandler(RequestHandler):
         self.url = '/0/feed/update'
         self.methodUsed = 'POST'        
 # [todo:]upload img to server at first.
-    @base.authenticated('update')
+    @request.authenticated('update')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
@@ -40,8 +41,8 @@ class UpdateFeedHandler(RequestHandler):
         code = 0
         access_token = self.get_user_dict(uid)[1]
         logging.info("access %s and Data %s:"%(access_token,Data))
-        code,message =yield self.Umeng_asyn_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         self.finish()
     
 """
@@ -54,7 +55,7 @@ class DeleteFeedHandler(RequestHandler):
         self.url = '/0/feed/destroy'
         self.methodUsed = 'DELETE'
         
-    @base.authenticated('delete')
+    @request.authenticated('delete')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
@@ -68,6 +69,6 @@ class DeleteFeedHandler(RequestHandler):
         Data = json.loads(DataJson)
         code = 0
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)
-        self.return_to_client(code,message)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        self.return_to_client(code,message,Data)
         self.finish()
