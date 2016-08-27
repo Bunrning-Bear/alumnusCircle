@@ -13,4 +13,8 @@
     <color name="colorGrey">#D7D7D7</color>
     <color name="colorLine">#E5E5E5</color>
     <color name="colorDeepGrey">#727272</color>
+
+    <color name="colorToolbarWhite">#F6F6F6</color>
+    <color name="colorFontBlack">#333333</color>
+    <color name="colorFrameWhite">#F8F8F8</color>
 </resources>

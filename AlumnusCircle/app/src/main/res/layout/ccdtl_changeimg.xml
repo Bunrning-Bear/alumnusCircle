@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorToolbarWhite">
+        <!--置顶标题栏，显示“修改名称及封面”-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/ccdtl_chgimg_title"
+            android:background="@color/colorTransparent"
+            android:textColor="@color/colorFontBlack"
+            android:textSize="18sp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:background="@color/colorTransparent">
+
+            <!--左上方的回退按钮-->
+            <ImageButton
+                android:id="@+id/ccdtl_chgimg_back_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="12"
+                android:src="@mipmap/ccdtl_chgimg_back"
+                android:scaleType="centerInside"
+                android:background="@color/colorTransparent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"/>
+
+            <!--填充背景的图片-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="80"
+                android:src="@color/colorTransparent"
+                android:scaleType="fitXY"
+                android:background="@color/colorTransparent"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorTransparent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@color/colorFrameWhite">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/ccdtl_chgimg_headimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="top|center_horizontal"
+                    fresco:viewAspectRatio="1"
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:backgroundImage="@color/colorTransparent" />
+                <ImageButton
+                    android:id="@+id/ccdtl_chgimg_change_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/ccdtl_chgimg_camera"
+                    android:scaleType="centerInside"
+                    android:background="@color/colorTransparent"
+                    android:layout_gravity="top|right"
+                    android:layout_margin="12dp"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="26dp">
+                <TextView
+                    android:id="@+id/ccdtl_chgimg_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="圈子名称"
+                    android:textColorHint="@color/colorFontBlack"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorFontBlack"
+                    android:background="@color/colorTransparent"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@color/colorGrey"
+                    android:scaleType="fitXY"
+                    android:background="@color/colorTransparent"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
