@@ -2,11 +2,14 @@ package com.alumnuscircle;
 
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
 import android.view.View;
+
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 import com.alumnuscircle.fragment.ContactsFragment;
@@ -17,7 +20,7 @@ import com.alumnuscircle.fragment.MessageFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final String CIRCAL_DETAIL = "com.alumuscircle.circledetail";
+
     private ContactsFragment contactsFragment;
     private HomeFragment homeFragment;
     private FindCirFragment findCirFragment;
@@ -25,20 +28,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MessageFragment messageFragment;
     private FragmentTransaction switchFragment;//更换fragment
 
-    private Button home;
-    private Button contacts;
-    private Button findCir;
-    private Button msg;
-    private Button me;
+    private ImageView home;
+    private ImageView contacts;
+    private ImageView findCir;
+    private ImageView msg;
+    private ImageView me;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar =(Toolbar)findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
         InitView();
+        Button button =(Button)findViewById(R.id.test);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent("com.alumnuscircle.circleDetail.CircleDetail"));
+            }
+        });
+
 
 
     }
@@ -49,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  void InitView()
     {
         //初始化按钮
-        home = (Button)findViewById(R.id.homepage);
-        contacts = (Button)findViewById(R.id.contacts);
-        findCir =(Button)findViewById(R.id.findcircle);
-        msg = (Button)findViewById(R.id.message);
-        me = (Button)findViewById(R.id.me);
+        home = (ImageView) findViewById(R.id.homepage);
+        contacts = (ImageView)findViewById(R.id.contacts);
+        findCir =(ImageView)findViewById(R.id.findcircle);
+        msg = (ImageView)findViewById(R.id.message);
+        me = (ImageView)findViewById(R.id.me);
 
         home.setBackgroundResource(R.mipmap.homepage_pressed);
         contacts.setBackgroundResource(R.mipmap.contacts);

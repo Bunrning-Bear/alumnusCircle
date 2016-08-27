@@ -16,9 +16,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".circleDetail.CircleDetail">
+        <activity android:name="com.alumnuscircle.circleDetail.CircleDetail">
          <intent-filter>
-             <action android:name="com.alumuscircle.circledetail"/>
+             <action android:name="com.alumnuscircle.circleDetail.CircleDetail"/>
              <category android:name="android.intent.category.DEFAULT"/>
          </intent-filter>
         </activity>
