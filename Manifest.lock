@@ -1,0 +1,33 @@
+PODS:
+  - CBTableViewDataSource (1.1.0)
+  - LinqToObjectiveC (2.0.0)
+  - Masonry (1.0.1)
+  - objectiveflickr (2.0.4)
+  - RBStoryboardLink (0.1.4)
+  - ReactiveCocoa (2.1.8):
+    - ReactiveCocoa/Core (= 2.1.8)
+    - ReactiveCocoa/no-arc (= 2.1.8)
+  - ReactiveCocoa/Core (2.1.8):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.1.8)
+
+DEPENDENCIES:
+  - CBTableViewDataSource
+  - LinqToObjectiveC (= 2.0.0)
+  - Masonry
+  - Masonry (~> 1.0.1)
+  - objectiveflickr (= 2.0.4)
+  - RBStoryboardLink (~> 0.1)
+  - ReactiveCocoa (= 2.1.8)
+
+SPEC CHECKSUMS:
+  CBTableViewDataSource: b3af29c138d3b594eb577be2bdd996685121c5c8
+  LinqToObjectiveC: 768f98c62d5b57cb6bdb7ab869e33d0a7a2da29c
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  objectiveflickr: aed169dae1eb5a5550ca78f7efd7ccde2e4c26e5
+  RBStoryboardLink: 0faae84aea6a5e8716c4469984d847d958c3fcb3
+  ReactiveCocoa: f89f2e009a87951b50321bf9feb958823fcc617e
+
+PODFILE CHECKSUM: 882a43ee84042896823ffaefa7fcfdb56d06dc7e
+
+COCOAPODS: 1.0.1
