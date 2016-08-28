@@ -14,7 +14,6 @@ PODS:
 DEPENDENCIES:
   - CBTableViewDataSource
   - LinqToObjectiveC (= 2.0.0)
-  - Masonry
   - Masonry (~> 1.0.1)
   - objectiveflickr (= 2.0.4)
   - RBStoryboardLink (~> 0.1)
@@ -28,6 +27,6 @@ SPEC CHECKSUMS:
   RBStoryboardLink: 0faae84aea6a5e8716c4469984d847d958c3fcb3
   ReactiveCocoa: f89f2e009a87951b50321bf9feb958823fcc617e
 
-PODFILE CHECKSUM: 882a43ee84042896823ffaefa7fcfdb56d06dc7e
+PODFILE CHECKSUM: 8e06c798165505412558dd701a8775b9559fb992
 
 COCOAPODS: 1.0.1
