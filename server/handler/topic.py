@@ -18,7 +18,7 @@ import tornado.web
 import user
 import base
 import request
-import modules.message_deal
+import modules.review_deal
 from common.lib.prpcrypt import prpcrypt,set_encrypt
 from request import RequestHandler
 from base import BaseHandler
@@ -99,31 +99,41 @@ class ReviewResultHandler(TopicHandler):
         else:
             Data = self._message_review_module.update_review_result(result,review_id)
             if result == 1:
-                code,message,Data = yield self.createUmengTopic(review_id)
+                code,message,Data = yield self.createUmengTopic(review_id,virtual=True)
+                if code == 0:
+                    virtual_id = Data['id']
+                    code,message,Data = yield self.createUmengTopic(review_id,virtual=False,virtual_id=virtual_id)
                 self.return_to_client(code,message,Data)
         self.finish()
 
     @tornado.gen.coroutine
-    def createUmengTopic(self,review_id):
+    def createUmengTopic(self,review_id,virtual,virtual_id =''):
         self.url = '/0/topic/create'
         self.methodUsed='POST'
         Data = self._message_review_module.get_review_by_id(review_id)
-
-        name = Data[self._message_review_module._circle_name]
+        if virtual:
+            name = "1" + str(Data[self._message_review_module._circle_name]) + str("_virtual")
+        else:
+            name = "1" + str(Data[self._message_review_module._circle_name]) 
         # description = Data['description']
         icon_url = Data[self._message_review_module._circle_icon_url]
         description = Data[self._message_review_module._description]
         creator_uid = Data[self._message_review_module._creator_uid]
-        custom = {"creator_uid":creator_uid}
+        if not virtual:
+            custom = {"creator_uid":creator_uid,"virtual_id":virtual_id}
+        else:
+            custom = {"creator_uid":creator_uid}
         custom = json.dumps(custom)
         # todo : this access_token must get by a real admin user.
         Data = {
         "name":name,
-        "icon_url":icon_url,
+        # "icon_url":str(icon_url),
+        #[test todo]: when we get a real url, this should be use.
         "description":description,
         "custom":custom
         }
         access_token = self._virtual_access
+        logging.info("topic data is %s"%Data)
         code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
         raise tornado.gen.Return((code,message,Data))
 

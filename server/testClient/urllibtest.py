@@ -316,7 +316,7 @@ def reviewTest():
     dic[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":2,
+        "review_id":1,
     }
     setMessage(message,num,"review topic")
     num = num + 1

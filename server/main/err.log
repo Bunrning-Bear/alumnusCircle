@@ -1,57 +1,120 @@
 INFO:root:print there??
-INFO:tornado.access:200 GET / (127.0.0.1) 9.32ms
+INFO:tornado.access:200 GET / (127.0.0.1) 6.25ms
 INFO:root:username 陈雄辉
 INFO:root:after register code is 2 message is register successful!
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0e31381d894a6bec2bca1af9135d77357c2344406f6dd592a2b222be30f23a13
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d1b7f087348690e2f46eb5ae6de2e0851d99a02f74819390935a8ba002d85e198
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:gender=0&name=15196140354&custom=%7B%22city%22%3A+123%2C+%22faculty_id%22%3A+71%2C+%22uid%22%3A+201%2C+%22real_name%22%3A+%22%5Cu9648%5Cu96c4%5Cu8f89%22%2C+%22major_id%22%3A+1%2C+%22admission_year%22%3A+2014%2C+%22job%22%3A+%22student%22%2C+%22publicity_level%22%3A+0%7D, allow_nonstandard_methods:True, start_time:1472306191.05, proxy_port:None, method:PUT, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0e31381d894a6bec2bca1af9135d77357c2344406f6dd592a2b222be30f23a13, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:gender=0&name=15196154777&custom=%7B%22city%22%3A+123%2C+%22faculty_id%22%3A+71%2C+%22uid%22%3A+223%2C+%22real_name%22%3A+%22%5Cu9648%5Cu96c4%5Cu8f89%22%2C+%22major_id%22%3A+1%2C+%22admission_year%22%3A+2014%2C+%22job%22%3A+%22student%22%2C+%22publicity_level%22%3A+0%7D, allow_nonstandard_methods:True, start_time:1472364357.65, proxy_port:None, method:PUT, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d1b7f087348690e2f46eb5ae6de2e0851d99a02f74819390935a8ba002d85e198, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
 INFO:root:after umeng request, code is 0 message is get umeng api successfully
-INFO:root:query = INSERT INTO ac_user_message_table( uid ) VALUES ( 201)
-INFO:root:in set user_ to message uid is 201
-INFO:tornado.access:200 POST /register (127.0.0.1) 563.42ms
+INFO:root:query = INSERT INTO ac_user_message_table( uid ) VALUES ( 223)
+INFO:root:in set user_ to message uid is 223
+INFO:tornado.access:200 POST /register (127.0.0.1) 757.30ms
 INFO:root:username 陈雄辉
-INFO:tornado.access:200 POST /register (127.0.0.1) 8.84ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 9.29ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 8.71ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 9.44ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 7.07ms
+INFO:tornado.access:200 POST /register (127.0.0.1) 6.93ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 6.92ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 7.77ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 8.17ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 6.97ms
 INFO:root:update_list0 type is : <type 'unicode'>
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 13.44ms
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 9.70ms
+INFO:root:update_list0 type is : <type 'unicode'>
+INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker1', '140')
+INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker1', '140')
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 175.41ms
+INFO:root:update_list0 type is : <type 'unicode'>
+INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker85', '321', '140')
+INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker85', '321', '140')
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 76.65ms
+INFO:root:update_list0 type is : <type 'unicode'>
+INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker12', '321', '140')
+INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , company= %s , city= %s WHERE uid = %s  ('default', 'worker12', 'another company', '321', '140')
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 88.02ms
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:description=changed%21&topic_id=57bfa306ee78507903b49a06, allow_nonstandard_methods:True, start_time:1472364358.42, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /edittopic (127.0.0.1) 268.32ms
+INFO:root:public access in decorator: 3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364358.68, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695&topic_id=57bfa306ee78507903b49a06, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:root:code: 0 message : get umeng api successfully. again = 1
+INFO:tornado.access:200 POST /detailtopic (127.0.0.1) 266.45ms
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364358.95, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974&count=10&q=%E8%BD%AF%E9%99%A2&page=1, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /searchtopic (127.0.0.1) 253.41ms
+INFO:root:public access in decorator: 3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364359.21, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695&t_cat_id=57bdcad0d0146385e6abb6be, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:root:code: 0 message : get umeng api successfully. again = 1
+INFO:tornado.access:200 POST /gettypetopic (127.0.0.1) 264.23ms
+INFO:tornado.access:200 POST /createTopic (127.0.0.1) 93.54ms
+INFO:tornado.access:200 POST /reviewlisttopic (127.0.0.1) 9.87ms
+INFO:root:topic data is {'custom': '{"creator_uid": "123"}', 'name': '1new circle_virtual', 'description': None}
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:custom=%7B%22creator_uid%22%3A+%22123%22%7D&name=1new+circle_virtual&description=None, allow_nonstandard_methods:True, start_time:1472364359.61, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:root:topic data is {'custom': '{"virtual_id": "57c27f47b9a996211fb3962d", "creator_uid": "123"}', 'name': '1new circle', 'description': None}
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:custom=%7B%22virtual_id%22%3A+%2257c27f47b9a996211fb3962d%22%2C+%22creator_uid%22%3A+%22123%22%7D&name=1new+circle&description=None, allow_nonstandard_methods:True, start_time:1472364359.89, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /reviewResult (127.0.0.1) 584.26ms
+37d1e61be8fb9f, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:root:after umeng request, code is 0 message is get umeng api successfully
+INFO:root:query = INSERT INTO ac_user_message_table( uid ) VALUES ( 222)
+INFO:root:in set user_ to message uid is 222
+INFO:tornado.access:200 POST /register (127.0.0.1) 857.95ms
+INFO:root:username 陈雄辉
+INFO:tornado.access:200 POST /register (127.0.0.1) 8.49ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 7.02ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 8.49ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 7.69ms
+INFO:tornado.access:200 POST /login (127.0.0.1) 6.97ms
+INFO:root:update_list0 type is : <type 'unicode'>
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 7.26ms
 INFO:root:update_list0 type is : <type 'unicode'>
 INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker117', '140')
 INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker117', '140')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 19.67ms
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 179.60ms
 INFO:root:update_list0 type is : <type 'unicode'>
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker105', '321', '140')
-INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker105', '321', '140')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 20.79ms
+INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker90', '321', '140')
+INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker90', '321', '140')
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 87.98ms
 INFO:root:update_list0 type is : <type 'unicode'>
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker71', '321', '140')
-INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , company= %s , city= %s WHERE uid = %s  ('default', 'worker71', 'another company', '321', '140')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 18.47ms
+INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker110', '321', '140')
+INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , company= %s , city= %s WHERE uid = %s  ('default', 'worker110', 'another company', '321', '140')
+INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 99.14ms
 INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:description=changed%21&topic_id=57bfa306ee78507903b49a06, allow_nonstandard_methods:True, start_time:1472306191.45, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /edittopic (127.0.0.1) 184.85ms
-INFO:root:public access in decorator: 5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:description=changed%21&topic_id=57bfa306ee78507903b49a06, allow_nonstandard_methods:True, start_time:1472364036.24, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /edittopic (127.0.0.1) 231.44ms
+INFO:root:public access in decorator: 3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472306191.64, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49&topic_id=57bfa306ee78507903b49a06, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364036.47, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695&topic_id=57bfa306ee78507903b49a06, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
 INFO:root:code: 0 message : get umeng api successfully. again = 1
-INFO:tornado.access:200 POST /detailtopic (127.0.0.1) 186.73ms
+INFO:tornado.access:200 POST /detailtopic (127.0.0.1) 277.86ms
 INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472306191.83, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974&count=10&q=%E8%BD%AF%E9%99%A2&page=1, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /searchtopic (127.0.0.1) 230.19ms
-INFO:root:public access in decorator: 5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364036.76, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974&count=10&q=%E8%BD%AF%E9%99%A2&page=1, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /searchtopic (127.0.0.1) 254.65ms
+INFO:root:public access in decorator: 3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472306192.06, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=5ed1399bace45c40a9514be8f174a794519c2b96642481afaff373b937a4b27fa55911b9b7e6e5caeef6d958f4bbf4015e62d90cefb7fac3a53a082de5a4cb49&t_cat_id=57bdcad0d0146385e6abb6be, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472364037.01, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=3f5543add83dcaedf86577aa013e570a804dcb72ccc5a4c4f8d8a62d390943a7e6fb9e647cf66a52b831c9a308641848cd6b6d24f2d57c9a7fd2276331fc5695&t_cat_id=57bdcad0d0146385e6abb6be, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
 INFO:root:code: 0 message : get umeng api successfully. again = 1
-INFO:tornado.access:200 POST /gettypetopic (127.0.0.1) 225.43ms
-INFO:tornado.access:200 POST /createTopic (127.0.0.1) 21.68ms
-INFO:tornado.access:200 POST /reviewlisttopic (127.0.0.1) 9.50ms
+INFO:tornado.access:200 POST /gettypetopic (127.0.0.1) 274.47ms
+INFO:tornado.access:200 POST /createTopic (127.0.0.1) 128.16ms
+INFO:tornado.access:200 POST /reviewlisttopic (127.0.0.1) 8.24ms
+INFO:root:topic data is {'custom': '{"creator_uid": "123"}', 'name': 'new circle_virtual', 'description': None}
+INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
+
+INFO:root:Umeng_asyn_request request is :
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:custom=%7B%22creator_uid%22%3A+%22123%22%7D&name=new+circle_virtual&description=None, allow_nonstandard_methods:True, start_time:1472364037.46, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+
+INFO:root:topic data is {'custom': '{"virtual_id": "57c27a87d36ef336e4e9422d", "creator_uid": "123"}', 'name': 'new circle', 'description': None}
 INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
 INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:icon_url=default&custom=%7B%22creator_uid%22%3A+%22123%22%7D&name=new+circle&description=None, allow_nonstandard_methods:True, start_time:1472306192.32, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /reviewResult (127.0.0.1) 299.49ms
+INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:custom=%7B%22virtual_id%22%3A+%2257c27a87d36ef336e4e9422d%22%2C+%22creator_uid%22%3A+%22123%22%7D&name=new+circle&description=None, allow_nonstandard_methods:True, start_time:1472364037.73, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
+INFO:tornado.access:200 POST /reviewResult (127.0.0.1) 545.32ms

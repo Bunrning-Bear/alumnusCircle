@@ -43,7 +43,7 @@ class Application(tornado.web.Application):
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
         self._user_dict = redis.Redis(host='localhost',port=6379)
-
+        self._circle_dict = redis.Redis(host='localhost',port= 6380)
         logging.info("print there??")
         settings = dict(
             cookie_secret=cookie_secret,
