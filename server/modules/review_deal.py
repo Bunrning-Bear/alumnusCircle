@@ -1,3 +1,5 @@
+#!usr/bin/env python
+# coding=utf-8
 # message_deal.py
 
 import ConfigParser
@@ -74,7 +76,7 @@ class ReviewCircleModule(BaseModule):
 
     def get_review_by_id(self,review_id):
         result = self.db.get(
-            "SELECT "+ self._circle_name +" , " + self._description + " , " + self._circle_icon_url + " , "
+            "SELECT "+ self._circle_name +" , " + self._description + " , " + self._circle_icon_url + " , " + self._circle_type_id + " , "
             + self._creator_uid + " FROM " + self._manual_review_table + " WHERE " + self._review_id + 
             " = %s LIMIT 1",review_id)
         return result

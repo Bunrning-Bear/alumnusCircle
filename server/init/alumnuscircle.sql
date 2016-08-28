@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016-08-28 15:10:39
+-- 生成日期: 2016-08-28 18:12:27
 -- 服务器版本: 5.5.50-0ubuntu0.14.04.1
 -- PHP 版本: 5.5.9-1ubuntu4.19
 
@@ -23,6 +23,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `ac_circle_table`
+--
+
+CREATE TABLE IF NOT EXISTS `ac_circle_table` (
+  `c_id` int(11) NOT NULL,
+  `umeng_cid` varchar(32) NOT NULL,
+  `circle_name` varchar(20) NOT NULL,
+  `umeng_virtual_cid` varchar(32) NOT NULL,
+  `circle_type` varchar(32) NOT NULL,
+  PRIMARY KEY (`c_id`),
+  KEY `umeng_cid` (`umeng_cid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `ac_manual_review_table`
 --
 
@@ -36,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `ac_manual_review_table` (
   `reason_message` varchar(340) NOT NULL COMMENT '创建的理由',
   `description` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`review_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
 
 --
 -- 转存表中的数据 `ac_manual_review_table`
@@ -106,7 +122,10 @@ INSERT INTO `ac_manual_review_table` (`review_id`, `result`, `circle_name`, `cir
 (61, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
 (62, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
 (63, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
-(64, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!');
+(64, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
+(65, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
+(66, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!'),
+(67, 0, 'new circle', '1', 'default', '123', 'I love you!', 'the circle will be beautiful!');
 
 -- --------------------------------------------------------
 
@@ -166,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_base_info` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`),
   KEY `telephone` (`telephone`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=224 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=231 ;
 
 --
 -- 转存表中的数据 `ac_user_base_info`
@@ -395,7 +414,14 @@ INSERT INTO `ac_user_base_info` (`uid`, `telephone`, `password`, `stu_id`, `acce
 (220, '15196182187', 'cxh1234567', '36225632', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d76c4215ebbafb904f368dfe26504d77c3f067ae2c0ac2e4bbda6dc876ecd7b98', '2016-08-28 05:56:48'),
 (221, '15196129559', 'cxh1234567', '74903657', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d1669fad106313ff04f1f199f8d81f2efd2b4fdfb7ea3533cd377bd04ac080450', '2016-08-28 06:00:15'),
 (222, '15196163527', 'cxh1234567', '44567324', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d813b302f4075c86b96399de896ef82de81fcbebdd882bca00937d1e61be8fb9f', '2016-08-28 06:00:35'),
-(223, '15196154777', 'cxh1234567', '58445412', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d1b7f087348690e2f46eb5ae6de2e0851d99a02f74819390935a8ba002d85e198', '2016-08-28 06:05:57');
+(223, '15196154777', 'cxh1234567', '58445412', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d1b7f087348690e2f46eb5ae6de2e0851d99a02f74819390935a8ba002d85e198', '2016-08-28 06:05:57'),
+(224, '15196196014', 'cxh1234567', '78514302', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98dab9f587eb697f0c3fb81100deec07cae8269a2c981b4f3afe2065d95b13e8651', '2016-08-28 10:05:43'),
+(225, '15196183109', 'cxh1234567', '13564544', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d11631908ea18ff2b7feccf636400efe52adae1662d9764f39d4950cd40bca19b', '2016-08-28 10:06:21'),
+(226, '15196193395', 'cxh1234567', '13220759', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d119513d24833af62a56826763d3fbd83f8bc517a5b322a6404335c892c14432b', '2016-08-28 10:07:10'),
+(227, '15196189973', 'cxh1234567', '97276408', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98db8451179e5c276875d3de885d80dc6415448d46e878e83c3bb9b2beb9e3b2b0a', '2016-08-28 10:08:25'),
+(228, '15196137229', 'cxh1234567', '43165239', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d9ffdafe54b4beb9dc66bdfadba55aa4f0db06c9eeee94169011f65bd42f145b3', '2016-08-28 10:09:15'),
+(229, '15196138377', 'cxh1234567', '49534787', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0aaed3cb1fb9d6a689d2b9ed4e7cc70edda01e06ad7a925e46ad030ec258266c', '2016-08-28 10:09:45'),
+(230, '15196163925', 'cxh1234567', '15992136', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2677c71adcd73abd54c7a173ab8f04948a179def842e98c834afadb938aeb84b', '2016-08-28 10:10:47');
 
 -- --------------------------------------------------------
 
@@ -427,7 +453,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_detail_info` (
   KEY `uid` (`detail_id`),
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=212 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=219 ;
 
 --
 -- 转存表中的数据 `ac_user_detail_info`
@@ -562,7 +588,7 @@ INSERT INTO `ac_user_detail_info` (`detail_id`, `uid`, `icon_url`, `admission_ye
 (126, 137, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (127, 138, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (128, 139, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
-(129, 140, 'default', 2014, 71, 1, '陈雄辉', 0, 'worker12', 321, '{}', '{}', '{}', 'another company', 0, '{}', '{}', '{}', 0),
+(129, 140, 'default', 2014, 71, 1, '陈雄辉', 0, 'worker114', 321, '{}', '{}', '{}', 'another company', 0, '{}', '{}', '{}', 0),
 (130, 141, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (131, 142, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (132, 143, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
@@ -644,7 +670,14 @@ INSERT INTO `ac_user_detail_info` (`detail_id`, `uid`, `icon_url`, `admission_ye
 (208, 220, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (209, 221, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
 (210, 222, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
-(211, 223, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0);
+(211, 223, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(212, 224, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(213, 225, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(214, 226, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(215, 227, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(216, 228, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(217, 229, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0),
+(218, 230, 'default', 2014, 71, 1, '陈雄辉', 0, 'student', 123, '{}', '{}', '{}', 'google China', 0, '{}', '{}', '{}', 0);
 
 -- --------------------------------------------------------
 
@@ -666,7 +699,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_list_info` (
   `city` int(11) NOT NULL,
   PRIMARY KEY (`list_id`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=212 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=219 ;
 
 --
 -- 转存表中的数据 `ac_user_list_info`
@@ -801,7 +834,7 @@ INSERT INTO `ac_user_list_info` (`list_id`, `uid`, `icon_url`, `name`, `faculty_
 (126, 137, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (127, 138, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (128, 139, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
-(129, 140, 'default', '陈雄辉', 71, 1, 'worker12', 0, 0, 2014, 321),
+(129, 140, 'default', '陈雄辉', 71, 1, 'worker114', 0, 0, 2014, 321),
 (130, 141, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (131, 142, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (132, 143, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
@@ -883,7 +916,14 @@ INSERT INTO `ac_user_list_info` (`list_id`, `uid`, `icon_url`, `name`, `faculty_
 (208, 220, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (209, 221, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
 (210, 222, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
-(211, 223, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123);
+(211, 223, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(212, 224, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(213, 225, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(214, 226, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(215, 227, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(216, 228, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(217, 229, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123),
+(218, 230, 'default', '陈雄辉', 71, 1, 'student', 0, 0, 2014, 123);
 
 -- --------------------------------------------------------
 
@@ -899,7 +939,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_message_table` (
   PRIMARY KEY (`um_id`),
   KEY `uid` (`uid`),
   KEY `uid_2` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=92 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
 
 --
 -- 转存表中的数据 `ac_user_message_table`
@@ -996,7 +1036,14 @@ INSERT INTO `ac_user_message_table` (`um_id`, `uid`, `message_queue`, `update_ti
 (88, 220, '{}', '2016-08-28 05:56:49'),
 (89, 221, '{}', '2016-08-28 06:00:15'),
 (90, 222, '{}', '2016-08-28 06:00:35'),
-(91, 223, '{}', '2016-08-28 06:05:57');
+(91, 223, '{}', '2016-08-28 06:05:57'),
+(92, 224, '{}', '2016-08-28 10:05:43'),
+(93, 225, '{}', '2016-08-28 10:06:21'),
+(94, 226, '{}', '2016-08-28 10:07:10'),
+(95, 227, '{}', '2016-08-28 10:08:26'),
+(96, 228, '{}', '2016-08-28 10:09:15'),
+(97, 229, '{}', '2016-08-28 10:09:45'),
+(98, 230, '{}', '2016-08-28 10:10:47');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

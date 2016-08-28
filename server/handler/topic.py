@@ -19,6 +19,7 @@ import user
 import base
 import request
 import modules.review_deal
+import modules.circle
 from common.lib.prpcrypt import prpcrypt,set_encrypt
 from request import RequestHandler
 from base import BaseHandler
@@ -27,7 +28,16 @@ from base import BaseHandler
 class TopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(TopicHandler, self).__init__(*argc, **argkw)
-        self._message_review_module = modules.message_deal.ReviewCircleModule(self._db)
+        self._message_review_module = modules.review_deal.ReviewCircleModule(self._db)
+        self._circle_module = modules.circle.CircleModule(self._db)
+
+    @property
+    def message_review_module(self):
+        return self._message_review_module
+
+    @property
+    def circle_module(self):
+        return self._circle_module
 
 """user send a create circle request, store it in mysql.
 """
@@ -35,6 +45,7 @@ class CeateTopicHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
         super(CeateTopicHandler, self).__init__(*argc, **argkw)
         self.requestName = 'create_topic'
+        
     @request.authenticated('create_topic')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -46,14 +57,14 @@ class CeateTopicHandler(TopicHandler):
             circle_type_id:
             reason_message:
         """
-        circle_name = self.get_argument(self._message_review_module._circle_name)
-        circle_icon_url = self.get_argument(self._message_review_module._circle_icon_url)
-        creator_uid = self.get_argument(self._message_review_module._creator_uid)
+        circle_name = self.get_argument(self.message_review_module._circle_name)
+        circle_icon_url = self.get_argument(self.message_review_module._circle_icon_url)
+        creator_uid = self.get_argument(self.message_review_module._creator_uid)
         # creator_uid
-        circle_type_id = self.get_argument(self._message_review_module._circle_type_id)
-        reason_message = self.get_argument(self._message_review_module._reason_message)
-        description = self.get_argument(self._message_review_module._description)
-        review_id = self._message_review_module.set_new_review_message(
+        circle_type_id = self.get_argument(self.message_review_module._circle_type_id)
+        reason_message = self.get_argument(self.message_review_module._reason_message)
+        description = self.get_argument(self.message_review_module._description)
+        review_id = self.message_review_module.set_new_review_message(
             circle_name,circle_icon_url,creator_uid,circle_type_id,reason_message,description)
         # todo : add error and type check.
         Data = {"review_id":review_id}
@@ -71,7 +82,7 @@ class ReviewListHandler(TopicHandler):
         since_id = self.get_argument("since_id")
         limit_num = self.get_argument("limit_num")
         if result == 0 or result == 1:
-            Data = self._message_review_module.get_review_list(result,since_id,limit_num)
+            Data = self.message_review_module.get_review_list(result,since_id,limit_num)
             self.return_to_client(0,"success",Data)
         else:
             Data = []
@@ -89,6 +100,7 @@ class ReviewResultHandler(TopicHandler):
     def post(self):
         """
             result: must be 1 or 2
+            review_id : the entities id of the manual review information.
         """
         result = int(self.get_argument("result"))
         review_id = self.get_argument("review_id")
@@ -97,30 +109,46 @@ class ReviewResultHandler(TopicHandler):
             code = self.return_code_process(count)
             self.return_to_client(0,"fail",Data)
         else:
-            Data = self._message_review_module.update_review_result(result,review_id)
+            Data = self.message_review_module.update_review_result(result,review_id)
             if result == 1:
-                code,message,Data = yield self.createUmengTopic(review_id,virtual=True)
+                code,message,Data = yield self.__createUmengTopic(review_id,virtual=True)
                 if code == 0:
-                    virtual_id = Data['id']
-                    code,message,Data = yield self.createUmengTopic(review_id,virtual=False,virtual_id=virtual_id)
+                    virtual_cid = Data['id']
+                    code,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
+                    real_cid = Data['id']
+                    self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'])
                 self.return_to_client(code,message,Data)
         self.finish()
 
     @tornado.gen.coroutine
-    def createUmengTopic(self,review_id,virtual,virtual_id =''):
+    def __createUmengTopic(self,review_id,virtual,virtual_cid =''):
+        """Create topic in Umeng database.
+        In this app, we define "virtual circle" to store those feed upload by user out of circle.
+
+        Args:
+            review_id[int]: the entities in ac_manual_review_table. to get the apply information.
+            virtual[bool]: if true, we will create a virtual circle, else we will create a real circle.
+                we should create virtual circle before create realcircle.
+            virtual_cid[int]:virtual circle umeng id, you should add this parameter if you are creating a real circle.
+
+        Returns:
+            code,message the same to Umeng_asyn_request.
+            Data add a field call "type_id". store the circle type id in umeng. 
+        """
         self.url = '/0/topic/create'
         self.methodUsed='POST'
-        Data = self._message_review_module.get_review_by_id(review_id)
+        Data = self.message_review_module.get_review_by_id(review_id)
+        type_id = Data[self.message_review_module._circle_type_id]
         if virtual:
-            name = "1" + str(Data[self._message_review_module._circle_name]) + str("_virtual")
+            name = str("_virtual") + str(Data[self.message_review_module._circle_name])
         else:
-            name = "1" + str(Data[self._message_review_module._circle_name]) 
+            name = str(Data[self.message_review_module._circle_name]) 
         # description = Data['description']
-        icon_url = Data[self._message_review_module._circle_icon_url]
-        description = Data[self._message_review_module._description]
-        creator_uid = Data[self._message_review_module._creator_uid]
+        icon_url = Data[self.message_review_module._circle_icon_url]
+        description = Data[self.message_review_module._description]
+        creator_uid = Data[self.message_review_module._creator_uid]
         if not virtual:
-            custom = {"creator_uid":creator_uid,"virtual_id":virtual_id}
+            custom = {"creator_uid":creator_uid,"virtual_cid":virtual_cid}
         else:
             custom = {"creator_uid":creator_uid}
         custom = json.dumps(custom)
@@ -135,6 +163,7 @@ class ReviewResultHandler(TopicHandler):
         access_token = self._virtual_access
         logging.info("topic data is %s"%Data)
         code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+        Data['type_id'] = type_id
         raise tornado.gen.Return((code,message,Data))
 
 
