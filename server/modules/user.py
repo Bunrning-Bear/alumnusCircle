@@ -78,6 +78,7 @@ class UserInfoModule(UserModule):
         self._user_phone = config.get(self._user_base_table,"phone")     
         self._user_stu_id = config.get(self._user_base_table,"stu_id")
         self._user_update_time = config.get(self._user_base_table,"update_time")
+        self._user_adlevel = config.get(self._user_base_table,"adlevel")
         
     def get_info_from_phone(self,phone):
         """Get all of user information from user_table.
@@ -103,7 +104,7 @@ class UserInfoModule(UserModule):
         return hasRegister
 
     def set_info_to_user(
-        self,access_token,passwd,user_phone,stu_id):
+        self,access_token,passwd,user_phone,stu_id,adlevel=0):
         """Set user information into user table
         
         Args:
@@ -118,8 +119,8 @@ class UserInfoModule(UserModule):
         author_id = self.db.execute(
             "INSERT INTO " + self._user_base_table + " ( " + self._user_access_token + " , "
             + self._user_password + " , " + self._user_phone+
-            " , " + self._user_stu_id  + " )" +
-            "VALUES (%s, %s, %s, %s )",access_token,  passwd, int(user_phone), str(stu_id))
+            " , " + self._user_stu_id  + " , "+ self._user_adlevel + " )" +
+            "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
         return author_id
 
     def update_time_from_user_id(self,uid,update_time):
@@ -223,19 +224,3 @@ class UserDetailModule(UserModule):
         """
         entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
         return entity
-
-class UserMessageModule(UserModule):
-    def __init__(self,db):
-        UserModule.__init__(self,db)
-        config = ConfigParser.ConfigParser()
-        config.readfp(open(AP+'common/conf.ini'))
-        self._user_message_table = self.prefix+'user_message_table'
-        self.um_id = config.get(self._user_message_table,"um_id")
-        self.message_queue = config.get(self._user_message_table,"message_queue")
-        self.update_time = config.get(self._user_message_table,"update_time")
-
-    def set_user_to_message(self,uid):
-        logging.info("query = %s"%("INSERT INTO " + self._user_message_table + "( " + self._uid + " ) " + "VALUES ( "+ str(uid)+")"))
-        logging.info("in set user_ to message uid is %s"%uid)
-        um_id = self.db.execute("INSERT INTO " + self._user_message_table + "( " + self._uid + " ) " + "VALUES ( %s )",uid)
-        return um_id

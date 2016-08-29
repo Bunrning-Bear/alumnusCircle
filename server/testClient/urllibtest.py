@@ -5,7 +5,9 @@ import urllib
 import cookielib
 import json
 import random
-prefix = "http://localhost:8000"
+import hashlib
+#prefix = "http://139.196.207.155:8000"
+prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -23,9 +25,12 @@ def set_resquest(api,data,method):
     for item in cj:
         if item.name == '_xsrf':
             _xsrf = item.value    
-    data['_xsrf'] = _xsrf
+    if method != 'GET':
+        data['_xsrf'] = _xsrf
     data = urllib.urlencode(data)
     url = prefix + api
+    if method == 'GET':
+        url = url + "?"+ data
     request = urllib2.Request(url,data)
     request.get_method = lambda: method # or 'DELETE' 
     return request
@@ -47,13 +52,14 @@ def do_request(api,dic,message,method,otherPara):
         print message[count] + the_page
         count = count + 1    
 
+
 def registerTest():
     api = '/register'
     num = 0
     dic = {}
     message = {}
     otherPara = {}
-    the_same_phone = "151961"+str(random.randint(10000,99999))
+    the_same_phone = "158961"+str(random.randint(10000,99999))
     city = 123
     faculty_id = 71
     major_id = 1
@@ -79,21 +85,6 @@ def registerTest():
     otherPara[num] = {}
     setMessage(message,num,"注册成功")
     num = num + 1
-    dic[num] = {
-        "city":city,
-        "faculty_id":faculty_id,
-        "name":name,
-        "major_id":major_id,
-        "company":companny,
-        "admission_year":admission_year,
-        "telephone":the_same_phone,
-        "job":job,
-        "gender":gender,
-        "password":password
-    }
-    otherPara[num] = {}
-    setMessage(message,num,"重复注册实例")
-    num = num + 1
     #request.
     do_request(api,dic,message,"POST",otherPara)
 
@@ -105,28 +96,28 @@ def loginTest():
     otherPara = {}
     dic[num] = {
         "password":"zp123455",
-        "telephone":"15196175063"
+        "telephone":"15896193612"
     }
     otherPara[num] = {}
     setMessage(message,num,"密码错误")
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15196175063"
+        "telephone":"15896193612"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15196175063"
+        "telephone":"15896193612"
     }
     otherPara[num] = {}
     setMessage(message,num,"重复登陆")
     num = num + 1
     dic[num] = {
         "password":"zp19950310",
-        "telephone":"15125861442"
+        "telephone":"15896193612"
     }
     otherPara[num] = {}
     setMessage(message,num,"账号不存在")
@@ -280,10 +271,11 @@ def createTopic():
 
     }
     otherPara[num] = {
-        "circle_name":"new circle",
+        "circle_name":"new circle "+str(random.randint(1,1000)),
         "circle_icon_url":"default",
         "creator_uid":123,
         "circle_type_id":1,
+        "circle_type_name":"学院圈",
         "reason_message":"I love you!",
         "description":" the circle will be beautiful!"
     }
@@ -305,10 +297,10 @@ def reviewListTest():
     }
     setMessage(message,num,"review create topic list")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,dic,message,"GET",otherPara)
 
 def reviewTest():
-    api = "/reviewResult"
+    api = "/reviewresult"
     num = 0
     dic = {}
     message ={}
@@ -322,6 +314,83 @@ def reviewTest():
     num = num + 1
     do_request(api,dic,message,"POST",otherPara)
 
+
+def adminRegister():
+    api = '/adminregister'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    the_same_phone = "15195861108"
+    city = 123
+    faculty_id = 71
+    major_id = 1
+    companny = "google China"
+    admission_year = 2014
+    job = "student"
+    gender = 0
+    password = "123456"
+    m = hashlib.md5()
+    m.update(password)
+    psw = m.hexdigest()    
+    name = "陈雄辉"
+    # set request.
+    dic[num] = {
+        "city":city,
+        "faculty_id":faculty_id,
+        "name":name,
+        "major_id":major_id,
+        "company":companny,
+        "admission_year":admission_year,
+        "telephone":the_same_phone,
+        "job":job,
+        "gender":gender,
+        "password":psw
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"admin 注册成功")
+    num = num + 1
+    #request.
+    do_request(api,dic,message,"POST",otherPara)    
+
+
+def adminloginTest():
+    api ='/login'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    password = "123456"
+    m = hashlib.md5()
+    m.update(password)
+    psw = m.hexdigest()   
+    dic[num] = {
+        "password":psw,
+        "telephone":"15195861108"
+    }
+    otherPara[num] = {}
+    setMessage(message,num,"登陆成功")
+    do_request(api,dic,message,"POST",otherPara)
+
+def checkPhone():
+    api = '/checkphone'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    password = "123456"
+    m = hashlib.md5()
+    m.update(password)
+    psw = m.hexdigest()   
+    dic[num] = {
+    }
+    otherPara[num] = {
+        "telephone":"15195861108"
+    }
+    setMessage(message,num,"telephone has been register")
+    do_request(api,dic,message,"POST",otherPara)    
+
+checkPhone()
 registerTest()    
 loginTest()
 updateInfoTest()
@@ -329,6 +398,12 @@ editTest()
 detailTest()
 searchTopicTest()
 gettypetopicTest()
+
 createTopic()
 reviewListTest()
 reviewTest()    
+
+"""
+adminRegister()
+adminloginTest()
+"""

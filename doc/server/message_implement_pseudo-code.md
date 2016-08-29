@@ -53,6 +53,8 @@ return message():
 // I think if the message is circle message, we needn't do this.
 result == true--> clear user message table
 
+ini message to all()
+1. 为每个现有的圈子创建redis缓存
 
 deal message to all()
 // server deal mesage to all of user in circle.
@@ -77,5 +79,5 @@ send message to all()
 2. user message table 用户消息列表
 3. circle message table
 4. redis: user 实例 需要维护 uid, access token update time to user数据
-5. redis: circel 实例,需要维护:circle_id, message_queue, update time circle
+5. redis: circle 实例,需要维护:circle_id, message_queue, update time circle
 

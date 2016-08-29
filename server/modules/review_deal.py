@@ -21,8 +21,9 @@ class ReviewCircleModule(BaseModule):
         self._reason_message = config.get(self._manual_review_table,"reason_message")
         self._result = config.get(self._manual_review_table,"result")
         self._description = config.get(self._manual_review_table,"description")
+        self._circle_type_name = config.get(self._manual_review_table,"circle_type_name")
 
-    def set_new_review_message(self,circle_name,circle_icon_url,creator_uid,circle_type_id,reason_message,description):
+    def set_new_review_message(self,circle_name,circle_icon_url,creator_uid,circle_type_id,circle_type_name,reason_message,description):
         """This method is to add new review circle message.
         client send parameters and it will store it to ac_manual_review_table.
 
@@ -40,8 +41,9 @@ class ReviewCircleModule(BaseModule):
         """
         rm_id = self.db.insert("INSERT INTO " + self._manual_review_table + "( " + self._circle_name +" , "+
             self._circle_icon_url + " , " + self._creator_uid + " , " + self._circle_type_id 
-            + " , " +  self._reason_message+" , " + self._description+ " ) " + "VALUES (%s,%s,%s,%s,%s,%s)",
-            circle_name,circle_icon_url,creator_uid,circle_type_id,reason_message,description)
+            + " , "+  self._circle_type_name + " , " + self._reason_message + 
+            " , " + self._description+ " ) " + "VALUES (%s,%s,%s,%s,%s,%s,%s)",
+            circle_name,circle_icon_url,creator_uid,circle_type_id,circle_type_name,reason_message,description)
         return rm_id
 
     def update_review_result(self,result,review_id):

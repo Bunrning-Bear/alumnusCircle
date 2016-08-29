@@ -23,10 +23,10 @@ import handler.user_list
 import handler.opt_feed
 import handler.opt_user
 import handler.topic
-
 from common.variables import AP 
-from common.variables import USER_DICT
+from common.variables import user_dict, circle_dict
 from tornado.options import define, options
+
 define("port", default = 8000, help = "run on the given port", type = int)
 define("mysql_host", default = "127.0.0.1", help = "community database host")
 define("mysql_database", default = "alumnuscircle", help = "community database name")
@@ -42,15 +42,17 @@ class Application(tornado.web.Application):
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
-        self._user_dict = redis.Redis(host='localhost',port=6379)
-        self._circle_dict = redis.Redis(host='localhost',port= 6380)
+        self._user_dict = user_dict
+        self._circle_dict = circle_dict
         logging.info("print there??")
         settings = dict(
             cookie_secret=cookie_secret,
             xsrf_cookies=True
         )
         handlers = [
+        (r'/adminregister',handler.user.RegisterAdminHandler),
         (r'/',handler.index.IndexHandler),
+        (r'/checkphone',handler.user.CheckTelephoneHandler),
         (r'/register',handler.user.RegisterHandler),
         (r'/login',handler.user.LoginHandler),
         (r'/logout',handler.user.LogoutHandler),
@@ -74,7 +76,7 @@ class Application(tornado.web.Application):
         (r'/searchtopic',handler.topic.SearchTopicHandler),
 
         (r'/reviewlisttopic',handler.topic.ReviewListHandler),
-        (r'/reviewResult',handler.topic.ReviewResultHandler),
+        (r'/reviewresult',handler.topic.ReviewResultHandler),
 
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
         (r'/deletecomment',handler.opt_feed.DeleteCommentHandler),

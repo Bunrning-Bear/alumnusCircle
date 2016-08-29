@@ -42,6 +42,7 @@ import functools
 import logging
 import json
 import modules.user
+import modules.message
 import urllib
 import tornado.web
 import tornado.gen
@@ -70,7 +71,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self._user_module = modules.user.UserInfoModule(self._db)
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
-        self._user_message_module = modules.user.UserMessageModule(self._db)
+        self._user_message_module = modules.message.UserMessageModule(self._db)
         self._code_dict =CODE_DICT         
 
     @property
@@ -118,10 +119,10 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             return 2
 
-    def set_user_dict(self,uid,_xsrf,access_token):
+    def set_user_dict(self,uid,_xsrf,access_token,adlevel=0):
         """Set User_dict when login.
         """
-        dic = {"_xsrf":_xsrf,"access_token":access_token}
+        dic = {"_xsrf":_xsrf,"access_token":access_token,"adlevel":adlevel}
         self._user_dict.hmset(uid,dic)
 
     def get_user_dict(self,uid):
@@ -129,6 +130,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def delete_user_dict(self,uid):
         self._user_dict.hdel(uid,"_xsrf")
+
     # [todo]:2016.8.26 restructure the logic of return code.
     def return_code_process(self,code):
         """Return status code to client after get a code from handler.

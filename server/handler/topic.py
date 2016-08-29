@@ -64,8 +64,9 @@ class CeateTopicHandler(TopicHandler):
         circle_type_id = self.get_argument(self.message_review_module._circle_type_id)
         reason_message = self.get_argument(self.message_review_module._reason_message)
         description = self.get_argument(self.message_review_module._description)
+        circle_type_name = self.get_argument(self.message_review_module._circle_type_name)
         review_id = self.message_review_module.set_new_review_message(
-            circle_name,circle_icon_url,creator_uid,circle_type_id,reason_message,description)
+            circle_name,circle_icon_url,creator_uid,circle_type_id,circle_type_name,reason_message,description)
         # todo : add error and type check.
         Data = {"review_id":review_id}
         self.return_to_client(0,"success",Data)
@@ -76,7 +77,7 @@ class ReviewListHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
         super(ReviewListHandler, self).__init__(*argc, **argkw)   
 
-    def post(self):
+    def get(self):
         # [todo] data check
         result = int(self.get_argument("result"))
         since_id = self.get_argument("since_id")
@@ -140,7 +141,7 @@ class ReviewResultHandler(TopicHandler):
         Data = self.message_review_module.get_review_by_id(review_id)
         type_id = Data[self.message_review_module._circle_type_id]
         if virtual:
-            name = str("_virtual") + str(Data[self.message_review_module._circle_name])
+            name = str("virtual_") + str(Data[self.message_review_module._circle_name])
         else:
             name = str(Data[self.message_review_module._circle_name]) 
         # description = Data['description']
