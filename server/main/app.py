@@ -1,8 +1,9 @@
 # app.py
 import sys
+import os
 reload(sys)   
 sys.setdefaultencoding('utf8')  
-location = '/home/burningbear/CodePlace/python/web/alumnusCircle/server/'
+location = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))+'/'
 sys.path.append(location)
 
 import ConfigParser
