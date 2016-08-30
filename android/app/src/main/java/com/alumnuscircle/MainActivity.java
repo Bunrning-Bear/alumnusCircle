@@ -41,14 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         InitView();
-        Button button =(Button)findViewById(R.id.test);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                startActivity(new Intent("com.alumnuscircle.circleDetail.CircleDetail"));
-            }
-        });
 
 
 
