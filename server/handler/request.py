@@ -24,7 +24,7 @@ def authenticated(request):
     This is a decorator for all of request process function which login is needed.
 
     authenticated will check if the request has the same _xsrf in server.
-    authenticated will check the _xsrf in user_dict after then.
+    authenticated will check the _xsrf in redis_dict after then.
 
     Args:
         request:[string] is the request name such as "logout".
@@ -115,7 +115,7 @@ class RequestHandler(BaseHandler):
         super(RequestHandler, self).__init__(*argc, **argkw)
         self.count = 10
         self.requestName ='default'
-
+        self.message = self.application.message
     def get_optional_argument(self,argu):
         try:
             result = self.get_argument(argu)
@@ -198,11 +198,11 @@ class RequestHandler(BaseHandler):
             uid:[string] user id get from client's cookie.
             _xsrf:[string] _xsrf cookie get from client.
         Returns:
-            Only if user_dict[uid][0] == _xsrf, that we can confirm that the request come from the real user
+            Only if redis_dict[uid][0] == _xsrf, that we can confirm that the request come from the real user
             unless the request should not execute excepte return a error code.
         """"""
         code = 0
-        result = self.user_dict_check(uid,_xsrf)
+        result = self.redis_dict_check(uid,_xsrf)
         message = ''
         if result == 0:
             count = 1
@@ -216,7 +216,7 @@ class RequestHandler(BaseHandler):
         return code, message   
     """
     def request_identifier_check(self,uid,request_name):
-        """This function is to check the identifier from user, though compare uid and user_dict 
+        """This function is to check the identifier from user, though compare uid and redis_dict 
         
         Args:
             request_name:[string] is the request name such as "upload_feed".
@@ -224,13 +224,13 @@ class RequestHandler(BaseHandler):
             uid:[string] user id get from client's cookie.
 
         Returns:
-            Only if user_dict[uid][0] == _xsrf, that we can confirm that the request come from the real user
+            Only if redis_dict[uid][0] == _xsrf, that we can confirm that the request come from the real user
             unless the request should not execute excepte return a error code.
         """
         _xsrf = self.get_argument('_xsrf')
         count = 0
         message = ''
-        result = self.user_dict_check(uid,_xsrf)
+        result = self.redis_dict_check(uid,_xsrf)
         message = ''
         if result == 0:
             count =1

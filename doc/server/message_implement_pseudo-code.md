@@ -10,7 +10,7 @@ create message():
 deal message to one()
 // server deal message
 1. 创建消息到 message table.[type,message] ,获取消息的m_id
-2. 给指定的uid的用户增加消息队列[uid], 并更新时间戳到 user message table
+2. 给指定的uid的用户增加消息队列[uid], 并更新时间戳,消息队列 到 user message table
 2. 查看该用户是否在线,如果在线,更新redis上面的时间戳.
 
 check message ()
@@ -21,13 +21,15 @@ check message ()
 
 send message()
 1. uid 获取自己在 user message table 的 message queue
-2. 把信息发送给用户.
+2. 把信息发送给用户.他
 
 return message():
 // check if client get the message successfully
 // I think if the message is circle message, we needn't do this.
 result == true--> clear user message table
-
+to one --- > special user.
+to many -- > user list
+to all. --->circle
 
 deal message to many()
 // server deal message to many user.
@@ -73,6 +75,11 @@ check message to all()[高并发操作!]
 send message to all()
 1. 获取message list 所有id 的数据,得到一个结果队列,包括type 和 message.[message id list]
 2. 将结果反馈给客户端.
+----
+update:
+ 将 check message to all 和 send message to all 合并城一个函数. 修改check message,增加 id type 属性.
+
+clear_circle.
 
 需要的数据结构:
 1. message table 消息队列列表
@@ -81,3 +88,13 @@ send message to all()
 4. redis: user 实例 需要维护 uid, access token update time to user数据
 5. redis: circle 实例,需要维护:circle_id, message_queue, update time circle
 
+
+消息更新逻辑重新整理:
+1. 用户队列和圈子队列统一更新,用户只有一个last_update_time 字段.
+2. 查看用户的redis_dict 的update 字段, 比较确定用户是否需要更新用户消息队列.
+	- 如果需要更新,则返回更新的消息存储.
+3. 通过上传的 my_circle_list 查找所有 circle: 的update time.
+	- 如果需要更新,则 返回对应的消息队列存储.
+	- 寻找下一个队列.
+4. 拼接所有获取的消息队列, 通过访问send message 的方法. 获得 message content 的 list
+5. 返回给客户端.

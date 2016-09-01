@@ -185,7 +185,8 @@ class UserDetailModule(UserModule):
         self._public_contact_list = config.get(self._user_table,"public_contact_list")
         self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
         self._instroduction = config.get(self._user_table,"instroduction")
-
+        self._user_last_update_time = config.get(self._user_table,"last_update_time")
+        
         self._change_allowed = (
             self._job, self._icon_url,self._city,self._company,self._instroduction,
             self._job_list,self._public_contact_list,self._protect_contact_list,
@@ -219,8 +220,14 @@ class UserDetailModule(UserModule):
         Args:
             uid[int]: user id in user_base_info
 
-        Returns:
+        Returns: 
             a dictory store all of information in mysql, if not find in mysql, will return []
         """
         entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
         return entity
+
+    def update_last_update_time_by_uid(self,uid,last_update_time):
+        entity = self.db.update(
+            "UPDATE " + self._user_table + 
+            " SET " + self._user_last_update_time + " = %s WHERE " + self._uid + " = %s",
+            last_update_time,uid)

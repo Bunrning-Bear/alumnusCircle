@@ -11,7 +11,7 @@ sys.setdefaultencoding('utf-8')
 conn = MySQLdb.connect(host='localhost',user='root',passwd='zp19950310',db='world',charset='utf8')
 cur = conn.cursor()
 # cur.execute("SELECT COUNT(ID) FROM `City` WHERE CountryCode = 'CHN'")
-cur.execute("SELECT * FROM `City` WHERE CountryCode = 'CHN'")
+cur.execute("SELECT * FROM `City` WHERE CountryCode = 'CHN' AND ID >=2248")
 for row in cur.fetchall(): 
     ID = row[0]     
     Name =  row[1]
@@ -22,10 +22,11 @@ for row in cur.fetchall():
     name_body = json.loads(resp1.read())
     district_body =json.loads(resp2.read())
     print Name,District
-    name_change = name_body['translation'][0]
-    district_change = district_body['translation'][0]
-    cur.execute("UPDATE `City` set Name = \'" + name_change + "\', District = \'" + district_change + "\' WHERE ID = "+str(ID))
-    print "UPDATE `City` set Name = \'" + name_change + "\', District = \'" + district_change + "\' WHERE ID = "+str(ID)
-conn.commit() 
+    if name_body['errorCode']!= 30 and district_body['errorCode'] !=30:
+        name_change = name_body['translation'][0]
+        district_change = district_body['translation'][0]
+        cur.execute("UPDATE `City` set Name = \'" + name_change + "\', District = \'" + district_change + "\' WHERE ID = "+str(ID))
+        print "UPDATE `City` set Name = \'" + name_change + "\', District = \'" + district_change + "\' WHERE ID = "+str(ID)
+        conn.commit()
 cur.close()
 conn.close()

@@ -30,6 +30,7 @@ class TopicHandler(RequestHandler):
         super(TopicHandler, self).__init__(*argc, **argkw)
         self._message_review_module = modules.review_deal.ReviewCircleModule(self._db)
         self._circle_module = modules.circle.CircleModule(self._db)
+        self._message_circle_module= modules.message.MessageCircleModule(self._db)
 
     @property
     def message_review_module(self):
@@ -38,6 +39,11 @@ class TopicHandler(RequestHandler):
     @property
     def circle_module(self):
         return self._circle_module
+
+    @property
+    def message_circle_module(self):
+        return self._message_circle_module
+    
 
 """user send a create circle request, store it in mysql.
 """
@@ -75,7 +81,7 @@ class CeateTopicHandler(TopicHandler):
 
 class ReviewListHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
-        super(ReviewListHandler, self).__init__(*argc, **argkw)   
+        super(ReviewListHandler, self).__init__(*argc, **argkw)
 
     def get(self):
         # [todo] data check
@@ -117,7 +123,10 @@ class ReviewResultHandler(TopicHandler):
                     virtual_cid = Data['id']
                     code,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
                     real_cid = Data['id']
-                    self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'])
+                    cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'])
+                    logging.info("cid is: %s"%cid)
+                    mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
+                    self.message.add_new_message_queue_to_all(cid)
                 self.return_to_client(code,message,Data)
         self.finish()
 

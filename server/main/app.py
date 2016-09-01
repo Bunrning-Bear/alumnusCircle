@@ -25,27 +25,26 @@ import handler.opt_feed
 import handler.opt_user
 import handler.topic
 from common.variables import AP 
-from common.variables import user_dict, circle_dict
+from common.variables import redis_dict
 from tornado.options import define, options
-
+from common.lib.message import Message
 define("port", default = 8000, help = "run on the given port", type = int)
 define("mysql_host", default = "127.0.0.1", help = "community database host")
 define("mysql_database", default = "alumnuscircle", help = "community database name")
 define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
-logging.basicConfig(level=logging.INFO,
-                filename='err.log',  
-                filemode='w')
+logging.basicConfig(level=logging.INFO)
+              #  filename='err.log',  
+              #  filemode='w')
 
 class Application(tornado.web.Application):
     def __init__(self):
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
-        self._user_dict = user_dict
-        self._circle_dict = circle_dict
-        logging.info("print there??")
+        self._redis_dict = redis_dict
+        logging.info("start server.")
         settings = dict(
             cookie_secret=cookie_secret,
             xsrf_cookies=True
@@ -93,6 +92,8 @@ class Application(tornado.web.Application):
             host = options.mysql_host, database = options.mysql_database,
             user = options.mysql_user, password = options.mysql_password
         )
+        self.message = Message(self.db)
+        self.message.init_message_to_all()
         """
         TODO:[xionghui]2016.8.2,complete database error
         try:

@@ -274,6 +274,7 @@ class LoginHandler(UserHandler):
     def __init__(self, *argc, **argkw):
         super(LoginHandler, self).__init__(*argc, **argkw)
         self.requestName = 'login'
+
     def post(self):
         """
         Request from client:
@@ -307,7 +308,7 @@ class LoginHandler(UserHandler):
                 else:
                     uid = str(entity[0][self.user_module._uid]) 
                     count += 3
-                    result = self.user_dict_check(str(uid), str(_xsrf))
+                    result = self.redis_dict_check(str(uid), str(_xsrf))
                     # logging.info("login uid is %s _xsrf is %s result is %s"%(uid,_xsrf,result))
                     if result == 0:
                         message = "login successfully!"
@@ -325,7 +326,9 @@ class LoginHandler(UserHandler):
                     Data = Data[0]
                     adlevel =entity[0][self.user_module._user_adlevel]
                     Data['adlevel'] = adlevel
-                    self.set_user_dict(str(uid),_xsrf,access_token,adlevel)
+                    logging.info("login data is : %s"%Data)
+                    Data['last_update_time'] = str(Data['last_update_time'])
+                    self.set_redis_dict(str(uid),_xsrf,access_token,Data['last_update_time'],adlevel)
                     self.set_secure_cookie('uid',str(uid))
                     code = self.return_code_process(count)
                     self.return_to_client(code,message,Data)
@@ -349,7 +352,7 @@ class LogoutHandler(UserHandler):
             message ="invalid logout, uid (in cookie) is not valid"
         else:
             count = count + 1
-            result = self.user_dict_check(str(uid),str(_xsrf))
+            result = self.redis_dict_check(str(uid),str(_xsrf))
             if result == 0:
                 message = "the account has been logout"
             elif result == 1:
@@ -358,7 +361,9 @@ class LogoutHandler(UserHandler):
             elif result == 2:
                 count = count + 2
                 message = "logout successfully!"
-                self.delete_user_dict(str(uid))
+                last_update_time = self.get_user_last_update_time(uid)
+                self.user_detail_module.update_last_update_time_by_uid(uid,last_update_time)
+                self.delete_redis_dict(str(uid))
                 self.clear_cookie('uid')
         self.return_code_process(count)
         self.return_to_client(count,message)
@@ -418,7 +423,7 @@ class UpdataInfoHandler(UserHandler):
             Data = json.loads(DataJson)            
             count,message =self._check(Data)
             if count == 0:
-                access_token = self.get_user_dict(uid)[1]
+                access_token = self.get_redis_dict(uid)[1]
                 code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
                 logging.info("in update_list to umeng")
         # update data to mysql

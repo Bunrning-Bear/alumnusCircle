@@ -11,7 +11,7 @@ prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
-# get _xrsf
+# get _xsrff
 resp = urllib2.urlopen(prefix+'/')
 the_page = resp.read()
 print the_page
@@ -24,7 +24,7 @@ def set_resquest(api,data,method):
     # get _xsrf
     for item in cj:
         if item.name == '_xsrf':
-            _xsrf = item.value    
+            _xsrf = item.value
     if method != 'GET':
         data['_xsrf'] = _xsrf
     data = urllib.urlencode(data)
@@ -103,14 +103,14 @@ def loginTest():
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15896193612"
+        "telephone":"15896153684"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15896193612"
+        "telephone":"15896160304"
     }
     otherPara[num] = {}
     setMessage(message,num,"重复登陆")
@@ -308,7 +308,7 @@ def reviewTest():
     dic[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":1,
+        "review_id":91,
     }
     setMessage(message,num,"review topic")
     num = num + 1
@@ -390,17 +390,18 @@ def checkPhone():
     setMessage(message,num,"telephone has been register")
     do_request(api,dic,message,"POST",otherPara)    
 
-checkPhone()
-registerTest()    
+#checkPhone()
+#registerTest()    
 loginTest()
-updateInfoTest()
-editTest()
-detailTest()
-searchTopicTest()
-gettypetopicTest()
+logoutTest()
+# updateInfoTest()
+# editTest()
+# detailTest()
+# searchTopicTest()
+# gettypetopicTest()
 
-createTopic()
-reviewListTest()
+# createTopic()
+# reviewListTest()
 reviewTest()    
 
 """

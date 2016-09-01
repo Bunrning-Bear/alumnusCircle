@@ -1,67 +1,62 @@
 INFO:root:print there??
-INFO:tornado.access:200 GET / (127.0.0.1) 7.71ms
-INFO:tornado.access:200 POST /checkphone (127.0.0.1) 8.95ms
+INFO:tornado.access:200 GET / (127.0.0.1) 7.43ms
+INFO:tornado.access:200 POST /checkphone (127.0.0.1) 10.88ms
 INFO:root:username 陈雄辉
-INFO:root:after register code is 1 message is register successful!
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98db38dc0e965b55a1adce743eef1377cf321bf97f94fc570fc731965ba630708f5
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:gender=0&name=15896196493&custom=%7B%22city%22%3A+123%2C+%22faculty_id%22%3A+71%2C+%22uid%22%3A+28%2C+%22real_name%22%3A+%22%5Cu9648%5Cu96c4%5Cu8f89%22%2C+%22major_id%22%3A+1%2C+%22admission_year%22%3A+2014%2C+%22job%22%3A+%22student%22%2C+%22publicity_level%22%3A+0%7D, allow_nonstandard_methods:True, start_time:1472441812.62, proxy_port:None, method:PUT, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98db38dc0e965b55a1adce743eef1377cf321bf97f94fc570fc731965ba630708f5, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
-INFO:root:after umeng request, code is 0 message is get umeng api successfully
-INFO:root:query = INSERT INTO ac_message_user_table( uid ) VALUES ( 28)
-INFO:root:in set user_ to message uid is 28
-INFO:tornado.access:200 POST /register (127.0.0.1) 639.07ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 9.24ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 12.45ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 13.64ms
-INFO:tornado.access:200 POST /login (127.0.0.1) 11.31ms
-INFO:root:update_list0 type is : <type 'unicode'>
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 11.07ms
-INFO:root:update_list0 type is : <type 'unicode'>
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker17', '1')
-INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s WHERE uid = %s  ('default', 'worker17', '1')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 22.49ms
-INFO:root:update_list0 type is : <type 'unicode'>
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker75', '321', '1')
-INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker75', '321', '1')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 21.56ms
-INFO:root:update_list0 type is : <type 'unicode'>
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('default', 'worker92', '321', '1')
-INFO:root:sql is : UPDATE ac_user_detail_info SET icon_url= %s , job= %s , company= %s , city= %s WHERE uid = %s  ('default', 'worker92', 'another company', '321', '1')
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 26.36ms
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:description=changed%21&topic_id=57bfa306ee78507903b49a06, allow_nonstandard_methods:True, start_time:1472441813.01, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/edit?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /edittopic (127.0.0.1) 201.93ms
-INFO:root:public access in decorator: 8161d0699815063e96c445fa45c8e374f36c06486ba7c3b227a6cbc914bfcd33a4ad827e2f19dce83550a7a1998cf387b672010ce772803a425940bc277e84ca
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=8161d0699815063e96c445fa45c8e374f36c06486ba7c3b227a6cbc914bfcd33a4ad827e2f19dce83550a7a1998cf387b672010ce772803a425940bc277e84ca
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472441813.22, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=8161d0699815063e96c445fa45c8e374f36c06486ba7c3b227a6cbc914bfcd33a4ad827e2f19dce83550a7a1998cf387b672010ce772803a425940bc277e84ca&topic_id=57bfa306ee78507903b49a06, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
-INFO:root:code: 50005 message : access_token is expired. again = 1
-INFO:root:self public access: 8161d0699815063e96c445fa45c8e374f36c06486ba7c3b227a6cbc914bfcd33a4ad827e2f19dce83550a7a1998cf387b672010ce772803a425940bc277e84ca old token 8161d0699815063e96c445fa45c8e374f36c06486ba7c3b227a6cbc914bfcd33a4ad827e2f19dce83550a7a1998cf387b672010ce772803a425940bc277e84ca
-INFO:root:in get public access token:code :0 Data:{u'access_token': u'137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e', u'expire': 7200} </br> body is: {u'access_token': u'137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e', u'expire': 7200}
-INFO:root:access_token in body and self.public_access = 137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:new access : 137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:in get times == 0 
-INFO:root:public access in decorator: 137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472441813.56, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic?ak=57b18b2ee0f55ac368001dc8&access_token=137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e&topic_id=57bfa306ee78507903b49a06, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
-INFO:root:code: 0 message : get umeng api successfully. again = 2
-INFO:tornado.access:200 POST /detailtopic (127.0.0.1) 553.19ms
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472441813.77, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/search?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974&count=10&q=%E8%BD%AF%E9%99%A2&page=1, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /searchtopic (127.0.0.1) 258.34ms
-INFO:root:public access in decorator: 137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:None, allow_nonstandard_methods:None, start_time:1472441814.03, proxy_port:None, method:GET, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/category/topics?ak=57b18b2ee0f55ac368001dc8&access_token=137b9d17258252ebd32a542732e3aeaceb4695ecec2780a79b6343b534bbeac0ae7d50a9d8fc118604c659dc7365fef76f2869798f1439c9cf3ed724a7efee8e&t_cat_id=57bdcad0d0146385e6abb6be, connect_timeout:None, headers:{}, proxy_username:None, ca_certs:None
-INFO:root:code: 0 message : get umeng api successfully. again = 1
-INFO:tornado.access:200 POST /gettypetopic (127.0.0.1) 236.54ms
-INFO:tornado.access:200 POST /createTopic (127.0.0.1) 15.96ms
-INFO:tornado.access:200 GET /reviewlisttopic?info_json=%7B%7D&result=0&since_id=1&limit_num=5 (127.0.0.1) 16.31ms
-INFO:root:topic data is {'custom': '{"creator_uid": "123"}', 'name': 'virtual_new circle 905', 'description': u'the circle will be beautiful!'}
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974
-INFO:root:Umeng_asyn_request request is :
-INFO:root:follow_redirects:None, auth_mode:None, proxy_password:None, use_gzip:None, auth_password:None, client_key:None, request_timeout:None, user_agent:None, proxy_host:None, prepare_curl_callback:None, client_cert:None, max_redirects:None, network_interface:None, body:custom=%7B%22creator_uid%22%3A+%22123%22%7D&name=virtual_new+circle+905&description=the+circle+will+be+beautiful%21, allow_nonstandard_methods:True, start_time:1472441814.31, proxy_port:None, method:POST, auth_username:None, streaming_callback:None, allow_ipv6:None, header_callback:None, validate_cert:None, url:https://rest.wsq.umeng.com/0/topic/create?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d93427ca7c7f8ce28439749c1b4cf67862779a64c828fcd5a48c4ba1b92e9b974, connect_timeout:None, headers:{'Content-Type': 'application/x-www-form-urlencoded'}, proxy_username:None, ca_certs:None
-INFO:tornado.access:200 POST /reviewresult (127.0.0.1) 240.85ms
+ERROR:root:Error connecting to MySQL on 127.0.0.1
+ERROR:tornado.application:Uncaught exception POST /register (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/register', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '369', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=1feb3b2b0b4f44cdbbeefd577bac2f38', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1144, in _when_complete
+    if result.result() is not None:
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/concurrent.py", line 129, in result
+    raise_exc_info(self.__exc_info)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 221, in wrapper
+    runner.run()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 507, in run
+    yielded = self.gen.send(next)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/handler/user.py", line 217, in post
+    stu_id)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/modules/user.py", line 123, in set_info_to_user
+    "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 160, in execute
+    return self.execute_lastrowid(query, *parameters, **kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 166, in execute_lastrowid
+    self._execute(cursor, query, parameters, kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 234, in _execute
+    return cursor.execute(query, kwparameters or parameters)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/cursors.py", line 174, in execute
+    self.errorhandler(self, exc, value)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (1054, "Unknown column 'adlevel' in 'field list'")
+ERROR:tornado.access:500 POST /register (127.0.0.1) 457.48ms
+ERROR:tornado.application:Uncaught exception POST /register (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/register', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '369', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=1feb3b2b0b4f44cdbbeefd577bac2f38', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1115, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/stack_context.py", line 302, in wrapped
+    ret = fn(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1307, in future_complete
+    f.result()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/concurrent.py", line 129, in result
+    raise_exc_info(self.__exc_info)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 221, in wrapper
+    runner.run()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 507, in run
+    yielded = self.gen.send(next)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/handler/user.py", line 217, in post
+    stu_id)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/modules/user.py", line 123, in set_info_to_user
+    "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 160, in execute
+    return self.execute_lastrowid(query, *parameters, **kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 166, in execute_lastrowid
+    self._execute(cursor, query, parameters, kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 234, in _execute
+    return cursor.execute(query, kwparameters or parameters)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/cursors.py", line 174, in execute
+    self.errorhandler(self, exc, value)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (1054, "Unknown column 'adlevel' in 'field list'")
