@@ -143,7 +143,7 @@ class Message(object):
         message_update = redis_dict.hget("circle:"+str(cid),"message_queue")
         message_update = message_update+str(mid) + "_"
         redis_dict.hset("circle:"+str(cid),"message_queue",message_update)
-
+        
     def custom_list_to_list(self,custom_list):
         """We define list as "_item_item_item", this function change it to python list.
         
@@ -162,6 +162,14 @@ class Message(object):
 
 
     def __time_check_unit(self,last_update_time,update_time_now):
+        """Campare last update time and update time now.
+
+        Args:
+            last_update_time:
+            update_time_now:
+
+        Returns:
+        """
         format_time = "%Y-%m-%d %H:%M:%S"
         strp_now = time.strptime(update_time_now,format_time)
         strp_last = time.strptime(last_update_time,format_time)

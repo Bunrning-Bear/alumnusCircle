@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-#prefix = "http://139.196.207.155:8000"
-prefix = "http://127.0.0.1:8000"
+prefix = "http://139.196.207.155:8000"
+#prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -51,7 +51,6 @@ def do_request(api,dic,message,method,otherPara):
         the_page = response.read()
         print message[count] + the_page
         count = count + 1    
-
 
 def registerTest():
     api = '/register'
@@ -393,12 +392,12 @@ def checkPhone():
 #checkPhone()
 #registerTest()    
 loginTest()
-logoutTest()
+#logoutTest()
 # updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
-# gettypetopicTest()
+gettypetopicTest()
 
 # createTopic()
 # reviewListTest()

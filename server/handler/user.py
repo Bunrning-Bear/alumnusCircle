@@ -266,6 +266,7 @@ class RegisterHandler(UserHandler):
                     message = "register successfully!"
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
+        
         self.return_to_client(code,message)
         self.finish()
 
