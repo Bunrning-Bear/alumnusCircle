@@ -12,8 +12,8 @@ class ElasticUserModule(object):
         self._index = "alumnuscircle"
         self._type = "user"
     def createInfo(
-        self,uid,faculty,major,name,country,state,city,admission_year,icon_url="default",job="student",instroduction=" ",
-        company="the seu",job_list=" "):
+        self,uid,faculty,major,name,country,state,city,admission_year,icon_url="default",job="student",
+        company="the seu"):
         """
             "icon_url" : { "type" : "string", "index" : "not_analyzed" },
             "faculty": {"type" : "string","index": "not_analyzed"},
@@ -39,13 +39,43 @@ class ElasticUserModule(object):
             "state":state,
             "city":city,
             "job":job,
-            "instroduction":instroduction,
             "company":company,
-            "job_list":job_list,
             "register_time":registertime,
             "admission_year":admission_year
         }
-        return self.ec.create(index=self._index,doc_type="user",body=body)
+        return self.ec.create(index=self._index,doc_type="user",id=uid,body=body)
+
+    def updateinfo(self,body,uid):
+        """Update user's information in elasticsearch
+
+        all of parameter can not been error, if it not been updated. just post its original data.
+
+        Args:
+            uid:
+            icon_url
+            job
+            instroduction
+            company
+            job_list
+            tag
+
+        Returns:
+
+        """
+        """
+        body= {
+            "icon_url":icon_url,
+            "name":name,
+            "country":country,
+            "state":state,
+            "city":city,
+            "job":job,
+            "company":company,
+            "register_time":registertime,
+            "job_list":job_list
+        }
+        """
+        return self.ec.create(index=self._index,doc_type="user",id=uid,body=body)
 
     def get_all_user(self):
         body={
@@ -142,11 +172,11 @@ class ElasticUserModule(object):
                 result['bool']['should'].append(set_major_unit[count](major_unit[count]))
                 count+=1
         body.append(result)
-"""
+
 es = Elasticsearch()
 model = ElasticUserModule(es)
 
-
+"""
 model.createInfo(uid=1,faculty=u"软件学院",major=u"软件工程",name=u"陈雄辉",country=u"美国",
     state=u"福建",city="漳州",admission_year=2010,icon_url="default",job=u"学生",instroduction="程勋,阿里的两份offer",
         company="东南大学",job_list="曾经去了google,腾讯")
@@ -156,8 +186,8 @@ model.createInfo(uid=1,faculty=u"软件学院",major="软件工程",name="陈雄
 
 model.createInfo(uid=1,faculty=u"机械学院",major="机械工程",name="赵鹏青",country="中国",
     state="福建",city="漳州",admission_year=2011,icon_url="default",job="学生",instroduction="程勋,阿里的两份offer",
-        company="东南大学",job_list="曾经去了google,腾讯")
-""""""
+         company="东南大学",job_list="曾经去了google,腾讯")
+
 model.createInfo(uid=1,faculty="软件学院",major="软件工程",name="陈雄辉",country="中国",
     state="福建",city="漳州",admission_year=2012,icon_url="default",job="学生",instroduction="程勋,阿里的两份offer",
         company="东南大学",job_list="曾经去了google,腾讯")
@@ -168,10 +198,8 @@ model.createInfo(uid=1,faculty="软件学院",major="软件工程",name="陈雄�
     state="福建",city="漳州",admission_year=2014,icon_url="default",job="学生",instroduction="程勋,阿里的两份offer",
         company="东南大学",job_list="曾经去了google,腾讯")
 model.createInfo(uid=1,faculty="软件学院",major="软件工程",name="陈雄辉",country="china",
-    state="福建",city="漳州",admission_year=2015,icon_url="default",job="学生",instroduction="程勋,阿里的两份offer",
+    state="福建",city="漳州",admission_year=2015,icon_url="default",job="学生",instroduction="offer",
         company="东南大学",job_list="曾经去了google,腾讯")
-""""""
-# print model.get_all_user()
-result = json.dumps(model.keyword_search("软件学院 陈雄辉",filter_admission_year_max=2019,ensure_ascii=False)
-print result
 """
+#result = json.dumps(model.keyword_search("软件学院 陈雄辉",filter_admission_year_max=2019,ensure_ascii=False)
+#print result 

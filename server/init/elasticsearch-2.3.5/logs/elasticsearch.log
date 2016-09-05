@@ -1,0 +1,11 @@
+[2016-09-06 01:05:29,827][INFO ][cluster.routing.allocation.decider] [Caretaker] low disk watermark [85%] exceeded on [sbZcfZ24TP65a31MtEATxg][Caretaker][/home/burningbear/SoftWare/elasticsearch-2.3.5/data/elasticsearch/nodes/0] free: 2gb[10.8%], replicas will not be assigned to this node
+[2016-09-06 01:05:50,342][INFO ][node                     ] [Caretaker] stopping ...
+[2016-09-06 01:05:50,866][INFO ][node                     ] [Caretaker] stopped
+[2016-09-06 01:05:50,867][INFO ][node                     ] [Caretaker] closing ...
+[2016-09-06 01:05:50,880][INFO ][node                     ] [Caretaker] closed
+[2016-09-06 01:10:57,958][INFO ][node                     ] [Lorelei Travis] version[2.3.5], pid[1714], build[90f439f/2016-07-27T10:36:52Z]
+[2016-09-06 01:10:57,958][INFO ][node                     ] [Lorelei Travis] initializing ...
+[2016-09-06 01:10:58,852][INFO ][plugins                  ] [Lorelei Travis] modules [reindex, lang-expression, lang-groovy], plugins [head, analysis-ik], sites [head]
+[2016-09-06 01:10:58,920][INFO ][env                      ] [Lorelei Travis] using [1] data paths, mounts [[/home (/dev/sda9)]], net usable_space [2.9gb], net total_space [18.8gb], spins? [possibly], types [ext4]
+[2016-09-06 01:10:58,921][INFO ][env                      ] [Lorelei Travis] heap size [990.7mb], compressed ordinary object pointers [true]
+[2016-09-06 01:10:58,921][WARN ][env                      ] [Lorelei Travis] max file descriptors [4096] for elasticsearch process likely too low, consider increasing to at least [65536]

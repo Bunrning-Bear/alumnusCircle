@@ -17,7 +17,7 @@ from request import RequestHandler
 
 """
 Complete follow and unfollow operate
-
+    
 """
 class FollowHandler(RequestHandler):
     def __init__(self, *argc, **argkw):

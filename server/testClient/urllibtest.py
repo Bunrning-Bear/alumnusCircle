@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-prefix = "http://139.196.207.155:8000"
-# prefix = "http://127.0.0.1:8000"
+#prefix = "http://139.196.207.155:8000"
+prefix = "http://127.0.0.1:8001"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -16,7 +16,7 @@ resp = urllib2.urlopen(prefix+'/')
 the_page = resp.read()
 print the_page
 
-_xsrf = json.loads(json.loads(the_page)['Data'])['_xsrf']
+_xsrf = json.loads(the_page)['Data']['_xsrf']
 
 def set_resquest(api,data,method):
     # data is dictory.
@@ -34,11 +34,13 @@ def set_resquest(api,data,method):
     request = urllib2.Request(url,data)
     request.get_method = lambda: method # or 'DELETE' 
     return request
+
 def setMessage(message,num,content):
    message[num] = "No.%s "%num + content + "\r\n"
 
 def set_info_json(dic):
     info_json = json.dumps
+
 def do_request(api,dic,message,method,otherPara):
     count = 0
     while count < len(dic):
@@ -50,7 +52,77 @@ def do_request(api,dic,message,method,otherPara):
         response = urllib2.urlopen(req)
         the_page = response.read()
         print message[count] + the_page
-        count = count + 1    
+        count = count + 1   
+
+def get_all_circle_test():
+    api = '/get_my_circle'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {}
+    dic[num] = {
+    }
+    message[num] = "get my circle list."
+    do_request(api,dic,message,"POST",otherPara)    
+
+def get_my_filter_circle_test():
+    api = '/get_my_filter_circle'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {"my_filter_circle":"_14_"}
+    dic[num] = {
+
+    }
+    message[num] = "get my admin circle list."
+    do_request(api,dic,message,"POST",otherPara)   
+
+def circle_apply_test(): 
+    api ='/circle_apply_result'
+    num = 0
+    dic = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {"result":1,"apply_user":85,"circle_id":14}
+    dic[num] = {
+    }
+    message[num] = "agree the user apply to the circle."
+    do_request(api,dic,message,"POST",otherPara)
+    """
+    follow success:
+    {
+        "update": {
+            
+        },
+        "response": {
+            "stats": {
+                "fans": 0,
+                "feeds": 0
+            },
+            "description": "the circle will be beautiful!",
+            "tags": [
+                
+            ],
+            "icon_url": {
+                "origin": null,
+                "80": null,
+                "160": null
+            },
+            "image_urls": [
+                
+            ],
+            "custom": "{\"virtual_cid\": \"57c69d67d36ef3151eb80ba9\", \"creator_uid\": \"123\"}",
+            "secret": false,
+            "create_time": "2016-08-31 17:03:36",
+            "has_followed": True,
+            "id": "57c69d68d36ef3151eb80bac",
+            "name": "new circle 983"
+        }
+    }
+    }
+    """
 
 def registerTest():
     api = '/register'
@@ -58,10 +130,10 @@ def registerTest():
     dic = {}
     message = {}
     otherPara = {}
-    the_same_phone = "158961"+str(random.randint(10000,99999))
-    city = u"南京"
+    the_same_phone = "159961"+str(random.randint(10000,99999))
+    city = u"漳州"
     country = u"中国"
-    state = u"江苏"
+    state = u"福建"
     faculty = u"金融"
     major = u"经济管理"
     companny = "google China"
@@ -99,28 +171,28 @@ def loginTest():
     otherPara = {}
     dic[num] = {
         "password":"zp123455",
-        "telephone":"15896193612"
+        "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"密码错误")
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15896153684"
+        "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
-        "telephone":"15896160304"
+        "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"重复登陆")
     num = num + 1
     dic[num] = {
         "password":"zp19950310",
-        "telephone":"15896193612"
+        "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"账号不存在")
@@ -200,6 +272,19 @@ def updateInfoTest():
         "list_info_has_update":0,
         "update_json":update_json
     }
+    num+=1
+    dic[num] = {
+    }
+    update_json = {
+        "icon_url":"default",
+        "introduction":"i change my introduction"+str(random.randint(1,120)),   
+    }
+    update_json = json.dumps(update_json)
+    otherPara[num] = {
+        "list_info_has_update":0,
+        "update_json":update_json
+    }
+    setMessage(message,num,"更新信息，icon_url 是 defaults")
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321,company = another company")   
     do_request(api,dic,message,"POST",otherPara)
 
@@ -239,7 +324,9 @@ def gettypetopicTest():
     message = {}
     otherPara = {}
     dic[num] = {
-    "t_cat_id":"57bdcad0d0146385e6abb6be"
+    "t_cat_id":"57bdcad0d0146385e6abb6be",
+    "page":1,
+    "count":2
     }
     otherPara[num] = {}
     setMessage(message,num,"get topic type")
@@ -261,7 +348,6 @@ def searchTopicTest():
     setMessage(message,num,"search topic")
     num = num + 1
     do_request(api,dic,message,"POST",otherPara)    
-
 
 def createTopic():
     api = '/createTopic'
@@ -397,16 +483,17 @@ def checkPhone():
 # registerTest()    
 loginTest()
 # logoutTest()
-updateInfoTest()
+# updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
-#gettypetopicTest()
-
+# gettypetopicTest()
+get_all_circle_test()
 # createTopic()
 # reviewListTest()
 # reviewTest()    
-
+#circle_apply_test()
+get_my_filter_circle_test()
 """
 adminRegister()
 adminloginTest()

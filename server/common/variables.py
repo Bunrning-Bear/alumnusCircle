@@ -16,9 +16,7 @@ CODE_DICT = {
     "delete":1450,
     "pubComment":1500,
     "deleteComment":1600,
-    
     "like":1700,
-
     "favourite":1900,
     "follow":2000,
     "searchuser":2100,
@@ -31,4 +29,6 @@ CODE_DICT = {
     "create_topic":2800,
     "review_topic":2900,
     "check_phone":3000,
+    'receive_apply':3100,
+    "get_all_topic":3200
 }

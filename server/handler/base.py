@@ -43,6 +43,7 @@ import logging
 import json
 import modules.user
 import modules.message
+import modules.ec_user
 import urllib
 import tornado.web
 import tornado.gen
@@ -72,9 +73,16 @@ class BaseHandler(tornado.web.RequestHandler):
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
         self._user_message_module = modules.message.UserMessageModule(self._db)
-        self._code_dict =CODE_DICT    
+        self._code_dict =CODE_DICT
+        self._elastic_user_module = modules.ec_user.ElasticUserModule(self.application.es)
         logging.info("request is : %s \n \n"%self.request)
+        args = self.request.arguments
+        logging.info("request arguments: %s"%args)
 
+    @property
+    def elastic_user_module(self):
+        return self._elastic_user_module
+    
     @property
     def user_module(self):
         return self._user_module
@@ -166,13 +174,17 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
             not return, just send {'code':code,'message':message} json string to client.
         """
+        update_Data = self.get_user_update()
+        Data={'update':update_Data,'response':Data}
+        logging.info("in return to client :%s"%json.dumps(Data))
         if Data == {}:
             resultJson = json.dumps({'code':code,'message':message,'Data':{}})
         else:
             resultJson = json.dumps({'code':code,'message':message,'Data':Data})
         self.write(resultJson) 
 
-
+    def get_user_update(self):
+        return {}
 
 class UploadFileHandler(tornado.web.RequestHandler):
     def get(self):

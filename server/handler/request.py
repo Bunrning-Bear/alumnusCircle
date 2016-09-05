@@ -116,6 +116,7 @@ class RequestHandler(BaseHandler):
         self.count = 10
         self.requestName ='default'
         self.message = self.application.message
+        
     def get_optional_argument(self,argu):
         try:
             result = self.get_argument(argu)

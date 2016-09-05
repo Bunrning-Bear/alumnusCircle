@@ -24,4 +24,12 @@ class CircleModule(BaseModule):
             self._umeng_virtual_cid + " , " + self._circle_type_id 
             + " ) " + "VALUES (%s,%s,%s)",
             umeng_cid,umeng_virtual_cid,circle_type_id)
-        return c_id        
+        return c_id
+
+    def get_circle_umeng_cid(self,cid):
+        umeng_cid = self.db.get(
+            "SELECT "+ self._umeng_cid +
+            " FROM " + self._circle_table + 
+            " WHERE "+ self._c_id + " = %s LIMIT 1"
+            ,cid)
+        return umeng_cid[self._umeng_cid]

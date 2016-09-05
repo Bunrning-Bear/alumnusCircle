@@ -81,6 +81,7 @@ class UserInfoModule(UserModule):
         self._user_stu_id = config.get(self._user_base_table,"stu_id")
         self._user_update_time = config.get(self._user_base_table,"update_time")
         self._user_adlevel = config.get(self._user_base_table,"adlevel")
+        self._umeng_id = config.get(self._user_base_table,"umeng_id")
         
     def get_info_from_phone(self,phone):
         """Get all of user information from user_table.
@@ -105,6 +106,40 @@ class UserInfoModule(UserModule):
             hasRegister = False
         return hasRegister
 
+    def get_umeng_id_from_uid(self,uid):
+        """Get user's umeng id from mysql.
+        to execute some ooperate which need umeng id in umeng api
+
+        Args:
+            uid
+
+        Returns:
+
+        """
+        entity = self.db.get(
+            "SELECT "+ self._umeng_id +
+            " FROM " + self._user_base_table + 
+            " WHERE "+ self._uid  +" = %s LIMIT 1",
+            uid)
+        return entity['umeng_id']
+
+    def get_access_token_from_uid(self,uid):
+        """Get user's access_token from mysql.
+        to execute some operate in umeng.
+
+        Args:
+            uid:
+
+        Returns:
+            access_token
+        """
+        entity = self.db.get(
+            "SELECT "+ self._user_access_token +
+            " FROM " + self._user_base_table + 
+            " WHERE "+ self._uid  +" = %s LIMIT 1",
+            uid)
+        return entity
+
     def set_info_to_user(
         self,access_token,passwd,user_phone,stu_id,adlevel=0):
         """Set user information into user table
@@ -124,6 +159,15 @@ class UserInfoModule(UserModule):
             " , " + self._user_stu_id  + " , "+ self._user_adlevel + " )" +
             "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
         return author_id
+
+    def update_umeng_id(self,umeng_id,uid):
+        logging.info
+        logging.info("update umeng id is :" +" UPDATE " + self._user_base_table + 
+    " SET " + self._umeng_id + " = "+ str(umeng_id) +"WHERE " + self._uid + " = " + str(uid))
+        entity = self.db.update(
+            "UPDATE " + self._user_base_table + 
+            " SET " + self._umeng_id + " = %s WHERE " + self._uid + " = %s",
+            str(umeng_id),uid)
 
     def update_time_from_user_id(self,uid,update_time):
         pass
@@ -233,3 +277,9 @@ class UserDetailModule(UserModule):
             "UPDATE " + self._user_table + 
             " SET " + self._user_last_update_time + " = %s WHERE " + self._uid + " = %s",
             last_update_time,uid)
+
+    def update_my_circle_list(self,circle_id,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = CONCAT("+self._my_circle_list + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)

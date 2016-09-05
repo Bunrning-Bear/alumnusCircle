@@ -66,7 +66,8 @@ class UserHandler(RequestHandler):
         self._regex_dict[self._user_detail_module._company]=ur"^[\u4e00-\u9fa5\w\s]{2,25}$"
         # icon_url is a url or a string "default"
         self._regex_dict[self._user_list_module._icon_url] = ur"^((https|http)?:\/\/)[^\s]+|default$\Z"
-    
+        
+
     def data_decode(self,to_decode_data):
         # pdb.set_trace()
         logging.info("data: %s "%type(to_decode_data))
@@ -96,23 +97,16 @@ class UserHandler(RequestHandler):
             coding_type = chardet.detect(string)['encoding']
             if coding_type != 'unicode':
                 string = string.decode('utf-8')
-                print "string in check unit is %s"%chardet.detect(string)['encoding']
         result = False
         # pdb.set_trace()
         try:
             
             if re.match(regex,string):
                 result = True
-                print "true string %s"%string
             else:
                 print "failed string :%s"%string
                 print "failed type : %s" %type(string) 
                 print "failed regex : %s"%regex
-            """
-                    if check_type ==self._user_module._user_qq or check_type ==self._user_module._user_wechat:
-                        if string =='':
-                            result = True
-            """
         except Exception, e:
             print "error string :%s"%string
             print "error type : %s" %type(string) 
@@ -147,7 +141,6 @@ class UserHandler(RequestHandler):
             if not equal:
                 break              
             count = count + 1
-        logging.info(" city is %s"%isinstance(Data['city'],unicode))
         if (count - 1) == len(Data):
             message = "all data input is valid, this message will not appear in normal"
             count = 0
@@ -162,15 +155,19 @@ class CheckTelephoneHandler(BaseHandler):
         self.requestName ='check_phone'
 
     def post(self):
-        phone = self.get_argument(self.user_module._user_phone)
-        hasRegister = self.user_module.find_user_phone(phone)
         count = 0
-        if hasRegister:
-            count =count + 1 
-            message = "User phone:%s has been register "%phone
+        phone = self.get_argument(self.user_module._user_phone)
+        if self.check_unit(self.user_module._user_phone,phone):
+            hasRegister = self.user_module.find_user_phone(phone)
+            if hasRegister:
+                count =1 
+                message = "User phone:%s has been register "%phone
+            else:
+                count = 2
+                message = "this phone can be used."
         else:
-            count = count + 2
-            message = "this phone can be used."
+            count = 3
+            message = "telephone format error!"
         code = self.return_code_process(count)
         self.return_to_client(code,message)
         self.finish()
@@ -295,21 +292,26 @@ class RegisterHandler(UserHandler):
                 # "uid":uid
                 }
                 code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
-                logging.info('after umeng request, code is %s message is %s'%(code,message))
                 if code == 0:
                     # set umeng data success.
                     # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
+                    umeng_id = Data['id']
+                    logging.info("data after umeng  of register is : %s"%Data['id'])
+                    logging.info("data user id is : %s"%user_id)
                     code = self.return_code_process(count)
                     self.user_list_module.set_info_to_user(
                         user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country)
                     self.user_detail_module.set_info_to_user(
                         user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country,company)
                     self.user_message_module.set_user_to_message(user_id)
-
+                    self.user_module.update_umeng_id(umeng_id,user_id)
+                    res = self.elastic_user_module.createInfo(user_id,faculty,major,real_name,country,state,city,admission_year,icon_url,job,company)
+                    
+                    logging.info("elastic_user_module : %s"%res)
                     message = "register successfully!"
+
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
-        
         self.return_to_client(code,message)
         self.finish()
 
@@ -433,8 +435,8 @@ class UpdataInfoHandler(UserHandler):
         info_json:
             'custom':json： if list_info_has_update, client dumps custom field to this parameter.
                 "admission_year":admission_year,
-                "faculty_id":faculty_id,
-                "major_id":major_id,
+                "faculty":faculty,
+                "major":major,
                 "job":job,
                 "uid":user_id,
                 "publicity_level":0,
@@ -463,7 +465,8 @@ class UpdataInfoHandler(UserHandler):
         count = 0
         uid = self.get_secure_cookie(self._user_module._uid)
         update_list = self.get_argument('list_info_has_update')
-        logging.info("update_list%s type is : %s"%(update_list,type(update_list)))
+        # logging.info("update_list%s type is : %s"%(update_list,type(update_list)))
+        
         if update_list == 0:
             DataJson = self.get_argument('info_json')
             Data = json.loads(DataJson)            
@@ -486,8 +489,11 @@ class UpdataInfoHandler(UserHandler):
                 # [todo]:add mysql operate error expection
                 message = self.user_list_module.update_info_to_user(update_dic,uid)
                 message = self.user_detail_module.update_info_to_user(update_dic,uid)
+                message = self.elastic_user_module.updateinfo(update_dic,uid)
             code = self.return_code_process(count)
-            self.return_to_client(code,message,Data)
+            self.return_to_client(code,message)
+        # update data to elasticsearch
+        self.elastic_user_module.updateinfo()
 
 """
 Register admin user.

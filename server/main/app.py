@@ -25,10 +25,12 @@ import handler.user_list
 import handler.opt_feed
 import handler.opt_user
 import handler.topic
+from handler.web.login import IndexWebHandler
 from common.variables import AP 
 from common.variables import redis_dict
 from tornado.options import define, options
 from common.lib.message import Message
+
 define("port", default = 8000, help = "run on the given port", type = int)
 define("mysql_host", default = "127.0.0.1", help = "community database host")
 define("mysql_database", default = "alumnuscircle", help = "community database name")
@@ -50,7 +52,11 @@ class Application(tornado.web.Application):
             cookie_secret=cookie_secret,
             xsrf_cookies=True
         )
+        template_path=os.path.join(os.path.dirname(__file__), "templates")
         handlers = [
+        # web
+        (r'/adminlogin',IndexWebHandler),
+        # user
         (r'/adminregister',handler.user.RegisterAdminHandler),
         (r'/',handler.index.IndexHandler),
         (r'/checkphone',handler.user.CheckTelephoneHandler),
@@ -59,17 +65,20 @@ class Application(tornado.web.Application):
         (r'/logout',handler.user.LogoutHandler),
         (r'/updateinfo',handler.user.UpdataInfoHandler),
         (r'/uploadfile',handler.base.UploadFileHandler),
-
+        # user-user
         (r'/follow',handler.opt_user.FollowHandler),
         (r'/searchuser',handler.opt_user.SearchUserHandler),
 
         (r'/followslist',handler.user_list.FollowsListHandler),
-
+        # feed
         (r'/myfeed/update',handler.my_feed.UpdateFeedHandler),
         (r'/myfeed/delete',handler.my_feed.DeleteFeedHandler),
         (r'/timefeedList',handler.feed_list.TimelineHandler),
         (r'/myfavouritelist',handler.user_list.FavouriteslistHandler),
-
+        # circle
+        (r'/circle_apply_result',handler.topic.ReceiveApplyReviewHandler),
+        (r'/get_my_filter_circle',handler.topic.GetMyfilterCircleHander),
+        (r'/get_my_circle',handler.topic.GetMyCircleHandler),
         (r'/createTopic',handler.topic.CeateTopicHandler),
         (r'/detailtopic',handler.topic.DetailTopicHandler),
         (r'/edittopic',handler.topic.EditTopicHandler),
