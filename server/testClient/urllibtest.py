@@ -7,7 +7,7 @@ import json
 import random
 import hashlib
 prefix = "http://139.196.207.155:8000"
-#prefix = "http://127.0.0.1:8000"
+# prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -21,7 +21,7 @@ _xsrf = json.loads(json.loads(the_page)['Data'])['_xsrf']
 def set_resquest(api,data,method):
     # data is dictory.
     # method can be get put delete post ?
-    # get _xsrf
+    # get _xsrff
     for item in cj:
         if item.name == '_xsrf':
             _xsrf = item.value
@@ -59,9 +59,11 @@ def registerTest():
     message = {}
     otherPara = {}
     the_same_phone = "158961"+str(random.randint(10000,99999))
-    city = 123
-    faculty_id = 71
-    major_id = 1
+    city = u"南京"
+    country = u"中国"
+    state = u"江苏"
+    faculty = u"金融"
+    major = u"经济管理"
     companny = "google China"
     admission_year = 2014
     job = "student"
@@ -71,9 +73,11 @@ def registerTest():
     # set request.
     dic[num] = {
         "city":city,
-        "faculty_id":faculty_id,
+        "state":state,
+        "country":country,
+        "faculty":faculty,
         "name":name,
-        "major_id":major_id,
+        "major":major,
         "company":companny,
         "admission_year":admission_year,
         "telephone":the_same_phone,
@@ -164,7 +168,7 @@ def updateInfoTest():
     }
     update_json = json.dumps(update_json)
     otherPara[num] = {
-        "list_info_has_update":0,
+        "list_info_has_update":1,
         "update_json":update_json
     }
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker")
@@ -390,18 +394,18 @@ def checkPhone():
     do_request(api,dic,message,"POST",otherPara)    
 
 #checkPhone()
-#registerTest()    
+# registerTest()    
 loginTest()
-#logoutTest()
-# updateInfoTest()
+# logoutTest()
+updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
-gettypetopicTest()
+#gettypetopicTest()
 
 # createTopic()
 # reviewListTest()
-reviewTest()    
+# reviewTest()    
 
 """
 adminRegister()

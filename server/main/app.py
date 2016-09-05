@@ -13,7 +13,7 @@ import torndb
 import tornado.httpserver
 import tornado.ioloop 
 import tornado.options
-import torx`nado.web
+import tornado.web
 import redis
 from elasticsearch import Elasticsearch
 
@@ -101,7 +101,7 @@ class Application(tornado.web.Application):
             a = self.db.get("SELECT COUNT(*) from user_info")
         except MySQLdb.ProgrammingError:
         """
-       self.es = Elasticsearch([{'host':'localhost','port':9200}])
+        self.es = Elasticsearch([{'host':'localhost','port':9200}])
 
 def main():
     tornado.options.parse_command_line()
@@ -111,3 +111,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+"c54e996f6c839595aa41ab4a89052b7fc416c223"

@@ -176,6 +176,11 @@ class ReviewResultHandler(TopicHandler):
         Data['type_id'] = type_id
         raise tornado.gen.Return((code,message,Data))
 
+class ApplyTopicHanlder(RequestHandler):
+    pass
+
+class AdminSetHandler(RequestHandler):
+    pass
 
 class DetailTopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):

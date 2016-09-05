@@ -72,7 +72,8 @@ class BaseHandler(tornado.web.RequestHandler):
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
         self._user_message_module = modules.message.UserMessageModule(self._db)
-        self._code_dict =CODE_DICT         
+        self._code_dict =CODE_DICT    
+        logging.info("request is : %s \n \n"%self.request)
 
     @property
     def user_module(self):
@@ -166,9 +167,8 @@ class BaseHandler(tornado.web.RequestHandler):
             not return, just send {'code':code,'message':message} json string to client.
         """
         if Data == {}:
-            resultJson = json.dumps({'code':code,'message':message,'Data':'{}'})
+            resultJson = json.dumps({'code':code,'message':message,'Data':{}})
         else:
-            Data = json.dumps(Data)
             resultJson = json.dumps({'code':code,'message':message,'Data':Data})
         self.write(resultJson) 
 

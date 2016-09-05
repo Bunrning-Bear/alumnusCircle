@@ -19,13 +19,15 @@ class UserModule(BaseModule):
         self._user_common_table = self.prefix+'user_common_info'
         self._uid = config.get(self._user_common_table,"uid")
         self._admission_year = config.get(self._user_common_table,"admission_year")
-        self._faculty_id = config.get(self._user_common_table,"faculty_id")
-        self._major_id = config.get(self._user_common_table,"major_id")
+        self._faculty = config.get(self._user_common_table,"faculty")
+        self._major = config.get(self._user_common_table,"major")
         self._name = config.get(self._user_common_table,"name")
         self._gender = config.get(self._user_common_table,"gender")
         self._job = config.get(self._user_common_table,"job")
         self._icon_url = config.get(self._user_common_table,"icon_url")
         self._city = config.get(self._user_common_table,"city")
+        self._state = config.get(self._user_common_table,"state")
+        self._country =config.get(self._user_common_table,"country")
 
 
     def update_optional_argu_unit(self,argu):
@@ -143,7 +145,7 @@ class UserListModule(UserModule):
         self._change_allowed = (self._job, self._icon_url,self._city,self._publicity_level)
 
 
-    def set_info_to_user(self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city):
+    def set_info_to_user(self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country):
         """Insert new user to mysql, this function only use when register.
         
         Args:
@@ -155,13 +157,13 @@ class UserListModule(UserModule):
         """
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
-            + self._admission_year + " , " + self._faculty_id+
-            " , " + self._major_id  + " , " + self._name+
+            + self._admission_year + " , " + self._faculty+
+            " , " + self._major  + " , " + self._name+
             " , " + self._gender+ " , " + self._job+
-            " , " + self._icon_url+ " , " +self._city+
+            " , " + self._icon_url+ " , " +self._city+ " , " +self._state+ " , " +self._country +
             " )" +
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s )",
-            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city)
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s , %s , %s )",
+            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country)
         return author_id
 
 
@@ -193,7 +195,7 @@ class UserDetailModule(UserModule):
             self._company_publicity_level,self._job_list_level)
 
     def set_info_to_user(
-        self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,company):
+        self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company):
         """Insert new user to mysql, this function only use when register.
         
         Args:
@@ -205,14 +207,14 @@ class UserDetailModule(UserModule):
         """
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
-            + self._admission_year + " , " + self._faculty_id+
-            " , " + self._major_id  + " , " + self._name+
+            + self._admission_year + " , " + self._faculty+
+            " , " + self._major  + " , " + self._name+
             " , " + self._gender + " , "  + self._job+
-            " , " + self._icon_url + " , " + self._city+
+            " , " + self._icon_url + " , " + self._city+ " , " +self._state+ " , " +self._country + 
             " , " + self._company + 
             " )" +
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,company)
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company)
         return author_id
 
     def get_info_from_uid(self,uid):

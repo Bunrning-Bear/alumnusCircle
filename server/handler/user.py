@@ -13,6 +13,8 @@ import urllib
 import pdb
 import logging
 import random
+import chardet
+
 import tornado.httpclient
 import tornado.web
 import tornado.gen
@@ -46,21 +48,34 @@ class UserHandler(RequestHandler):
         # wechat id can be letter, number and underline
         # admission year : 1000~ 2999
         self._regex_dict[self.user_list_module._admission_year] = ur"^[1-2][0-9]{3}$\Z"
-        # faculty id 0~99
-        self._regex_dict[self.user_list_module._faculty_id] = ur"^[0-9]{1,2}$\Z"
+        # faculty  0~99
+        self._regex_dict[self.user_list_module._faculty] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
         # major id 0~99
-        self._regex_dict[self.user_list_module._major_id] = ur"^[0-9]{1,2}$\Z"
+        self._regex_dict[self.user_list_module._major] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
         # gender
         self._regex_dict[self.user_list_module._gender] = ur"^[0-1]$\Z"
         # job
         self._regex_dict[self.user_list_module._job] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
         # city
-        self._regex_dict[self.user_list_module._city] = ur"^[0-9]{3,3}$\Z"
+        self._regex_dict[self.user_list_module._city] = ur"^[\u4e00-\u9fa5\w]{1,20}$"
+        # state
+        self._regex_dict[self.user_list_module._state] = ur"^[\u4e00-\u9fa5\w]{2,20}$"# ur"^[\x{4e00}-\x{9fa5}\w]{2,20}$"    
+        # country
+        self._regex_dict[self.user_list_module._country] =ur"^[\u4e00-\u9fa5\w]{2,20}$"            
         # company 
         self._regex_dict[self._user_detail_module._company]=ur"^[\u4e00-\u9fa5\w\s]{2,25}$"
         # icon_url is a url or a string "default"
         self._regex_dict[self._user_list_module._icon_url] = ur"^((https|http)?:\/\/)[^\s]+|default$\Z"
     
+    def data_decode(self,to_decode_data):
+        # pdb.set_trace()
+        logging.info("data: %s "%type(to_decode_data))
+        for key,value in to_decode_data.items():
+            if isinstance(value,str):
+                coding_type = chardet.detect(value)['encoding']
+                if coding_type !='unicode':
+                    to_decode_data[key] = value.decode('utf-8')
+
     def _check_unit(self,check_type,string):
         """Check if the user information input is valid.
 
@@ -73,21 +88,39 @@ class UserHandler(RequestHandler):
             True: matched.
         """
 #        if check_type == self._user_module._user_password: 
-#            pdb.set_trace()
+        #pdb.set_trace()
         regex = self._regex_dict[check_type]
-        if check_type == self.user_list_module._name:
-            logging.info("username %s"%string)
-            string = string.decode('utf-8')
+        # print "check unit :%s"%chardet.detect(string)['encoding']
+        #print "coding type %s"%coding_type
+        if isinstance(string,str):
+            coding_type = chardet.detect(string)['encoding']
+            if coding_type != 'unicode':
+                string = string.decode('utf-8')
+                print "string in check unit is %s"%chardet.detect(string)['encoding']
         result = False
-
-        if re.match(regex,string):
-            result = True
-        """
-                if check_type ==self._user_module._user_qq or check_type ==self._user_module._user_wechat:
-                    if string =='':
-                        result = True
-        """
-        return result
+        # pdb.set_trace()
+        try:
+            
+            if re.match(regex,string):
+                result = True
+                print "true string %s"%string
+            else:
+                print "failed string :%s"%string
+                print "failed type : %s" %type(string) 
+                print "failed regex : %s"%regex
+            """
+                    if check_type ==self._user_module._user_qq or check_type ==self._user_module._user_wechat:
+                        if string =='':
+                            result = True
+            """
+        except Exception, e:
+            print "error string :%s"%string
+            print "error type : %s" %type(string) 
+            print "error regex : %s"%regex
+            print e
+            raise
+        finally:
+            return result
     
     def _check(self,Data):
         """
@@ -106,6 +139,7 @@ class UserHandler(RequestHandler):
         
         message = ''
         # check all of key-value is valid through UserModule._check function
+        # print "data in check %s"%Data
         for key, value in Data.items():
             # logging.info("key:%s value:%s"%(str(key),str(value)))
             equal = self._check_unit(str(key),str(value))
@@ -113,7 +147,7 @@ class UserHandler(RequestHandler):
             if not equal:
                 break              
             count = count + 1
-
+        logging.info(" city is %s"%isinstance(Data['city'],unicode))
         if (count - 1) == len(Data):
             message = "all data input is valid, this message will not appear in normal"
             count = 0
@@ -180,9 +214,13 @@ class RegisterHandler(UserHandler):
                 "city"
                 "company"
         """
+
         code = 0
         jsonData = self.get_argument('info_json')
         Data = json.loads(jsonData)
+        #print "data before %s"%Data
+        #self.data_decode(Data)
+        #print "data decode : %s"%Data
         count,message = self._check(Data)
         if count != 0:
             code = self.return_code_process(count)
@@ -222,22 +260,26 @@ class RegisterHandler(UserHandler):
                 self.methodUsed = 'PUT'
                 self.requestName = 'update_user_info'
                 admission_year = Data[self.user_list_module._admission_year]
-                faculty_id = Data[self.user_list_module._faculty_id]
-                major_id = Data[self.user_list_module._major_id]
+                faculty = Data[self.user_list_module._faculty]
+                major = Data[self.user_list_module._major]
                 job = Data[self.user_list_module._job]
                 city = Data[self.user_list_module._city]
+                state = Data[self.user_list_module._state]
+                country = Data[self.user_list_module._country]
                 company = Data[self.user_detail_module._company]
                 real_name = Data[self._user_list_module._name]
                 phone = Data[self._user_module._user_phone]
                 custom = {
                 # "uni_id":1,# todo: uni_id == 1 ,prestent the SEU.
                 "admission_year":admission_year,
-                "faculty_id":faculty_id,
-                "major_id":major_id,
+                "faculty":faculty,
+                "major":major,
                 "job":job,
                 "uid":user_id,
                 "publicity_level":0,
                 "city":city,
+                "state":state,
+                "country":country,
                 "real_name":real_name,
                 }
                 custom = json.dumps(custom)                    
@@ -259,10 +301,11 @@ class RegisterHandler(UserHandler):
                     # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
                     code = self.return_code_process(count)
                     self.user_list_module.set_info_to_user(
-                        user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city)
+                        user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country)
                     self.user_detail_module.set_info_to_user(
-                        user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,company)
+                        user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country,company)
                     self.user_message_module.set_user_to_message(user_id)
+
                     message = "register successfully!"
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
@@ -403,6 +446,8 @@ class UpdataInfoHandler(UserHandler):
             POST['icon_url']:
             POST['publicity_level']:
             POST['city']:
+            POST['state']
+            POST['country']
             POST['job']:
             POST['public_contact_list']
             POST['protect_contact_list']
@@ -442,7 +487,7 @@ class UpdataInfoHandler(UserHandler):
                 message = self.user_list_module.update_info_to_user(update_dic,uid)
                 message = self.user_detail_module.update_info_to_user(update_dic,uid)
             code = self.return_code_process(count)
-            self.return_to_client(code,message)
+            self.return_to_client(code,message,Data)
 
 """
 Register admin user.
@@ -535,18 +580,20 @@ class RegisterAdminHandler(UserHandler):
                     self.methodUsed = 'PUT'
                     self.requestName = 'update_user_info'
                     admission_year = Data[self.user_list_module._admission_year]
-                    faculty_id = Data[self.user_list_module._faculty_id]
-                    major_id = Data[self.user_list_module._major_id]
+                    faculty = Data[self.user_list_module._faculty]
+                    major = Data[self.user_list_module._major]
                     job = Data[self.user_list_module._job]
                     city = Data[self.user_list_module._city]
+                    state = Data[self.user_list_module._state]
+                    country= Data[self.user_list_module._country]
                     company = Data[self.user_detail_module._company]
                     real_name = Data[self._user_list_module._name]
                     phone = Data[self._user_module._user_phone]
                     custom = {
                     # "uni_id":1,# todo: uni_id == 1 ,prestent the SEU.
                     "admission_year":admission_year,
-                    "faculty_id":faculty_id,
-                    "major_id":major_id,
+                    "faculty":faculty,
+                    "major":major,
                     "job":job,
                     "uid":user_id,
                     "publicity_level":0,
@@ -572,9 +619,9 @@ class RegisterAdminHandler(UserHandler):
                         # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
                         code = self.return_code_process(count)
                         self.user_list_module.set_info_to_user(
-                            user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city)
+                            user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,state,country)
                         self.user_detail_module.set_info_to_user(
-                            user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,company)
+                            user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,state,country,company)
                         self.user_message_module.set_user_to_message(user_id)
                         message = "register successfully!"
                         # logging.info('user_id :%s'%user_id)
