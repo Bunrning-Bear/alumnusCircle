@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import redis
 import logging
-USER_DICT = redis.Redis(host='localhost',port=6379)
-AP = "/home/burningbear/CodePlace/python/web/alumnusCircle/server/"
+import os
+redis_dict = redis.Redis(host='localhost',port=6379)
+AP = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))+'/'
 CODE_DICT = {
     # server part
     "database": 1100,
@@ -26,5 +27,8 @@ CODE_DICT = {
     "topic":2400,
     "topicdetail":2500,
     "userdetail":2600,
-    "update_user_info":2700
+    "update_user_info":2700,
+    "create_topic":2800,
+    "review_topic":2900,
+    "check_phone":3000,
 }

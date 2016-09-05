@@ -19,13 +19,15 @@ class UserModule(BaseModule):
         self._user_common_table = self.prefix+'user_common_info'
         self._uid = config.get(self._user_common_table,"uid")
         self._admission_year = config.get(self._user_common_table,"admission_year")
-        self._faculty_id = config.get(self._user_common_table,"faculty_id")
-        self._major_id = config.get(self._user_common_table,"major_id")
+        self._faculty = config.get(self._user_common_table,"faculty")
+        self._major = config.get(self._user_common_table,"major")
         self._name = config.get(self._user_common_table,"name")
         self._gender = config.get(self._user_common_table,"gender")
         self._job = config.get(self._user_common_table,"job")
         self._icon_url = config.get(self._user_common_table,"icon_url")
         self._city = config.get(self._user_common_table,"city")
+        self._state = config.get(self._user_common_table,"state")
+        self._country =config.get(self._user_common_table,"country")
 
 
     def update_optional_argu_unit(self,argu):
@@ -61,7 +63,9 @@ class UserModule(BaseModule):
 
         sql =sql + "WHERE "+ self._uid + " = %s"
         logging.info("sql is : %s  %s"%(sql,para))
-        return self.db.updatemany(sql,[para]) 
+        return self.db.updatemany(sql,[para])
+
+
 """
 UserInfoModule is a Module operate to mysql table ac_user_base_info
 """
@@ -76,6 +80,7 @@ class UserInfoModule(UserModule):
         self._user_phone = config.get(self._user_base_table,"phone")     
         self._user_stu_id = config.get(self._user_base_table,"stu_id")
         self._user_update_time = config.get(self._user_base_table,"update_time")
+        self._user_adlevel = config.get(self._user_base_table,"adlevel")
         
     def get_info_from_phone(self,phone):
         """Get all of user information from user_table.
@@ -101,7 +106,7 @@ class UserInfoModule(UserModule):
         return hasRegister
 
     def set_info_to_user(
-        self,access_token,passwd,user_phone,stu_id):
+        self,access_token,passwd,user_phone,stu_id,adlevel=0):
         """Set user information into user table
         
         Args:
@@ -116,8 +121,8 @@ class UserInfoModule(UserModule):
         author_id = self.db.execute(
             "INSERT INTO " + self._user_base_table + " ( " + self._user_access_token + " , "
             + self._user_password + " , " + self._user_phone+
-            " , " + self._user_stu_id  + " )" +
-            "VALUES (%s, %s, %s, %s )",access_token,  passwd, int(user_phone), str(stu_id))
+            " , " + self._user_stu_id  + " , "+ self._user_adlevel + " )" +
+            "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
         return author_id
 
     def update_time_from_user_id(self,uid,update_time):
@@ -140,7 +145,7 @@ class UserListModule(UserModule):
         self._change_allowed = (self._job, self._icon_url,self._city,self._publicity_level)
 
 
-    def set_info_to_user(self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city):
+    def set_info_to_user(self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country):
         """Insert new user to mysql, this function only use when register.
         
         Args:
@@ -152,13 +157,13 @@ class UserListModule(UserModule):
         """
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
-            + self._admission_year + " , " + self._faculty_id+
-            " , " + self._major_id  + " , " + self._name+
+            + self._admission_year + " , " + self._faculty+
+            " , " + self._major  + " , " + self._name+
             " , " + self._gender+ " , " + self._job+
-            " , " + self._icon_url+ " , " +self._city+
+            " , " + self._icon_url+ " , " +self._city+ " , " +self._state+ " , " +self._country +
             " )" +
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s )",
-            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city)
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s , %s , %s )",
+            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country)
         return author_id
 
 
@@ -182,14 +187,15 @@ class UserDetailModule(UserModule):
         self._public_contact_list = config.get(self._user_table,"public_contact_list")
         self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
         self._instroduction = config.get(self._user_table,"instroduction")
-
+        self._user_last_update_time = config.get(self._user_table,"last_update_time")
+        
         self._change_allowed = (
             self._job, self._icon_url,self._city,self._company,self._instroduction,
             self._job_list,self._public_contact_list,self._protect_contact_list,
             self._company_publicity_level,self._job_list_level)
 
     def set_info_to_user(
-        self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,company):
+        self,uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company):
         """Insert new user to mysql, this function only use when register.
         
         Args:
@@ -201,14 +207,14 @@ class UserDetailModule(UserModule):
         """
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
-            + self._admission_year + " , " + self._faculty_id+
-            " , " + self._major_id  + " , " + self._name+
+            + self._admission_year + " , " + self._faculty+
+            " , " + self._major  + " , " + self._name+
             " , " + self._gender + " , "  + self._job+
-            " , " + self._icon_url + " , " + self._city+
+            " , " + self._icon_url + " , " + self._city+ " , " +self._state+ " , " +self._country + 
             " , " + self._company + 
             " )" +
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,company)
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company)
         return author_id
 
     def get_info_from_uid(self,uid):
@@ -216,24 +222,14 @@ class UserDetailModule(UserModule):
         Args:
             uid[int]: user id in user_base_info
 
-        Returns:
+        Returns: 
             a dictory store all of information in mysql, if not find in mysql, will return []
         """
         entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
         return entity
 
-class UserMessageModule(UserModule):
-    def __init__(self,db):
-        UserModule.__init__(self,db)
-        config = ConfigParser.ConfigParser()
-        config.readfp(open(AP+'common/conf.ini'))
-        self._user_message_table = self.prefix+'user_message_table'
-        self.um_id = config.get(self._user_message_table,"um_id")
-        self.message_queue = config.get(self._user_message_table,"message_queue")
-        self.update_time = config.get(self._user_message_table,"update_time")
-
-    def set_user_to_message(self,uid):
-        logging.info("query = %s"%("INSERT INTO " + self._user_message_table + "( " + self._uid + " ) " + "VALUES ( "+ str(uid)+")"))
-        logging.info("in set user_ to message uid is %s"%uid)
-        um_id = self.db.execute("INSERT INTO " + self._user_message_table + "( " + self._uid + " ) " + "VALUES ( %s )",uid)
-        return um_id
+    def update_last_update_time_by_uid(self,uid,last_update_time):
+        entity = self.db.update(
+            "UPDATE " + self._user_table + 
+            " SET " + self._user_last_update_time + " = %s WHERE " + self._uid + " = %s",
+            last_update_time,uid)

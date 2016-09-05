@@ -1,1 +1,62 @@
 INFO:root:print there??
+INFO:tornado.access:200 GET / (127.0.0.1) 7.43ms
+INFO:tornado.access:200 POST /checkphone (127.0.0.1) 10.88ms
+INFO:root:username 陈雄辉
+ERROR:root:Error connecting to MySQL on 127.0.0.1
+ERROR:tornado.application:Uncaught exception POST /register (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/register', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '369', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=1feb3b2b0b4f44cdbbeefd577bac2f38', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1144, in _when_complete
+    if result.result() is not None:
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/concurrent.py", line 129, in result
+    raise_exc_info(self.__exc_info)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 221, in wrapper
+    runner.run()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 507, in run
+    yielded = self.gen.send(next)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/handler/user.py", line 217, in post
+    stu_id)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/modules/user.py", line 123, in set_info_to_user
+    "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 160, in execute
+    return self.execute_lastrowid(query, *parameters, **kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 166, in execute_lastrowid
+    self._execute(cursor, query, parameters, kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 234, in _execute
+    return cursor.execute(query, kwparameters or parameters)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/cursors.py", line 174, in execute
+    self.errorhandler(self, exc, value)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (1054, "Unknown column 'adlevel' in 'field list'")
+ERROR:tornado.access:500 POST /register (127.0.0.1) 457.48ms
+ERROR:tornado.application:Uncaught exception POST /register (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/register', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '369', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=1feb3b2b0b4f44cdbbeefd577bac2f38', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1115, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/stack_context.py", line 302, in wrapped
+    ret = fn(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1307, in future_complete
+    f.result()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/concurrent.py", line 129, in result
+    raise_exc_info(self.__exc_info)
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 221, in wrapper
+    runner.run()
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/gen.py", line 507, in run
+    yielded = self.gen.send(next)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/handler/user.py", line 217, in post
+    stu_id)
+  File "/home/burningbear/CodePlace/python/web/alumnusCircle/server/modules/user.py", line 123, in set_info_to_user
+    "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 160, in execute
+    return self.execute_lastrowid(query, *parameters, **kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 166, in execute_lastrowid
+    self._execute(cursor, query, parameters, kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 234, in _execute
+    return cursor.execute(query, kwparameters or parameters)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/cursors.py", line 174, in execute
+    self.errorhandler(self, exc, value)
+  File "build/bdist.linux-x86_64/egg/MySQLdb/connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (1054, "Unknown column 'adlevel' in 'field list'")

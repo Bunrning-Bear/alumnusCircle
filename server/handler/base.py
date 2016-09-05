@@ -42,6 +42,7 @@ import functools
 import logging
 import json
 import modules.user
+import modules.message
 import urllib
 import tornado.web
 import tornado.gen
@@ -57,7 +58,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *argc, **argkw):
         super(BaseHandler, self).__init__(*argc, **argkw)
         self._db = self.application.db
-        self._user_dict = self.application._user_dict
+        self._redis_dict = self.application._redis_dict
         # load all of variable needed into BaseHandler.
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+'/common/conf.ini'))
@@ -70,8 +71,9 @@ class BaseHandler(tornado.web.RequestHandler):
         self._user_module = modules.user.UserInfoModule(self._db)
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
-        self._user_message_module = modules.user.UserMessageModule(self._db)
-        self._code_dict =CODE_DICT         
+        self._user_message_module = modules.message.UserMessageModule(self._db)
+        self._code_dict =CODE_DICT    
+        logging.info("request is : %s \n \n"%self.request)
 
     @property
     def user_module(self):
@@ -97,7 +99,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         return self.get_secure_cookie("uid")
     # [todo]2016.8.4 user_dict should been store in redis   
-    def user_dict_check(self,uid,_xsrf):
+    def redis_dict_check(self,uid,_xsrf):
         """
         Check the status of user_dict
 
@@ -111,24 +113,33 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._user_dict.hexists(uid,"_xsrf"):
+        if not self._redis_dict.hexists("user:" + uid,"_xsrf"):
             return 0
-        elif self._user_dict.hget(uid,"_xsrf") != _xsrf:
+        elif self._redis_dict.hget("user:" + uid,"_xsrf") != _xsrf:
             return 1
         else:
             return 2
 
-    def set_user_dict(self,uid,_xsrf,access_token):
+    def set_redis_dict(self,uid,_xsrf,access_token,last_update_time,adlevel=0):
         """Set User_dict when login.
         """
-        dic = {"_xsrf":_xsrf,"access_token":access_token}
-        self._user_dict.hmset(uid,dic)
+        dic = {
+        "_xsrf":_xsrf,
+        "access_token":access_token,
+        "last_update_time":last_update_time,
+        "adlevel":adlevel}
+        
+        self._redis_dict.hmset("user:" + uid,dic)
+        self.message.init_message(uid)
+        
+    def get_redis_dict(self,uid):
+        return self._redis_dict.hvals("user:"+uid)
 
-    def get_user_dict(self,uid):
-        return self._user_dict.hvals(uid)
+    def delete_redis_dict(self,uid):
+        self._redis_dict.hdel("user:" + uid,"_xsrf")
 
-    def delete_user_dict(self,uid):
-        self._user_dict.hdel(uid,"_xsrf")
+    def get_user_last_update_time(self,uid):
+        return self._redis_dict.hget('user:'+uid, "last_update_time")
     # [todo]:2016.8.26 restructure the logic of return code.
     def return_code_process(self,code):
         """Return status code to client after get a code from handler.
@@ -156,9 +167,8 @@ class BaseHandler(tornado.web.RequestHandler):
             not return, just send {'code':code,'message':message} json string to client.
         """
         if Data == {}:
-            resultJson = json.dumps({'code':code,'message':message,'Data':'{}'})
+            resultJson = json.dumps({'code':code,'message':message,'Data':{}})
         else:
-            Data = json.dumps(Data)
             resultJson = json.dumps({'code':code,'message':message,'Data':Data})
         self.write(resultJson) 
 
