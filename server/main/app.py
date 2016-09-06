@@ -16,7 +16,6 @@ import tornado.options
 import tornado.web
 import redis
 from elasticsearch import Elasticsearch
-
 import handler.index
 import handler.user
 import handler.my_feed
@@ -24,7 +23,9 @@ import handler.feed_list
 import handler.user_list
 import handler.opt_feed
 import handler.opt_user
-import handler.topic
+import handler.circle.circle
+import handler.circle.circle_detail
+import handler.contact
 from handler.web.login import IndexWebHandler
 from common.variables import AP 
 from common.variables import redis_dict
@@ -64,38 +65,48 @@ class Application(tornado.web.Application):
         (r'/register',handler.user.RegisterHandler),
         (r'/login',handler.user.LoginHandler),
         (r'/logout',handler.user.LogoutHandler),
-        (r'/updateinfo',handler.user.UpdataInfoHandler),
-        (r'/uploadfile',handler.base.UploadFileHandler),
+        (r'/updateinfo',handler.user.UpdataInfoHandler),    
         # user-user
         (r'/follow',handler.opt_user.FollowHandler),
         (r'/searchuser',handler.opt_user.SearchUserHandler),
-
         (r'/followslist',handler.user_list.FollowsListHandler),
-        # feed
+        (r'/user_detail',handler.contact.UserDetailHandler),
+        # my feed
         (r'/myfeed/update',handler.my_feed.UpdateFeedHandler),
         (r'/myfeed/delete',handler.my_feed.DeleteFeedHandler),
+
         (r'/timefeedList',handler.feed_list.TimelineHandler),
         (r'/myfavouritelist',handler.user_list.FavouriteslistHandler),
-        # circle
-        (r'/circle_apply_result',handler.topic.ReceiveApplyReviewHandler),
-        (r'/get_my_filter_circle',handler.topic.GetMyfilterCircleHander),
-        (r'/get_my_circle',handler.topic.GetMyCircleHandler),
-        (r'/createTopic',handler.topic.CeateTopicHandler),
-        (r'/detailtopic',handler.topic.DetailTopicHandler),
-        (r'/edittopic',handler.topic.EditTopicHandler),
-        (r'/gettypetopic',handler.topic.GetTopicTypeHandler),
-        (r'/searchtopic',handler.topic.SearchTopicHandler),
-
-        (r'/reviewlisttopic',handler.topic.ReviewListHandler),
-        (r'/reviewresult',handler.topic.ReviewResultHandler),
-
+        # feed detail:
+        (r'/feed_detail',handler.opt_feed.FeedDetailHandler),
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
-        (r'/deletecomment',handler.opt_feed.DeleteCommentHandler),
         (r'/like',handler.opt_feed.LikeHandler),
-        (r'/forward',handler.opt_feed.ForwoardHandler),
-        (r'/favourite',handler.opt_feed.FavouritesHandler),
-        (r'/detail',handler.opt_feed.DetailHandler),
         (r'/commentlist',handler.opt_feed.CommentListHandler),
+
+        #(r'/deletecomment',handler.opt_feed.DeleteCommentHandler),
+        #(r'/forward',handler.opt_feed.ForwoardHandler),
+        #(r'/favourite',handler.opt_feed.FavouritesHandler),
+        
+        # circle
+        (r'/circle_apply_result',handler.circle.circle.ReceiveApplyReviewHandler),
+        (r'/get_my_filter_circle',handler.circle.circle.GetMyfilterCircleHander),
+        (r'/get_my_circle',handler.circle.circle.GetMyCircleHandler),
+        (r'/circle_member_list',handler.circle.circle_detail.CircleMemberHandler),
+
+        # circle-detail
+        (r'/detail_circle',handler.circle.circle_detail.DetailCircleHandler),
+        (r'/circle_feed',handler.circle.circle_detail.CircleFeedListHandler),
+        (r'/createTopic',handler.circle.circle.CeateTopicHandler),
+        (r'/edittopic',handler.circle.circle.EditTopicHandler),
+        (r'/gettypetopic',handler.circle.circle.GetTopicTypeHandler),
+        (r'/searchtopic',handler.circle.circle.SearchTopicHandler),
+
+        # search user
+        (r'/search_user',handler.contact.UserFilterHandler),
+
+        (r'/reviewlisttopic',handler.circle.circle.ReviewListHandler),
+        (r'/reviewresult',handler.circle.circle.ReviewResultHandler),
+
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
         # add db to global variable.
@@ -122,5 +133,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-"c54e996f6c839595aa41ab4a89052b7fc416c223"
