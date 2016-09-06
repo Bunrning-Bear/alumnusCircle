@@ -164,7 +164,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         return self._code_dict[self.requestName] + code
 
-    @tornado.web.asynchronous
+
     def return_to_client(self,code,message, Data = {}):
         """
         This method is to return status code and message to client.
@@ -179,13 +179,11 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         update_Data = self.get_user_update()
         Data={'update':update_Data,'response':Data}
-        logging.info("in return to client :%s"%json.dumps(Data))
-        temp = str(json.dumps(Data))
-        logging.info("change data to temp : %s"%json.dumps(temp))
+        temp = str(json.dumps(Data))# json
         temp = temp.replace("null","\"empty\"")
-        logging.info(" replace : %s"%temp)
-        json_after_replace = json.loads(temp)
-        logging.info("json after replace %s"%json_after_replace)
+        json_after_replace = json.loads(temp)#dict
+        logging.info("response data is : %s"%json_after_replace)
+        self.change_custom_string_to_json(json_after_replace)# change custom type
         if Data == {}:
             resultJson = json.dumps({'code':code,'message':message,'Data':{}})
         else:
@@ -195,26 +193,16 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_user_update(self):
         return {}
 
-class UploadFileHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write('''
-<html>
-  <head><title>Upload File</title></head>
-  <body>
-    <form action='/uploadfile' enctype="multipart/form-data" method='post'>
-    <input type='file' name='file'/><br/>
-    <input type='submit' value='submit'/>
-    </form>
-  </body>
-</html>
-''')
-
-    def post(self):
-        upload_path=os.path.join(os.path.dirname(AP),'files')  #文件的暂存路径
-        file_metas=self.request.files['Filename']    #提取表单中‘name’为‘file’的文件元数据
-        for meta in file_metas:
-            filename=meta['filename']
-            filepath=os.path.join(upload_path,filename)
-            with open(filepath,'wb') as up:      #有些文件需要已二进制的形式存储，实际中可以更改
-                up.write(meta['body'])
-            self.write('finished!')
+    def change_custom_string_to_json(self,dic):
+        if isinstance(dic,dict):
+            for key,value in dic.items():
+                # print "in dictory : ",key,value
+                if key == 'custom' and value !='':
+                    dic[key] = json.loads(value)
+                if isinstance(value,dict):
+                    self.change_custom_string_to_json(value)
+                elif isinstance(value,list):
+                    # print " out of list ", value
+                    for list_value in value:
+                        # print "in list : "+str(list_value)
+                        self.change_custom_string_to_json(list_value)

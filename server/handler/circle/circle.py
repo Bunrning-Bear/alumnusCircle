@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 # topic.py
-
-
 import json
 import re
 import ConfigParser
@@ -15,15 +13,15 @@ import random
 import tornado.httpclient
 import tornado.web
 
-import user
-import base
-import request
+from handler import user
+from handler import base
+from handler import request
 import modules.review_deal
 import modules.circle
 from common.lib.prpcrypt import prpcrypt,set_encrypt
 from common.lib.to_list import custom_list_to_list
-from request import RequestHandler
-from base import BaseHandler
+from handler.request import RequestHandler
+
 
 
 class TopicHandler(RequestHandler):
@@ -80,6 +78,9 @@ class GetMyCircleHandler(TopicHandler):
         self.return_to_client(code,message,Data)
         self.finish()
 
+
+"""Get my admin circle and my create circle.
+"""
 class GetMyfilterCircleHander(TopicHandler):
     def __init__(self, *argc, **argkw):    
         super(GetMyfilterCircleHander, self).__init__(*argc, **argkw)
@@ -191,7 +192,8 @@ class ReviewResultHandler(TopicHandler):
                     virtual_cid = Data['id']
                     code,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
                     real_cid = Data['id']
-                    cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'])
+
+                    cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'],Data['icon_url'])
                     logging.info("cid is: %s"%cid)
                     mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
                     self.message.add_new_message_queue_to_all(cid)
@@ -229,7 +231,6 @@ class ReviewResultHandler(TopicHandler):
             custom = {"creator_uid":creator_uid,"virtual_cid":virtual_cid}
         else:
             custom = {"creator_uid":creator_uid}
-        custom = json.dumps(custom)
         # todo : this access_token must get by a real admin user.
         Data = {
         "name":name,
@@ -242,6 +243,7 @@ class ReviewResultHandler(TopicHandler):
         logging.info("topic data is %s"%Data)
         code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
         Data['type_id'] = type_id
+        Data['icon_url'] = icon_url
         raise tornado.gen.Return((code,message,Data))
 
 class ApplyTopicHanlder(TopicHandler):
@@ -302,25 +304,6 @@ class ReceiveApplyReviewHandler(TopicHandler):
 
 class AdminSetHandler(TopicHandler):
     pass
-
-class DetailTopicHandler(RequestHandler):
-    def __init__(self, *argc, **argkw):
-        super(DetailTopicHandler, self).__init__(*argc, **argkw)
-        self.url = '/0/topic'
-        self.methodUsed = 'GET'    
-        self.requestName ='topicdetail'
-
-    @tornado.web.asynchronous
-    @tornado.gen.coroutine        
-    def post(self):
-        Data = self.get_argument('info_json')
-        Data = json.loads(Data)
-        uid = self.get_secure_cookie('uid')
-        code = 0
-        access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message,Data)
-        self.finish()
 
 
 class EditTopicHandler(RequestHandler):

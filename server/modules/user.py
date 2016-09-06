@@ -270,6 +270,8 @@ class UserDetailModule(UserModule):
             a dictory store all of information in mysql, if not find in mysql, will return []
         """
         entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        entity = entity[0]
+        entity['last_update_time'] = str(entity['last_update_time'])
         return entity
 
     def update_last_update_time_by_uid(self,uid,last_update_time):

@@ -54,6 +54,204 @@ def do_request(api,dic,message,method,otherPara):
         print message[count] + the_page
         count = count + 1   
 
+def like():
+    api='/like'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        'method':'POST'# POST or DELETE stand for like and cancel like
+    }
+    info_json[num] = {
+        "feed_id":"57ce5a64b9a9965c03f6b679",
+    }
+    message[num] = "like \n"    
+    num +=1
+    otherPara[num] = {
+        'method':'DELETE'# POST or DELETE stand for like and cancel like
+    }
+    info_json[num] = {
+        "feed_id":"57ce5a64b9a9965c03f6b679",
+    }    
+    message[num] = "cancel like \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+
+def pub_comment():
+    api='/pubcomment'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+
+    }
+    info_json[num] = {
+        "feed_id":"57ce5a64b9a9965c03f6b679",
+        "content":"this is a comment"+str(random.randint(1,1000))
+    }
+    message[num] = "pub comment  \n"    
+    do_request(api,info_json,message,"POST",otherPara)     
+
+def commit_list():
+    api='/commentlist'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        "feed_id":"57ce5a64b9a9965c03f6b679",
+        "page":1,
+        "count":30
+    }
+    info_json[num] = {
+    }
+    message[num] = "comment list \n"    
+    do_request(api,info_json,message,"POST",otherPara)  
+
+
+def feed_detail():
+    api = '/feed_detail'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        "feed_id":"57ce5a64b9a9965c03f6b679"
+    }
+    info_json[num] = {
+    }
+    message[num] = "feed deatail\n"    
+    do_request(api,info_json,message,"POST",otherPara)  
+
+def user_detail():
+    api = '/user_detail'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        "uid":97
+    }
+    info_json[num] = {
+    }
+    message[num] = "user deatail\n"    
+    do_request(api,info_json,message,"POST",otherPara)     
+
+
+def search():
+    api='/search_user'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        "filter_admission_year_min":2000,# 0 for not filter
+        "filter_admission_year_max":2016,# 9999 for not filter
+        "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
+        "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
+        "all_match":0,# 0 for not query search. 1 for query search 
+        "query":""
+    }
+    info_json[num] = {
+    }
+    message[num] = "search,\n"    
+    do_request(api,info_json,message,"POST",otherPara)     
+
+def circle_member_list():
+    api = '/circle_member_list'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+    }
+    info_json[num] = {
+        "count":1000,
+        "topic_id":"57c69d68d36ef3151eb80bac",# this is the only circle can be use when test.
+        "page":1
+    }
+    message[num] = "circle member list .\n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+
+def circle_feed_list():
+    api = '/circle_feed'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+    }
+    info_json[num] = {
+        "count":10,
+        "topic_id":"57c69d68d36ef3151eb80bac",# this is the only circle can be use when test.
+        "page":1,
+        "order":0
+    }
+    message[num] = "feed of a special circle.\n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+def update_feed():
+    api ='/myfeed/update'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+    }
+    info_json[num] = {
+            "content":"this is a feed !yeah~~ "+ str(random.randint(1,100000)),
+            "topic_ids":"57c69d68d36ef3151eb80bac",
+            "title":" circle feed list !",
+            # "image_urls":
+            "img_str":"http://test.jpg"
+    }
+    message[num] = "update a feed."    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+
+def get_follow_list():
+    api= '/followslist'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+    }
+    info_json[num] = {
+        "count":30,
+        "page":1,
+        "uid":"57cd37cfb9a9967eb0367d76"
+    }
+    message[num] = "get my circle list."    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+def follow_test():
+    api = '/follow'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    otherPara[num] = {
+        "target":"follow",
+    }
+    info_json[num] = {
+        "target_uid":"57ce32e2d36ef3d9adcfce6f"
+    }
+    message[num] = "follow."
+    num +=1
+    otherPara[num] = {
+        "target":"follow",
+    }
+    info_json[num] = {
+        "target_uid":"57ce3064b9a996566bef6681"
+    }
+    message[num] = "follow."
+    num +=1
+    do_request(api,info_json,message,"POST",otherPara)    
+
 def get_all_circle_test():
     api = '/get_my_circle'
     num = 0
@@ -312,7 +510,7 @@ def detailTest():
     message = {}
     otherPara = {}
     dic[num] = {
-        "topic_id":"57bfa306ee78507903b49a06"
+        "topic_id":"57c69d68d36ef3151eb80bac"
     }
     otherPara[num] = {}
     setMessage(message,num,"get topic detail")
@@ -399,7 +597,7 @@ def reviewTest():
     dic[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":91,
+        "review_id":83,
     }
     setMessage(message,num,"review topic")
     num = num + 1
@@ -484,18 +682,29 @@ def checkPhone():
 # checkPhone()
 # registerTest()    
 loginTest()
+circle_member_list()
+#user_detail()
+#like()
+#commit_list()
+#pub_comment()
+# search()
+#follow_test()
+#get_follow_list() 
+# update_feed()
+# circle_feed_list()
+# feed_detail()
 # logoutTest()
 # updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
 # gettypetopicTest()
-get_all_circle_test()
+# get_all_circle_test()
 # createTopic()
 # reviewListTest()
 # reviewTest()    
 #circle_apply_test()
-# get_my_filter_circle_test()
+#get_my_filter_circle_test()
 """
 adminRegister()
 adminloginTest()

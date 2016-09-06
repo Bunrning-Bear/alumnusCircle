@@ -30,5 +30,8 @@ CODE_DICT = {
     "review_topic":2900,
     "check_phone":3000,
     'receive_apply':3100,
-    "get_all_topic":3200
+    "get_all_topic":3200,
+    "circle_feed":3300,
+    "user_filter":3400,
+    "circle_member":3500
 }

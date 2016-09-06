@@ -41,7 +41,7 @@ class FollowHandler(RequestHandler):
         self.url = self.url + target
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         self.return_to_client(code,message,Data)
 
@@ -70,7 +70,7 @@ class SearchUserHandler(RequestHandler):
         page = self.get_argument('page')
         q = self.get_argument('q')
         Data = {"count":self.count,"page":page,"q":q}
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         self.return_to_client(code,message)
         self.finish()

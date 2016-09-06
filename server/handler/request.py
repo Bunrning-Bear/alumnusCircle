@@ -55,7 +55,7 @@ def authenticated(request):
                 code,message = self.request_identifier_check(uid,self.requestName)
                 # code == 3,means it is the real user.
                 if code != 3:
-                    code = self.return_code_process(self.requestName,code)
+                    code = self.return_code_process(code)
                     self.return_to_client(code,message)
                     self.finish()
                     return

@@ -11,12 +11,14 @@ example:
     get my favorites list
     get my feed list
 """
+import json
 import tornado.web
 import tornado.gen
 import request
 import base
 from request import RequestHandler
 """
+[needn't]
 Get all of user I follows.
 user can not get others followslist, although Umeng api can do so.
 """
@@ -25,30 +27,36 @@ class FollowsListHandler(RequestHandler):
         super(FollowsListHandler, self).__init__(*argc, **argkw)
         self.url = '/0/user/follows'
         self.methodUsed = 'GET'
-        self.count =10
         self.requestName = 'followsList'   
 
     @request.authenticated('followsList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
-    def get(self):
+    def post(self):
         """
         Requet from client:
-            GET['page']:
-            GET['uid']: this is umeng uid store in user's cookie.
+            info_json:
+                page:
+                uid:
+                count:
+                max_id:
         """
-        page = self.get_argument('page')
-        uid = self.get_argument('uid')
-        Data = {'page':page,'count':self.count,"uid":uid}
+        # page = self.get_argument('page')
+        # user_id = self.get_argument('uid')
+        # count = self.get_argument('count')
+        # Data = {'page':page,'count':self.count,"uid":user_id}
         """
             GET value page from client:
             page[integer]:[must] represent the page will return the next request.
         """
+        info_json = self.get_argument('info_json')
+        Data = json.loads(info_json)
         uid = self.get_secure_cookie('uid')
-        access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)    
+        access_token = self.get_redis_dict_access_token(uid)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message)    
+        self.return_to_client(code,message,Data)    
+        self.finish() 
 
 #[todo]:count should be resquest by client?
 
@@ -91,7 +99,6 @@ class FavouriteslistHandler(RequestHandler):
         self.requestName = 'favourites'
 
     @request.authenticated('favourites')
-    @tornado.web.asynchronous
     @tornado.gen.coroutine    
     def get(self):
         page = self.get_argument('page')
@@ -102,7 +109,8 @@ class FavouriteslistHandler(RequestHandler):
        """
         uid = self.get_secure_cookie('uid')
         access_token = self.get_user_dict(uid)[1]
-        code,message =yield self.Umeng_asyn_request(access_token,Data)    
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message)    
+        self.return_to_client(code,message,Data)    
+        self.finish()
 

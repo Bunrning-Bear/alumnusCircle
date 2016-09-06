@@ -21,6 +21,7 @@ body1={
                 "instroduction":{"type":"string","analyzer":"ik_max_word"},
                 "company":{"type":"string","analyzer":"ik_max_word"},
                 "job_list":{"type":"string","analyzer":"ik_max_word"},
+                "register_time":{"type":"date","format":"yyyy-MM-dd HH:mm:ss"},
                 "gender":{"type":"boolean"}
             }   
         }

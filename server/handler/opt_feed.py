@@ -2,12 +2,12 @@
 """
 opt_feed define all of operate to feed:
 include 
-comment, delete comment;
-like delete like;
-forward delete forawrd;
-favourites delete favourites;
-get detail of a special feed;
-get commentlist of a special list;
+    comment, delete comment;
+    like delete like;
+    forward delete forawrd;
+    favourites delete favourites;
+    get detail of a special feed;
+    get commentlist of a special list;
 """
 import json
 import logging
@@ -45,7 +45,7 @@ class PubCommentHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         uid = self.get_secure_cookie('uid')
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         self.return_to_client(code,message,Data)
 
@@ -73,7 +73,7 @@ class DeleteCommentHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
 
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
         self.return_to_client(code,message,Data)
@@ -85,7 +85,7 @@ this handler is to excute like feed, like comment, cancel like feed and cancel l
 class LikeHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(LikeHandler, self).__init__(*argc, **argkw)
-        self.url = '/0/like/'
+        self.url = '/0/like/feed'
         self.requestName = 'like'
 
     @request.authenticated('like')
@@ -101,17 +101,18 @@ class LikeHandler(RequestHandler):
                 "feed_id":[string][must] the feed client like or want to cancel like.
         """
         uid = self.get_secure_cookie('uid')
-        self.url = self.url + self.get_argument('target')
+        # self.url = self.url + self.get_argument('target')
         self.methodUsed = self.get_argument('method')
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
         self.return_to_client(code,message,Data)
 
 # [toodo] can not be used now!!!
 """
+[needn't now] 
 this handler is to forwoard a feed.
 """
 class ForwoardHandler(RequestHandler):
@@ -138,7 +139,7 @@ class ForwoardHandler(RequestHandler):
         uid = self.get_secure_cookie('uid')
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         self.return_to_client(code,message,Data)    
 
@@ -177,9 +178,9 @@ class FavouritesHandler(RequestHandler):
 Get the detail of a sepcial feed.
 
 """
-class DetailHandler(RequestHandler):
+class FeedDetailHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
-        super(DetailHandler, self).__init__(*argc, **argkw)
+        super(FeedDetailHandler, self).__init__(*argc, **argkw)
         self.url = '/0/feed/show'
         self.methodUsed = 'GET'
         self.count =10
@@ -187,15 +188,16 @@ class DetailHandler(RequestHandler):
     
     @tornado.web.asynchronous
     @tornado.gen.coroutine
-    def get(self):
+    def post(self):
         """
         Request from client:
             GET['page']:[integer][must]represent the page will return the next request.
             GET['feed_id']:[string][must] reprsent the detail of a special feed
         """
-        page = self.get_argument('page')
+        # page = self.get_argument('page')
         feed_id = self.get_argument('feed_id')
-        Data = {'page':page,'count':self.count,'feed_id':feed_id}
+        # Data = {'page':page,'count':self.count,'feed_id':feed_id}
+        Data = {'feed_id':feed_id}
         access_token = self._public_access
         code,message,Data = yield self.public_Umeng_request(access_token,Data)
         self.return_to_client(code,message,Data)
@@ -212,9 +214,10 @@ class CommentListHandler(RequestHandler):
         self.methodUsed = 'GET'
         self.order = "seq"# result order  
         self.requestName = 'commentlist'
+
     @tornado.web.asynchronous
     @tornado.gen.coroutine
-    def get(self):
+    def post(self):
         """
         Request from client:
             GET['page']:[integer][must]represent the page will return the next request.
@@ -222,7 +225,8 @@ class CommentListHandler(RequestHandler):
         """
         page = self.get_argument('page')
         feed_id = self.get_argument('feed_id')
-        Data = {'page':page,'count':self.count,'feed_id':feed_id}
+        count = self.get_argument('count')
+        Data = {'page':page,'count':self.count,'feed_id':feed_id,"count":count}
         access_token = self._public_access
         code,message,Data = yield self.public_Umeng_request(access_token,Data)
         self.return_to_client(code,message,Data)

@@ -221,8 +221,9 @@ class RegisterHandler(UserHandler):
         count,message = self._check(Data)
         if count != 0:
             code = self.return_code_process(count)
+            self.return_to_client(code,message)
+            self.finish()
         else:
-            count = count + 1
             message = "register successful!"
             cryptedData = self.__get_cryptedData(Data)
             url = self._prefix+"/0/get_access_token?ak=" + self._appkey
@@ -306,7 +307,6 @@ class RegisterHandler(UserHandler):
                     self.user_message_module.set_user_to_message(user_id)
                     self.user_module.update_umeng_id(umeng_id,user_id)
                     res = self.elastic_user_module.createInfo(user_id,faculty,major,real_name,country,state,city,admission_year,icon_url,job,company)
-                    
                     logging.info("elastic_user_module : %s"%res)
                     message = "register successfully!"
 
@@ -321,6 +321,7 @@ class LoginHandler(UserHandler):
         super(LoginHandler, self).__init__(*argc, **argkw)
         self.requestName = 'login'
 
+    @tornado.gen.coroutine        
     def post(self):
         """
         Request from client:
@@ -335,6 +336,7 @@ class LoginHandler(UserHandler):
         count,message = self._check(Data)
         if count != 0:
             code = self.return_code_process(count)
+
         else:
             phone = Data[self.user_module._user_phone]
             entity = self.user_module.get_info_from_phone(phone)
@@ -343,14 +345,14 @@ class LoginHandler(UserHandler):
                 message = "the phone has not been register now."
                 code = self.return_code_process(count)
                 self.return_to_client(code,message)
-                self.finish()
+                
             else:
                 if Data[self._user_module._user_password] != entity[0][self._user_module._user_password]:
                     count += 2
                     message = "your input a wrong password"
                     code = self.return_code_process(count)
                     self.return_to_client(code,message)
-                    self.finish()
+                    
                 else:
                     uid = str(entity[0][self.user_module._uid]) 
                     count += 3
@@ -369,18 +371,16 @@ class LoginHandler(UserHandler):
                     Data = self.user_detail_module.get_info_from_uid(uid)
                     # logging.info("data in mysql ac_user_detail_info is :%s"%Data)
                     # set cookie and dict
-                    Data = Data[0]
                     adlevel =entity[0][self.user_module._user_adlevel]
                     Data['adlevel'] = adlevel
-                    logging.info("login data is : %s"%Data)
-                    Data['last_update_time'] = str(Data['last_update_time'])
-                    logging.info("access_token %s     update time %s "%(access_token,Data['last_update_time']))
+#                    logging.info("login data is : %s"%Data)
+ #                   logging.info("access_token %s     update time %s "%(access_token,Data['last_update_time']))
                     self.set_redis_dict(str(uid),_xsrf,access_token,Data['last_update_time'],adlevel)
                     self.set_secure_cookie('uid',str(uid))
                     code = self.return_code_process(count)
                     logging.info("data %s"%str(self.get_redis_dict(str(uid))))
                     self.return_to_client(code,message,Data)
-                    self.finish()
+        self.finish()
 
 
 class LogoutHandler(UserHandler):
@@ -542,10 +542,13 @@ class RegisterAdminHandler(UserHandler):
         """
         code = 0
         jsonData = self.get_argument('info_json')
+        pdb.set_trace()
         Data = json.loads(jsonData)
         count,message = self._check(Data)
         if count != 0:
             code = self.return_code_process(count)
+            self.return_to_client(code,message)
+            self.finish()
         else:
             phone = Data[self.user_module._user_phone]
             hasRegister = self.user_module.find_user_phone(phone)
@@ -554,7 +557,6 @@ class RegisterAdminHandler(UserHandler):
                 message = "User phone:%s has been register "%Data[self.user_module._user_phone]
             else:
                 count = count + 1
-                message = "register successful!"
                 cryptedData = self.__get_cryptedData(Data)
                 url = self._prefix+"/0/get_access_token?ak=" + self._appkey
                 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -625,7 +627,7 @@ class RegisterAdminHandler(UserHandler):
                     if code == 0:
                         # set umeng data success.
                         # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
-                        code = self.return_code_process(count)
+                        # code = self.return_code_process(count)
                         self.user_list_module.set_info_to_user(
                             user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,state,country)
                         self.user_detail_module.set_info_to_user(

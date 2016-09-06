@@ -23,7 +23,8 @@ class UpdateFeedHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(RequestHandler, self).__init__(*argc, **argkw)
         self.url = '/0/feed/update'
-        self.methodUsed = 'POST'        
+        self.methodUsed = 'POST' 
+        self.requestName = 'update'       
 # [todo:]upload img to server at first.
     @request.authenticated('update')
     @tornado.web.asynchronous
@@ -34,17 +35,21 @@ class UpdateFeedHandler(RequestHandler):
 
         POST['info_json']:
             "content":[string] the content of feed
+            "topic_ids":
+            "title"
+            "image_urls"
+            "img_str"
         """
         uid = self.get_secure_cookie('uid')
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         code = 0
-        access_token = self.get_user_dict(uid)[1]
-        logging.info("access %s and Data %s:"%(access_token,Data))
+        access_token = self.get_redis_dict_access_token(uid)
+        # logging.info("access %s and Data %s:"%(access_token,Data))
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         self.return_to_client(code,message,Data)
         self.finish()
-    
+
 """
 delete a feed user has upload before.
 [todo]:check if the feed deleted must upload by its creator.
