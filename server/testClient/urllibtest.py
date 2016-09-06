@@ -182,6 +182,7 @@ def loginTest():
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
+    """
     num = num + 1
     dic[num] = {
         "password":"cxh1234567",
@@ -197,6 +198,7 @@ def loginTest():
     otherPara[num] = {}
     setMessage(message,num,"账号不存在")
     num = num + 1
+    """
     do_request(api,dic,message,"POST",otherPara)
 
 def logoutTest():
@@ -479,7 +481,7 @@ def checkPhone():
     setMessage(message,num,"telephone has been register")
     do_request(api,dic,message,"POST",otherPara)    
 
-#checkPhone()
+# checkPhone()
 # registerTest()    
 loginTest()
 # logoutTest()
@@ -493,7 +495,7 @@ get_all_circle_test()
 # reviewListTest()
 # reviewTest()    
 #circle_apply_test()
-get_my_filter_circle_test()
+# get_my_filter_circle_test()
 """
 adminRegister()
 adminloginTest()

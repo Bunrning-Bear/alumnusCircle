@@ -52,7 +52,7 @@ class TopicHandler(RequestHandler):
         self.url = '/0/topic/user/topics'
         self.methodUsed = 'GET'    
         self.requestName ='user_topic'
-        access_token = self.get_redis_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         umeng_uid = self.user_module.get_umeng_id_from_uid(uid)
         Data = {
         "count":300,

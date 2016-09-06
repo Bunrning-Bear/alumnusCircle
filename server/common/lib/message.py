@@ -260,7 +260,7 @@ class Message(object):
 
  
     def update_check_user(self,id_type,uid,id,last_update_time):
-        """ check if update time in server has been updated.
+        """ check if update_time in server has been updated.
         Check the user in client's last update time, compare it to server.
         if last_update_time is early then update_time now. we should execute send_message
         [deleted]: replaced by check_and_get_message

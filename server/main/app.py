@@ -47,6 +47,7 @@ class Application(tornado.web.Application):
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
         self._redis_dict = redis_dict
+        self._redis_dict.flushall()
         logging.info("start server.")
         settings = dict(
             cookie_secret=cookie_secret,

@@ -149,7 +149,7 @@ class UserHandler(RequestHandler):
         return count, message
 
 
-class CheckTelephoneHandler(BaseHandler):
+class CheckTelephoneHandler(UserHandler):
     def __init__(self, *argc, **argkw):
         super(CheckTelephoneHandler, self).__init__(*argc, **argkw)
         self.requestName ='check_phone'
@@ -157,7 +157,7 @@ class CheckTelephoneHandler(BaseHandler):
     def post(self):
         count = 0
         phone = self.get_argument(self.user_module._user_phone)
-        if self.check_unit(self.user_module._user_phone,phone):
+        if self._check_unit(self.user_module._user_phone,phone):
             hasRegister = self.user_module.find_user_phone(phone)
             if hasRegister:
                 count =1 
@@ -374,9 +374,11 @@ class LoginHandler(UserHandler):
                     Data['adlevel'] = adlevel
                     logging.info("login data is : %s"%Data)
                     Data['last_update_time'] = str(Data['last_update_time'])
+                    logging.info("access_token %s     update time %s "%(access_token,Data['last_update_time']))
                     self.set_redis_dict(str(uid),_xsrf,access_token,Data['last_update_time'],adlevel)
                     self.set_secure_cookie('uid',str(uid))
                     code = self.return_code_process(count)
+                    logging.info("data %s"%str(self.get_redis_dict(str(uid))))
                     self.return_to_client(code,message,Data)
                     self.finish()
 

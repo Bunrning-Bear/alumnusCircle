@@ -133,15 +133,18 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         dic = {
         "_xsrf":_xsrf,
-        "access_token":access_token,
         "last_update_time":last_update_time,
+        "access_token":access_token,
         "adlevel":adlevel}
         
         self._redis_dict.hmset("user:" + uid,dic)
-        self.message.init_message(uid)
+        # self.message.init_message(uid)
         
     def get_redis_dict(self,uid):
         return self._redis_dict.hvals("user:"+uid)
+
+    def get_redis_dict_access_token(self,uid):
+        return self._redis_dict.hget("user:"+uid,"access_token")
 
     def delete_redis_dict(self,uid):
         self._redis_dict.hdel("user:" + uid,"_xsrf")
@@ -177,10 +180,16 @@ class BaseHandler(tornado.web.RequestHandler):
         update_Data = self.get_user_update()
         Data={'update':update_Data,'response':Data}
         logging.info("in return to client :%s"%json.dumps(Data))
+        temp = str(json.dumps(Data))
+        logging.info("change data to temp : %s"%json.dumps(temp))
+        temp = temp.replace("null","\"empty\"")
+        logging.info(" replace : %s"%temp)
+        json_after_replace = json.loads(temp)
+        logging.info("json after replace %s"%json_after_replace)
         if Data == {}:
             resultJson = json.dumps({'code':code,'message':message,'Data':{}})
         else:
-            resultJson = json.dumps({'code':code,'message':message,'Data':Data})
+            resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
         self.write(resultJson) 
 
     def get_user_update(self):
