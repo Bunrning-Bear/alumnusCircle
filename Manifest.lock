@@ -25,9 +25,6 @@ PODS:
   - ReactiveCocoa/Core (2.1.8):
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.1.8)
-  - SDWebImage (3.8.2):
-    - SDWebImage/Core (= 3.8.2)
-  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -37,7 +34,6 @@ DEPENDENCIES:
   - objectiveflickr (= 2.0.4)
   - RBStoryboardLink (~> 0.1)
   - ReactiveCocoa (= 2.1.8)
-  - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -47,8 +43,7 @@ SPEC CHECKSUMS:
   objectiveflickr: aed169dae1eb5a5550ca78f7efd7ccde2e4c26e5
   RBStoryboardLink: 0faae84aea6a5e8716c4469984d847d958c3fcb3
   ReactiveCocoa: f89f2e009a87951b50321bf9feb958823fcc617e
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 61975c18cc5fe53e6df0a93949bb1456520c373d
+PODFILE CHECKSUM: 631a91db44bc41fd59067c121040944058a7909f
 
 COCOAPODS: 1.0.1

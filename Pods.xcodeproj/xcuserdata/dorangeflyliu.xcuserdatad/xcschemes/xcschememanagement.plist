@@ -39,11 +39,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>objectiveflickr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,27 +47,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>285F4D2F1CA2E952730F9286DB6088B1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>64502E4E24CEF6AC9F8C481F8F2BDF2A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7E541DB54EDDCF73D6CC979B37313340</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>826D1BF68305303919780F8D8D0BD015</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>839E7CBC9DEDAFBC7B00A047E3B46D65</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,7 +72,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B7E196B22DF8D5E128EB94B11E9683C0</key>
+		<key>9978195DFCCC3A8D931BDF4C34698DC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B0082B99530AD52F7D93788ECD9E72D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
