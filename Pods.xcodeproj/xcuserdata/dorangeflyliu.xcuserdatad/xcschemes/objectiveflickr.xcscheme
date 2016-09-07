@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7E541DB54EDDCF73D6CC979B37313340'
+               BlueprintIdentifier = '7F607AA8E0C0606A56B01C0EE23766AB'
                BlueprintName = 'objectiveflickr'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libobjectiveflickr.a'>
+               BuildableName = 'objectiveflickr.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MJExtension.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -39,6 +44,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Result.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SVProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>objectiveflickr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,42 +62,57 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
+		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>64502E4E24CEF6AC9F8C481F8F2BDF2A</key>
+		<key>2519F10A16CB492073750C1E7CC81599</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7E541DB54EDDCF73D6CC979B37313340</key>
+		<key>34F2B2E7CF3BC93D3D74C2CA9BB6F246</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8638A059014477F5882DD59BDDCA0314</key>
+		<key>423DEF869787B0309BBBDAC0D5E4347D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>928353533005A4198EBDA5B700D37B64</key>
+		<key>7C0126D717EB28DC6DB2EEA2E20B5172</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9978195DFCCC3A8D931BDF4C34698DC9</key>
+		<key>7F607AA8E0C0606A56B01C0EE23766AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0082B99530AD52F7D93788ECD9E72D7</key>
+		<key>A9A83F63385AA43314397B8DD375464B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E84B8811FCA99973072222CA3E833D26</key>
+		<key>BE83F7AFC14165CEDD6686FCA7537E71</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C8E20E2BB47F6CABC39DFF463B235097</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E61A5E9A247D34BA08435AAB1914DCD6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F996E12F005C75461379C01B38571EE4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
