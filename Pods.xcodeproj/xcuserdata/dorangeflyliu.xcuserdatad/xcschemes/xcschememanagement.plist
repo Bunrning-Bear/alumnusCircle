@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CBTableViewDataSource.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -34,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>objectiveflickr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +52,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3F3460E833D0EB637565A6B1E9D0D897</key>
+		<key>285F4D2F1CA2E952730F9286DB6088B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,22 +62,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7C858DB2C5ECCC7873A55C4DE63B3B3D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>7E541DB54EDDCF73D6CC979B37313340</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F188409700D48B3FA5C690AE1C3B2FD</key>
+		<key>826D1BF68305303919780F8D8D0BD015</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>839E7CBC9DEDAFBC7B00A047E3B46D65</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>8638A059014477F5882DD59BDDCA0314</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>928353533005A4198EBDA5B700D37B64</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B7E196B22DF8D5E128EB94B11E9683C0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
