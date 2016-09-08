@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'E61A5E9A247D34BA08435AAB1914DCD6'
+               BlueprintIdentifier = 'F77D5F6DE926B0193B08C661F3C48D94'
                BlueprintName = 'RBStoryboardLink'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'RBStoryboardLink.framework'>
+               BuildableName = 'libRBStoryboardLink.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
