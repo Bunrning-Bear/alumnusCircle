@@ -9,4 +9,8 @@ from common.variables import AP
 class IndexWebHandler(tornado.web.RequestHandler):
 
     def get(self):
-        self.render(AP+'template/index.html')
+        self.render('login.html')
+
+class MainWebHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('index.html')

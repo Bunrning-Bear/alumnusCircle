@@ -159,11 +159,15 @@ class ReviewListHandler(TopicHandler):
         limit_num = self.get_argument("limit_num")
         if result == 0 or result == 1:
             Data = self.message_review_module.get_review_list(result,since_id,limit_num)
-            self.return_to_client(0,"success",Data)
+            if result == 0:
+                print Data
+                self.render('to_review.html',resultdata=Data)
+            else:
+                self.render('has_review.html',resultdata=Data)
         else:
             Data = []
             self.return_to_client(1,"fail",Data)
-        self.finish()
+    
 
 
 class ReviewResultHandler(TopicHandler):
@@ -175,7 +179,9 @@ class ReviewResultHandler(TopicHandler):
     @tornado.gen.coroutine
     def post(self):
         """
-            result: must be 1 or 2
+            result: must be 1 or 2.
+                1: agree
+                2: reject
             review_id : the entities id of the manual review information
         """
         result = int(self.get_argument("result"))
@@ -183,27 +189,68 @@ class ReviewResultHandler(TopicHandler):
         count = 1
         if result > 2 or result <=0:
             code = self.return_code_process(count)
-            self.return_to_client(0,"fail",Data)
+            self.return_to_client(0,"fail")
         else:
-            Data = self.message_review_module.update_review_result(result,review_id)
+            logging.info("result of update is : %s"%Data)
             if result == 1:
                 code,message,Data = yield self.__createUmengTopic(review_id,virtual=True)
                 if code == 0:
                     virtual_cid = Data['id']
                     code,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
                     real_cid = Data['id']
-
                     cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'],Data['icon_url'])
                     logging.info("cid is: %s"%cid)
+                    # create success message
+                    mid = self.message.create_message(
+                        self.message.TYPE['create circle success'],
+                        circle_name=Data['name'],circle_url=Data['icon_url'],circle_id=real_cid)
                     mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
                     self.message.add_new_message_queue_to_all(cid)
-                self.return_to_client(code,message,Data)
+                    # create success message
+                    mid = self.message.create_message(
+                        self.message.TYPE['create circle fail'],
+                        circle_name=Data['name'],circle_url=Data['icon_url'])
+                # self.return_to_client(code,message,Data)
+            else:
+                mid = self.message.create_message(
+                    self.message.TYPE['create circle fail'],
+                    circle_name=Data['name'],circle_url=Data['icon_url'])
+            # update review.
+            self.message_review_module.update_review_result(result,review_id)                
+            # deal new message
+            self.message.deal_message_to_one(self,mid,Data['creator_uid'])
+            self.return_to_client(1,"success",Data)
         self.finish()
 
     @tornado.gen.coroutine
     def __createUmengTopic(self,review_id,virtual,virtual_cid =''):
         """Create topic in Umeng database.
         In this app, we define "virtual circle" to store those feed upload by user out of circle.
+        
+        data structure in umeng:
+         {
+                    "stats": {
+                        "fans": 1,
+                        "feeds": 0
+                    },
+                    "description": "thecirclewillbebeautiful!",
+                    "tags": [],
+                    "icon_url": {
+                        "80": "empty",
+                        "160": "empty",
+                        "origin": "empty"
+                    },
+                    "image_urls": [],
+                    "custom": {
+                        "virtual_cid": "57c69cbab9a9965edeffa3e7",
+                        "creator_uid": "123"
+                    },
+                    "secret": false,
+                    "create_time": "2016-08-3117: 00: 43",
+                    "has_followed": true,
+                    "id": "57c69cbbb9a99622684b2d23",
+                    "name": "newcircle397"
+                },
 
         Args:
             review_id[int]: the entities in ac_manual_review_table. to get the apply information.
@@ -244,6 +291,7 @@ class ReviewResultHandler(TopicHandler):
         code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
         Data['type_id'] = type_id
         Data['icon_url'] = icon_url
+        Data['creator_uid']=creator_uid
         raise tornado.gen.Return((code,message,Data))
 
 class ApplyTopicHanlder(TopicHandler):

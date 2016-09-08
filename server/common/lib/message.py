@@ -21,7 +21,10 @@ class Message(object):
         self._user_message = modules.message.UserMessageModule(db)
         self._circle_message = modules.message.MessageCircleModule(db)
         self._message = modules.message.MessagesListModule(db)
-
+        self.TYPE = {
+            "create circle success":0,
+            "create circle fail":1,
+        }
     @property
     def user_message(self):
         return self._user_message
@@ -34,7 +37,7 @@ class Message(object):
     def message(self):
         return self._message
 
-    def create_message(self,type_id,circle_name=' ',circle_id=' ',reason=' '):
+    def create_message(self,type_id,circle_name=' ',circle_id=' ',reason=' ',circle_url='',uid=''):
         """input parameter of a special type of message, then return the message id.
 
         Args:
@@ -46,14 +49,15 @@ class Message(object):
         Returns:
             mid of ac_message_table.
         """
-        if type_id == 1:
-            # create message successfully.
-            dic = {'circle_name':circle_name,'circle_id':circle_id}
-        elif type_id == 2:
-            # create message failed.
-            dic = {'circle_name':circle_name,'reason':reason}
-
-        mid = self.message.set_message(type_id,str(dic))
+        if type_id == 0:
+            # create circle successfully.
+            dic = {'circle_name':circle_name,'circle_id':circle_id,"circle_url":circle_url}
+        elif type_id == 1:
+            # create circle failed.
+            dic = {'circle_name':circle_name,"circle_url":circle_url}
+            # store as json structure
+            dic = json.dumps(dic)
+        mid = self.message.set_message(type_id,dic)
         return mid
 
     def init_message(self,uid):
@@ -154,10 +158,12 @@ class Message(object):
             message_list: python list.
         """
         custom_list = custom_list.split('_')
+        message_list = ''
         print custom_list
         del custom_list[0]
         del custom_list[-1]
-        message_list = [string.atoi(elem) for elem in custom_list]
+        if custom_list != '':
+            message_list = [string.atoi(elem) for elem in custom_list]
         return message_list
 
 
@@ -169,7 +175,10 @@ class Message(object):
             update_time_now:
 
         Returns:
+            True: If update time now is later than last update time. return True
+            False: else return false.
         """
+        print "update_time_now %s"%update_time_now
         format_time = "%Y-%m-%d %H:%M:%S"
         strp_now = time.strptime(update_time_now,format_time)
         strp_last = time.strptime(last_update_time,format_time)
@@ -190,27 +199,33 @@ class Message(object):
             message_list 
         """
         update_time_now = redis_dict.hget("user:"+str(uid),"update_time")
+        last_update_time = redis_dict.hget("user:"+str(uid),"last_update_time")
         if self.__time_check_unit(last_update_time,update_time_now) >= 0:
             # this update time is latter than last time, we should send message to client.
             message_list = {}
             message_id_list = self.user_message.get_message_queue_by_uid(uid)['message_queue']
             print "message _list is " + str(message_id_list)
-            message_id_list = message_id_list[:-1]# delete the last char '_'
+            # message_id_list = message_id_list[:-1]# delete the last char '_'
             circle_list = self.custom_list_to_list(my_circle_list)
-            circle_message_id_list = ''
+            print "circle list [after change ]is %s"%circle_list
+            circle_message_id_list = '_'
             for cid in circle_list:
                 print "uid :" + str(uid) + " cid " + str(cid) + " update time : "+ str(last_update_time)
+                # the update time now of a sepcial circle.
                 update_time_now = redis_dict.hget("circle:"+str(cid),"update_time")
                 print "update_time_now: "+ str(update_time_now)
                 if self.__time_check_unit(last_update_time,update_time_now):
-                    circle_message_id_list += self.circle_message.get_message_queue_by_cid(cid)['message_queue']
-                    circle_message_id_list = circle_message_id_list[:-1]
+                    # this circle has been updated
+                    result_str = self.circle_message.get_message_queue_by_cid(cid)['message_queue']
+                    circle_message_id_list += result_str[1:]# delete the first char '_'
+                    # circle_message_id_list = circle_message_id_list[:-1] ???
             if message_id_list != '_':
                 # get user message content.
                 message_id_list = self.custom_list_to_list(message_id_list)
                 message_list['user'] = self._message.get_message_by_mid_list(message_id_list)    
             if circle_message_id_list != '_':
                 # get ciecle message content.
+                print 'circle message id list is %s'%circle_message_id_list
                 circle_message_id_list = self.custom_list_to_list(circle_message_id_list)
                 # [todo]: if circle message can be repeated, use set to delete it.
                 #print "circle list before: "+str(circle_message_id_list)

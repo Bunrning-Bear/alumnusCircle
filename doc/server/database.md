@@ -155,6 +155,7 @@ type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
     [if "agree" == true]
     [if "agree" == false]
     "reason":手工填写的拒绝理由
+    icon_url:
 }	
 type：2 全体成员都能接受到的消息，由圈子的管理员或者创始人发送：
 {

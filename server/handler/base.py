@@ -197,8 +197,24 @@ class BaseHandler(tornado.web.RequestHandler):
         if isinstance(dic,dict):
             for key,value in dic.items():
                 # print "in dictory : ",key,value
-                if key == 'custom' and value !='':
+                if value == [] or value == {}:
+                    # change all of empty list and dicotry to "empty"
+                    dic[key] = "empty"
+
+                elif key == 'custom' and value !='' and value !='empty':
+                    # change custom string into json style data.
+                    # print "in custom:%s"%value
                     dic[key] = json.loads(value)
+                elif key == 'icon_url' and isinstance(value,dict):
+                    # delete 360.720 origin.
+                    logging.info(" in icon_url : %s"%value)
+                    dic[key] = value['origin']
+                elif key == 'image_urls' and isinstance(value,list):
+                    count = 0
+                    while count < len(value):
+                        logging.info("image_urls key %s value %s"%(dic[key],value))
+                        dic[key][count] = value[count]['origin']
+                        count += 1
                 if isinstance(value,dict):
                     self.change_custom_string_to_json(value)
                 elif isinstance(value,list):
@@ -206,3 +222,4 @@ class BaseHandler(tornado.web.RequestHandler):
                     for list_value in value:
                         # print "in list : "+str(list_value)
                         self.change_custom_string_to_json(list_value)
+

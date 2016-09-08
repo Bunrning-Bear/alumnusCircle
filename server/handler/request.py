@@ -168,15 +168,16 @@ class RequestHandler(BaseHandler):
         message = ''
         request = self.set_Umeng_request(self.url,access_token,Data,self.methodUsed)
         logging.info("Umeng_asyn_request request is :")
-        logging.info(', '.join(['%s:%s' % item for item in request.__dict__.items()]))
+        logging.info(', '.join(['%s:%s \n' % item for item in request.__dict__.items()]))
         response = yield tornado.gen.Task(client.fetch,request)
+        logging.info("umeng response is %s"%response)
         body =  json.loads(response.body)
         code,message,Data = self.set_UmengCode(body)
         raise tornado.gen.Return((code,message,Data))
  
     @public_access_decorator
     @tornado.gen.coroutine
-    def public_Umeng_request(self,access_token,Data):
+    def public_Umeng_request(self,Data):
         """This request is use to send all of feed request to Umeng which login is not need 
         """
         config = ConfigParser.ConfigParser()

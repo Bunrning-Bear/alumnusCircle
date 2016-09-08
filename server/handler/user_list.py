@@ -51,6 +51,9 @@ class FollowsListHandler(RequestHandler):
         """
         info_json = self.get_argument('info_json')
         Data = json.loads(info_json)
+        user_id = Data['uid']
+        umeng_id = self.user_module.get_umeng_id_from_uid(user_id)
+        Data['uid']=umeng_id
         uid = self.get_secure_cookie('uid')
         access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    

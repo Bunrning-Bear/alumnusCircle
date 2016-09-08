@@ -4,7 +4,8 @@
 """
 operate to my feed.
 include:
-update and delete feed
+    update 
+    [needn't] delete feed
 """
 import json
 import logging
@@ -51,6 +52,8 @@ class UpdateFeedHandler(RequestHandler):
         self.finish()
 
 """
+[needn't]
+
 delete a feed user has upload before.
 [todo]:check if the feed deleted must upload by its creator.
 """

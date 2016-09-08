@@ -5,7 +5,7 @@ include
     comment, delete comment;
     like delete like;
     forward delete forawrd;
-    favourites delete favourites;
+    [needn't] favourites delete favourites;
     get detail of a special feed;
     get commentlist of a special list;
 """
@@ -111,6 +111,66 @@ class LikeHandler(RequestHandler):
         self.return_to_client(code,message,Data)
 
 # [toodo] can not be used now!!!
+
+
+"""
+Get the detail of a sepcial feed.
+
+"""
+class FeedDetailHandler(RequestHandler):
+    def __init__(self, *argc, **argkw):
+        super(FeedDetailHandler, self).__init__(*argc, **argkw)
+        self.url = '/0/feed/show'
+        self.methodUsed = 'GET'
+        self.count =10
+        self.requestName = 'showfeed'
+    
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        """
+        Request from client:
+            GET['page']:[integer][must]represent the page will return the next request.
+            GET['feed_id']:[string][must] reprsent the detail of a special feed
+        """
+        # page = self.get_argument('page')
+        feed_id = self.get_argument('feed_id')
+        # Data = {'page':page,'count':self.count,'feed_id':feed_id}
+        Data = {'feed_id':feed_id}
+        access_token = self._public_access
+        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        self.return_to_client(code,message,Data)
+        self.finish()
+
+
+"""
+Get comment list of a special feed
+"""
+class CommentListHandler(RequestHandler):
+    def __init__(self, *argc, **argkw):
+        super(CommentListHandler, self).__init__(*argc, **argkw)
+        self.url = '/0/feed/comments'
+        self.methodUsed = 'GET'
+        self.order = "seq"# result order  
+        self.requestName = 'commentlist'
+
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        """
+        Request from client:
+            GET['page']:[integer][must]represent the page will return the next request.
+            GET['feed_id']:[string][must] reprsent the detail of a special feed
+        """
+        page = self.get_argument('page')
+        feed_id = self.get_argument('feed_id')
+        count = self.get_argument('count')
+        Data = {'page':page,'count':self.count,'feed_id':feed_id,"count":count}
+        access_token = self._public_access
+        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        self.return_to_client(code,message,Data)
+        self.finish()
+
 """
 [needn't now] 
 this handler is to forwoard a feed.
@@ -172,62 +232,3 @@ class FavouritesHandler(RequestHandler):
         access_token = self.get_user_dict(uid)[1]
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         self.return_to_client(code,message,Data)    
-
-
-"""
-Get the detail of a sepcial feed.
-
-"""
-class FeedDetailHandler(RequestHandler):
-    def __init__(self, *argc, **argkw):
-        super(FeedDetailHandler, self).__init__(*argc, **argkw)
-        self.url = '/0/feed/show'
-        self.methodUsed = 'GET'
-        self.count =10
-        self.requestName = 'showfeed'
-    
-    @tornado.web.asynchronous
-    @tornado.gen.coroutine
-    def post(self):
-        """
-        Request from client:
-            GET['page']:[integer][must]represent the page will return the next request.
-            GET['feed_id']:[string][must] reprsent the detail of a special feed
-        """
-        # page = self.get_argument('page')
-        feed_id = self.get_argument('feed_id')
-        # Data = {'page':page,'count':self.count,'feed_id':feed_id}
-        Data = {'feed_id':feed_id}
-        access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message,Data)
-        self.finish()
-
-
-"""
-Get comment list of a special feed
-"""
-class CommentListHandler(RequestHandler):
-    def __init__(self, *argc, **argkw):
-        super(CommentListHandler, self).__init__(*argc, **argkw)
-        self.url = '/0/feed/comments'
-        self.methodUsed = 'GET'
-        self.order = "seq"# result order  
-        self.requestName = 'commentlist'
-
-    @tornado.web.asynchronous
-    @tornado.gen.coroutine
-    def post(self):
-        """
-        Request from client:
-            GET['page']:[integer][must]represent the page will return the next request.
-            GET['feed_id']:[string][must] reprsent the detail of a special feed
-        """
-        page = self.get_argument('page')
-        feed_id = self.get_argument('feed_id')
-        count = self.get_argument('count')
-        Data = {'page':page,'count':self.count,'feed_id':feed_id,"count":count}
-        access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message,Data)
-        self.finish()

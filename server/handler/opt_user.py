@@ -4,7 +4,6 @@
 this file define all of handlers from user to user.
 include:
     follow and unfollow
-    search user
 """
 import json
 
@@ -46,6 +45,7 @@ class FollowHandler(RequestHandler):
         self.return_to_client(code,message,Data)
 
 """
+[needn't]
 search a user by part of "username"
 
 """
@@ -75,7 +75,3 @@ class SearchUserHandler(RequestHandler):
         self.return_to_client(code,message)
         self.finish()
 
-
-"""Update user's information to database.
-
-"""

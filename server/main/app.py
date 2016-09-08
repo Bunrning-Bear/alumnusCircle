@@ -26,7 +26,9 @@ import handler.opt_user
 import handler.circle.circle
 import handler.circle.circle_detail
 import handler.contact
-from handler.web.login import IndexWebHandler
+import handler.message 
+import handler.test
+from handler.web.login import IndexWebHandler,MainWebHandler
 from common.variables import AP 
 from common.variables import redis_dict
 from tornado.options import define, options
@@ -39,25 +41,36 @@ define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
 logging.basicConfig(level=logging.INFO)
-              #  filename='err.log',  
-              #  filemode='w')
+               #  filename='err.log',  
+               #  filemode='w')
 
 class Application(tornado.web.Application):
-    def __init__(self):
+    def __init__(self, *argc, **argkw):
         config = ConfigParser.ConfigParser()
         config.readfp(open(AP+"common/conf.ini"))
         cookie_secret = config.get("app","cookie_secret")
         self._redis_dict = redis_dict
+        # [test]
         self._redis_dict.flushall()
+
+        template_path=os.path.join(AP+"template")
+        static_path=os.path.join(AP+"static")
         logging.info("start server.")
         settings = dict(
             cookie_secret=cookie_secret,
-            xsrf_cookies=True
+            xsrf_cookies=True,
+            template_path=template_path,
+            static_path=static_path
         )
-        template_path=os.path.join(os.path.dirname(__file__), "templates")
+
         handlers = [
+        # test
+        (r'/test', handler.test.TestHandler),
         # web
         (r'/adminlogin',IndexWebHandler),
+        (r'/admin_main',MainWebHandler),
+#        (r'/admin_toreview',ToReviewHandler),
+#        (r'/admin_hasreview',HasReviewHandler),
         # user
         (r'/adminregister',handler.user.RegisterAdminHandler),
         (r'/',handler.index.IndexHandler),
@@ -74,6 +87,9 @@ class Application(tornado.web.Application):
         # my feed
         (r'/myfeed/update',handler.my_feed.UpdateFeedHandler),
         (r'/myfeed/delete',handler.my_feed.DeleteFeedHandler),
+        # message
+        (r'/getmessage',handler.message.GetMessageHandler),
+        (r'/get_my_comment',handler.message.GetMyCommentHandler),
 
         (r'/timefeedList',handler.feed_list.TimelineHandler),
         (r'/myfavouritelist',handler.user_list.FavouriteslistHandler),
@@ -82,7 +98,8 @@ class Application(tornado.web.Application):
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
         (r'/like',handler.opt_feed.LikeHandler),
         (r'/commentlist',handler.opt_feed.CommentListHandler),
-
+        # message :
+       #  (r'/receive_message',handler.message.)
         #(r'/deletecomment',handler.opt_feed.DeleteCommentHandler),
         #(r'/forward',handler.opt_feed.ForwoardHandler),
         #(r'/favourite',handler.opt_feed.FavouritesHandler),
@@ -103,12 +120,12 @@ class Application(tornado.web.Application):
 
         # search user
         (r'/search_user',handler.contact.UserFilterHandler),
-
+        # review circle
         (r'/reviewlisttopic',handler.circle.circle.ReviewListHandler),
         (r'/reviewresult',handler.circle.circle.ReviewResultHandler),
 
         ]
-        tornado.web.Application.__init__(self, handlers, **settings)
+        tornado.web.Application.__init__(self, handlers,**settings)
         # add db to global variable.
         self.db = torndb.Connection(
             host = options.mysql_host, database = options.mysql_database,

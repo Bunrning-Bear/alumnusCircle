@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-#prefix = "http://139.196.207.155:8000"
-prefix = "http://127.0.0.1:8001"
+# prefix = "http://139.196.207.155:8000"
+prefix = "http://127.0.0.1:8000 "
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -53,6 +53,38 @@ def do_request(api,dic,message,method,otherPara):
         the_page = response.read()
         print message[count] + the_page
         count = count + 1   
+
+def getcommentlist():
+    api = '/get_my_comment'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+    }
+    info_json[num] = {
+        "count":30,
+        "type":'received', # set 'received' as default. we can also set 'sent' to get all of comments I have sent.
+        "page":1
+    }
+    message[num] = "my comment list : \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+
+def getmessage():
+    api = '/getmessage'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+        'my_circle_list':'_14_'# POST or DELETE stand for like and cancel like
+    }
+    info_json[num] = {
+    }
+    message[num] = "my_circle_list: \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
 
 def like():
     api='/like'
@@ -205,8 +237,8 @@ def update_feed():
             "content":"this is a feed !yeah~~ "+ str(random.randint(1,100000)),
             "topic_ids":"57c69d68d36ef3151eb80bac",
             "title":" circle feed list !",
-            # "image_urls":
-            "img_str":"http://test.jpg"
+            # "image_urls":[{'origin':'http://test1.jpg', '360':'http://test2.jpg', '750':'http://test3.jpg'}],
+            "img_str":"http://test2.jpg;http://test3.jpg"
     }
     message[num] = "update a feed."    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -223,7 +255,7 @@ def get_follow_list():
     info_json[num] = {
         "count":30,
         "page":1,
-        "uid":"57cd37cfb9a9967eb0367d76"
+        "uid":85
     }
     message[num] = "get my circle list."    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -597,7 +629,7 @@ def reviewTest():
     dic[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":83,
+        "review_id":86,
     }
     setMessage(message,num,"review topic")
     num = num + 1
@@ -682,16 +714,18 @@ def checkPhone():
 # checkPhone()
 # registerTest()    
 loginTest()
-circle_member_list()
+# getcommentlist()
+#getmessage()
+#circle_member_list()
 #user_detail()
 #like()
 #commit_list()
-#pub_comment()
+# pub_comment()
 # search()
 #follow_test()
-#get_follow_list() 
+# get_follow_list() 
 # update_feed()
-# circle_feed_list()
+circle_feed_list()
 # feed_detail()
 # logoutTest()
 # updateInfoTest()
@@ -705,6 +739,7 @@ circle_member_list()
 # reviewTest()    
 #circle_apply_test()
 #get_my_filter_circle_test()
+# logoutTest()
 """
 adminRegister()
 adminloginTest()

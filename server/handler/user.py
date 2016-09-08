@@ -376,9 +376,11 @@ class LoginHandler(UserHandler):
 #                    logging.info("login data is : %s"%Data)
  #                   logging.info("access_token %s     update time %s "%(access_token,Data['last_update_time']))
                     self.set_redis_dict(str(uid),_xsrf,access_token,Data['last_update_time'],adlevel)
+                    self.message.init_message(uid)
                     self.set_secure_cookie('uid',str(uid))
                     code = self.return_code_process(count)
                     logging.info("data %s"%str(self.get_redis_dict(str(uid))))
+
                     self.return_to_client(code,message,Data)
         self.finish()
 

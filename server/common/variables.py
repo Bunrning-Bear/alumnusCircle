@@ -33,5 +33,7 @@ CODE_DICT = {
     "get_all_topic":3200,
     "circle_feed":3300,
     "user_filter":3400,
-    "circle_member":3500
+    "circle_member":3500,
+    "sendmessage":3600,
+    "get_comment":3700
 }
