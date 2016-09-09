@@ -23,7 +23,7 @@ import functools
 import request
 from request import RequestHandler
 
-"""Get feed list by timeline
+"""[needn't] Get feed list by timeline
 
 """
 class TimelineHandler(RequestHandler):
@@ -45,13 +45,13 @@ class TimelineHandler(RequestHandler):
         client = tornado.httpclient.AsyncHTTPClient()
         page = self.get_argument('page')
         Data = {'page':page,'count':self.count}
-        access_token = self._public_access
-        code,message = yield self.public_Umeng_request(access_token,Data)
+        count,message,Data = yield self.public_Umeng_request(Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message)
         self.finish()
 
 """
-Get a special user's feed list by timeline
+[needn't] Get a special user's feed list by timeline
 """
 class UserTimeLineHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
@@ -76,7 +76,8 @@ class UserTimeLineHandler(RequestHandler):
         Data = {'page':page,'count':self.count,'uid':uid}
         access_token = self._public_access
 #        logging.info("access_token :%s"%access_token)
-        code,message = yield self.public_Umeng_request(access_token,Data)
+        count,message = yield self.public_Umeng_request(Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message)
         self.finish()
 

@@ -38,10 +38,12 @@ class FollowHandler(RequestHandler):
         target = self.get_argument('target')
         uid = self.get_secure_cookie('uid')
         self.url = self.url + target
-        DataJson = self.get_argument('info_json')
-        Data = json.loads(DataJson)
+        user_id = self.get_argument('uid')
+        umeng_id = self.user_module.get_umeng_id_from_uid(user_id)
+        Data = {'target_uid':umeng_id}
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data) 
+        code = self.return_code_process(count)      
         self.return_to_client(code,message,Data)
 
 """

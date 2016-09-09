@@ -29,7 +29,6 @@ from base import BaseHandler
 """
  user handler :include register login and logout
 """
-
 class UserHandler(RequestHandler):
     _regex_dict = {}
     def __init__(self, *argc, **argkw):
@@ -49,9 +48,9 @@ class UserHandler(RequestHandler):
         # admission year : 1000~ 2999
         self._regex_dict[self.user_list_module._admission_year] = ur"^[1-2][0-9]{3}$\Z"
         # faculty  0~99
-        self._regex_dict[self.user_list_module._faculty] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
+        self._regex_dict[self.user_list_module._faculty] = ur"^[\u4e00-\u9fa5\w()（）]{2,20}$"
         # major id 0~99
-        self._regex_dict[self.user_list_module._major] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
+        self._regex_dict[self.user_list_module._major] = ur"^[\u4e00-\u9fa5\w()（）]{2,20}$"
         # gender
         self._regex_dict[self.user_list_module._gender] = ur"^[0-1]$\Z"
         # job
@@ -66,7 +65,7 @@ class UserHandler(RequestHandler):
         self._regex_dict[self._user_detail_module._company]=ur"^[\u4e00-\u9fa5\w\s]{2,25}$"
         # icon_url is a url or a string "default"
         self._regex_dict[self._user_list_module._icon_url] = ur"^((https|http)?:\/\/)[^\s]+|default$\Z"
-        
+        # [todo]: check when execute "get_argument"
 
     def data_decode(self,to_decode_data):
         # pdb.set_trace()
@@ -163,10 +162,10 @@ class CheckTelephoneHandler(UserHandler):
                 count =1 
                 message = "User phone:%s has been register "%phone
             else:
-                count = 2
+                count = 0
                 message = "this phone can be used."
         else:
-            count = 3
+            count = 2
             message = "telephone format error!"
         code = self.return_code_process(count)
         self.return_to_client(code,message)
@@ -187,7 +186,7 @@ class RegisterHandler(UserHandler):
         """
         source = "self_account"
         UmengData = {
-        "user_info":{"name":str(Data[self._user_module._user_phone])},
+        "user_info":{"name":str(Data[self._user_module._user_phone])+str(Data[self.user_module._name])},
         "source_uid":str(Data[self.user_module._user_phone]),
         "source":source} 
         # logging.info("umengdata: %s"%UmengData)
@@ -204,28 +203,29 @@ class RegisterHandler(UserHandler):
                 "user_passwd"
                 "name"
                 "admission_year"
-                "faculty_id"
+                "faculty"
                 "gender"
                 "major_id"
                 "job"
                 "city"
                 "company"
+                "icon_url"
         """
 
         code = 0
         jsonData = self.get_argument('info_json')
         Data = json.loads(jsonData)
-        #print "data before %s"%Data
-        #self.data_decode(Data)
-        #print "data decode : %s"%Data
         count,message = self._check(Data)
+        # check data 
         if count != 0:
             code = self.return_code_process(count)
             self.return_to_client(code,message)
             self.finish()
+            return
         else:
             message = "register successful!"
             cryptedData = self.__get_cryptedData(Data)
+            # register user to umeng.
             url = self._prefix+"/0/get_access_token?ak=" + self._appkey
             headers = {'Content-Type': 'application/x-www-form-urlencoded'}
             body = urllib.urlencode({"encrypted_data":cryptedData})
@@ -241,79 +241,116 @@ class RegisterHandler(UserHandler):
             if "err_code" in body:
                 code = body['err_code']
                 message = body['err_msg']
+                self.return_to_client(code,message)
+                self.finish()
+                return
             else:
+                # get umeng access token successfully
                 access_token = body['access_token']
                 #[test]:just set a random stu id.
                 stu_id = random.randint(10000000,99999999)
                 user_id = self.user_module.set_info_to_user(
                     access_token,
-                    # Data[self._user_module._user_name], [todo]: I think user name is needn't in mysql.
                     Data[self._user_module._user_password],
                     Data[self.user_module._user_phone],
                     stu_id)
                 logging.info("after register code is %s message is %s"%(count,message))
-                # use update pai to set user's message.
-                # [todo]: should not write data to mysql before get successful information in umeng data.
-                self.url = '/0/user/update'
+                # update umeng icon_url
+                self.url = '/0/user/icon'
                 self.methodUsed = 'PUT'
-                self.requestName = 'update_user_info'
-                admission_year = Data[self.user_list_module._admission_year]
-                faculty = Data[self.user_list_module._faculty]
-                major = Data[self.user_list_module._major]
-                job = Data[self.user_list_module._job]
-                city = Data[self.user_list_module._city]
-                state = Data[self.user_list_module._state]
-                country = Data[self.user_list_module._country]
-                company = Data[self.user_detail_module._company]
-                real_name = Data[self._user_list_module._name]
-                phone = Data[self._user_module._user_phone]
-                custom = {
-                # "uni_id":1,# todo: uni_id == 1 ,prestent the SEU.
-                "admission_year":admission_year,
-                "faculty":faculty,
-                "major":major,
-                "job":job,
-                "uid":user_id,
-                "publicity_level":0,
-                "city":city,
-                "state":state,
-                "country":country,
-                "real_name":real_name,
-                }
-                custom = json.dumps(custom)                    
-                gender = Data[self._user_list_module._gender]
+                icon_url = Data[self._user_module._icon_url]
+                icon_url_dic = {'icon_url':icon_url}
+                count,message,DataTemp =yield self.Umeng_asyn_request(access_token,icon_url_dic)
+                if count != 0:
+                    code = count
+                else:
+                    # use update pai to set user's message.
+                    # [todo]: should not write data to mysql before get successful information in umeng data.
+                    # update user detail information in umeng.
+                    self.url = '/0/user/update'
+                    self.methodUsed = 'PUT'
+                    self.requestName = 'update_user_info'
+                    admission_year = Data[self.user_list_module._admission_year]
+                    faculty = Data[self.user_list_module._faculty]
+                    major = Data[self.user_list_module._major]
+                    job = Data[self.user_list_module._job]
+                    city = Data[self.user_list_module._city]
+                    state = Data[self.user_list_module._state]
+                    country = Data[self.user_list_module._country]
 
-                icon_url = "default"
-                #[todo]I think user id is useless, right?
-                Data = {
-                "gender":gender,
-                "name":phone,
-                # "icon_url":icon_url,[you should change your url at another api]
-                "custom":custom
-                # "uid":uid
-                }
-                code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
-                if code == 0:
-                    # set umeng data success.
-                    # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
-                    umeng_id = Data['id']
-                    logging.info("data after umeng  of register is : %s"%Data['id'])
-                    logging.info("data user id is : %s"%user_id)
-                    code = self.return_code_process(count)
-                    self.user_list_module.set_info_to_user(
-                        user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country)
-                    self.user_detail_module.set_info_to_user(
-                        user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country,company)
-                    self.user_message_module.set_user_to_message(user_id)
-                    self.user_module.update_umeng_id(umeng_id,user_id)
-                    res = self.elastic_user_module.createInfo(user_id,faculty,major,real_name,country,state,city,admission_year,icon_url,job,company)
-                    logging.info("elastic_user_module : %s"%res)
-                    message = "register successfully!"
+                    company = Data[self.user_detail_module._company]
+                    real_name = Data[self._user_list_module._name]
+                    phone = Data[self._user_module._user_phone]
+                    if city == '':
+                        city = state
+                    if city == '':
+                        city = country
+                    custom = {
+                    "ay":admission_year,
+                    "fa":faculty,
+                    "ma":major,
+                    "jo":job,
+                    "uid":user_id,
+                    "ct":city,
+                    # "pl":0,#publicity_level
+
+                    # "st":state,
+                    # "ct":country,
+                    # "rn":real_name,
+                    }
+                    logging.info("custom is : %s"%custom)
+                    custom = json.dumps(custom)                    
+                    gender = Data[self._user_list_module._gender]
+                    Data = {
+                    "gender":gender,
+                    "name":phone+real_name,
+                    "custom":custom
+                    }
+                    logging.info("register data is %s"%Data)
+                    count,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+                    access_token = self.get_redis_dict_access_token(user_id)
+                    if count != 0:
+                        code = count  
+                    else:              
+                        # set umeng data success.
+                        # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
+                        code = self.return_code_process(0)
+                        umeng_id = Data['id']
+                        logging.info("data after umeng  of register is : %s"%Data['id'])
+                        logging.info("data user id is : %s"%user_id)
+                        code = self.return_code_process(count)
+                        self.user_list_module.set_info_to_user(
+                            user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country)
+                        self.user_detail_module.set_info_to_user(
+                            user_id,admission_year,faculty,major,real_name,gender,job,icon_url,city,state,country,company)
+                        self.user_message_module.set_user_to_message(user_id)
+                        self.user_module.update_umeng_id(umeng_id,user_id)
+                        res = self.elastic_user_module.createInfo(user_id,faculty,major,real_name,country,state,city,admission_year,icon_url,job,company)
+                        logging.info("elastic_user_module : %s"%res)
+                        message = "register successfully!"
 
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
         self.return_to_client(code,message)
         self.finish()
+
+class UpdateUserIconHandler(UserHandler):
+    def __init__(self, *argc, **argkw):
+        super(LoginHandler, self).__init__(*argc, **argkw)
+        self.requestName = 'login'
+        self.url = '/0/user/icon'
+        self.methodUsed = 'PUT'
+
+    def post(self):
+        """
+            icon_url:
+        """
+        icon_url = self.get_argument('icon_url')
+        uid = self.get_secure_cookie('uid')
+        access_token = self.get_redis_dict_access_token(uid)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,icon_url)
+        self.return_to_client(code,message,Data)
+
 
 #[todo]:2016.8.21 add auto login logic
 class LoginHandler(UserHandler):
@@ -368,6 +405,7 @@ class LoginHandler(UserHandler):
                         message = "you have login! needn't do it again!"
                     access_token = entity[0]['access_token']
                     uid = entity[0]['uid']
+                    logging.info(" uid is %s"%uid)
                     Data = self.user_detail_module.get_info_from_uid(uid)
                     # logging.info("data in mysql ac_user_detail_info is :%s"%Data)
                     # set cookie and dict
@@ -428,6 +466,8 @@ class UpdataInfoHandler(UserHandler):
     def __init__(self, *argc, **argkw):
         super(UpdataInfoHandler, self).__init__(*argc, **argkw)
         self.requestName = 'update_user_info'
+        self.url = '/0/user/update'
+        self.methodUsed = 'PUT'
 
     @request.authenticated(str('update_user_info'))
     @tornado.web.asynchronous
@@ -438,45 +478,51 @@ class UpdataInfoHandler(UserHandler):
         POST['list_info_has_update']:bool: if list info has been update, set value true[1].
         info_json:
             'custom':json： if list_info_has_update, client dumps custom field to this parameter.
-                "admission_year":admission_year,
-                "faculty":faculty,
-                "major":major,
-                "job":job,
+                "ay":admission_year,
+                "fa":faculty,
+                "ma":major,
+                "jo":job,
                 "uid":user_id,
-                "publicity_level":0,
-                "city":city,
-                "real_name":real_name,
+                "ct":city,
             'telephone': this parameter must be stored in client.
         [those field is used in Umeng update].
-        "update_json":
+        "info_json":
             POST['icon_url']:
-            POST['publicity_level']:
+            # POST['publicity_level']:
             POST['city']:
             POST['state']
             POST['country']
             POST['job']:
-            POST['public_contact_list']
-            POST['protect_contact_list']
-            POST['job_list']
-            POST['job_list_level']
+            POST['public_contact_list'] # at this version, we treat it as telephone.
+            # POST['protect_contact_list']
+            # POST['job_list']
+            # POST['job_list_level']
             POST['company']
-            POST['company_publicity_level ']
+            # POST['company_publicity_level ']
             POST['instoduction']
+        POST['telephone']
         """
-        self.url = '/0/user/update'
-        self.methodUsed = 'PUT'
         code = 0 
         count = 0
         uid = self.get_secure_cookie(self._user_module._uid)
         update_list = self.get_argument('list_info_has_update')
         # logging.info("update_list%s type is : %s"%(update_list,type(update_list)))
-        
+        info_json = self.ger_argument('info_json')
+        json_data = json.loads(info_json)
         if update_list == 0:
-            DataJson = self.get_argument('info_json')
-            Data = json.loads(DataJson)            
-            count,message =self._check(Data)
+            count,message =self._check(json_data)
             if count == 0:
                 access_token = self.get_redis_dict(uid)[1]
+                custom = {
+                    "ay":json_data['admission_year'],
+                    "fa":json_data['faculty'],
+                    "ma":json_data['major'],
+                    "jo":json_data['job'],
+                    "uid":uid,
+                    "ct":json_data['city']
+                }
+                custom = json.dumps(custom)
+                phone = json_data['telephone']
                 code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
                 logging.info("in update_list to umeng")
         # update data to mysql
@@ -544,7 +590,7 @@ class RegisterAdminHandler(UserHandler):
         """
         code = 0
         jsonData = self.get_argument('info_json')
-        pdb.set_trace()
+        # pdb.set_trace()
         Data = json.loads(jsonData)
         count,message = self._check(Data)
         if count != 0:
@@ -624,9 +670,9 @@ class RegisterAdminHandler(UserHandler):
                     "custom":custom
                     # "uid":uid
                     }
-                    code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+                    count,message,Data = yield self.Umeng_asyn_request(access_token,Data)
                     logging.info('after umeng request, code is %s message is %s'%(code,message))
-                    if code == 0:
+                    if count == 0:
                         # set umeng data success.
                         # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
                         # code = self.return_code_process(count)
@@ -636,7 +682,10 @@ class RegisterAdminHandler(UserHandler):
                             user_id,admission_year,faculty_id,major_id,real_name,gender,job,icon_url,city,state,country,company)
                         self.user_message_module.set_user_to_message(user_id)
                         message = "register successfully!"
+                        code = self.return_code_process(count)
                         # logging.info('user_id :%s'%user_id)
+                    else:
+                        code = count
             # encode message and code to json, send to client.
             self.return_to_client(code,message)
             self.finish()

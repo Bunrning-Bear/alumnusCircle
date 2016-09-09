@@ -46,7 +46,8 @@ class PubCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
         uid = self.get_secure_cookie('uid')
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
 
 """
@@ -74,7 +75,8 @@ class DeleteCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
 
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)  
+        code = self.return_code_process(count)     
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
         self.return_to_client(code,message,Data)
 
@@ -106,7 +108,8 @@ class LikeHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        code = self.return_code_process(count)
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
         self.return_to_client(code,message,Data)
 
@@ -138,7 +141,8 @@ class FeedDetailHandler(RequestHandler):
         # Data = {'page':page,'count':self.count,'feed_id':feed_id}
         Data = {'feed_id':feed_id}
         access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        count,message,Data = yield self.public_Umeng_request(Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
         self.finish()
 
@@ -167,7 +171,8 @@ class CommentListHandler(RequestHandler):
         count = self.get_argument('count')
         Data = {'page':page,'count':self.count,'feed_id':feed_id,"count":count}
         access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        count,message,Data = yield self.public_Umeng_request(Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
         self.finish()
 
@@ -204,6 +209,7 @@ class ForwoardHandler(RequestHandler):
         self.return_to_client(code,message,Data)    
 
 """
+[needn't]
 This handler is to favourite a feed or cancel a favourited feed. 
 """
 class FavouritesHandler(RequestHandler):

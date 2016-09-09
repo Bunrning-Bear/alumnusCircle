@@ -12,7 +12,7 @@ import logging
 import random
 import tornado.httpclient
 import tornado.web
-
+import pdb
 from handler import user
 from handler import base
 from handler import request
@@ -49,9 +49,9 @@ class TopicHandler(RequestHandler):
         self.requestName= "user_topic"
         self.url = '/0/topic/user/topics'
         self.methodUsed = 'GET'    
-        self.requestName ='user_topic'
         access_token = self.get_redis_dict_access_token(uid)
         umeng_uid = self.user_module.get_umeng_id_from_uid(uid)
+        logging.info("uid is %s"%uid)
         Data = {
         "count":300,
         "page":1,
@@ -62,6 +62,23 @@ class TopicHandler(RequestHandler):
 
         raise tornado.gen.Return((code,message,Data))
 
+    @request.authenticated('focus_on_circle')        
+    @tornado.gen.coroutine      
+    def focus_on_circle(self,uid,topic_id):
+        self.requestName= "receive_apply"
+        self.url = '/0/topic/focus'
+        self.methodUsed = 'POST'    
+        #[todo]: delete ['access_token']
+        access_token = self.user_module.get_access_token_from_uid(uid)['access_token']
+        # umeng_uid = self.user_module.get_umeng_id_from_uid(uid)
+        # logging.info("uid is %s"%uid)
+        Data = {
+        "topic_id":topic_id,
+        }
+        code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+
+        raise tornado.gen.Return((code,message,Data))
+        
 
 """ Get all of circle I have followed.
 """
@@ -129,22 +146,31 @@ class CeateTopicHandler(TopicHandler):
             circle_name:
             circle_icon_url:
             creator_uid:
+            creator_name
             circle_type_id:
+            circle_type_name:
             reason_message:
+            description
         """
+
         circle_name = self.get_argument(self.message_review_module._circle_name)
         circle_icon_url = self.get_argument(self.message_review_module._circle_icon_url)
+
+        creator_name = self.get_argument(self.message_review_module._creator_name)
         creator_uid = self.get_argument(self.message_review_module._creator_uid)
         # creator_uid
-        circle_type_id = self.get_argument(self.message_review_module._circle_type_id)
+        circle_type_name = self.get_argument(self.message_review_module._circle_type_name)
+       # circle_type_id = self.get_argument(self.message_review_module._circle_type_id)
+
         reason_message = self.get_argument(self.message_review_module._reason_message)
         description = self.get_argument(self.message_review_module._description)
-        circle_type_name = self.get_argument(self.message_review_module._circle_type_name)
+
         review_id = self.message_review_module.set_new_review_message(
-            circle_name,circle_icon_url,creator_uid,circle_type_id,circle_type_name,reason_message,description)
+            circle_name,circle_icon_url,creator_uid,circle_type_name,reason_message,description,creator_name)
         # todo : add error and type check.
         Data = {"review_id":review_id}
-        self.return_to_client(0,"success",Data)
+        code = self.return_code_process(0)
+        self.return_to_client(code,"success send create circle message.",Data)
         self.finish()
 
 
@@ -155,12 +181,12 @@ class ReviewListHandler(TopicHandler):
     def get(self):
         # [todo] data check
         result = int(self.get_argument("result"))
-        since_id = self.get_argument("since_id")
+        max_id = self.get_argument("max_id")
         limit_num = self.get_argument("limit_num")
         if result == 0 or result == 1:
-            Data = self.message_review_module.get_review_list(result,since_id,limit_num)
+            Data = self.message_review_module.get_review_list(result,max_id,limit_num)
+            logging.info("review list data is : %s"%Data)
             if result == 0:
-                print Data
                 self.render('to_review.html',resultdata=Data)
             else:
                 self.render('has_review.html',resultdata=Data)
@@ -191,34 +217,54 @@ class ReviewResultHandler(TopicHandler):
             code = self.return_code_process(count)
             self.return_to_client(0,"fail")
         else:
-            logging.info("result of update is : %s"%Data)
             if result == 1:
-                code,message,Data = yield self.__createUmengTopic(review_id,virtual=True)
-                if code == 0:
+                # agree create new circle.
+                count,message,Data = yield self.__createUmengTopic(review_id,virtual=True)
+                if count != 0:
+                    # create virtual circle failed.
+                    code = count
+                    self.return_to_client(code,message,Data)
+                    self.finish()
+                    return
+                else:                  
+                    # create virtual circle success, now create real circle.  
                     virtual_cid = Data['id']
-                    code,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
-                    real_cid = Data['id']
-                    cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'],Data['icon_url'])
-                    logging.info("cid is: %s"%cid)
-                    # create success message
-                    mid = self.message.create_message(
-                        self.message.TYPE['create circle success'],
-                        circle_name=Data['name'],circle_url=Data['icon_url'],circle_id=real_cid)
-                    mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
-                    self.message.add_new_message_queue_to_all(cid)
-                    # create success message
-                    mid = self.message.create_message(
-                        self.message.TYPE['create circle fail'],
-                        circle_name=Data['name'],circle_url=Data['icon_url'])
-                # self.return_to_client(code,message,Data)
+                    count,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
+                    if count != 0:
+                        code = count
+                        self.return_to_client(code,message,Data)
+                        self.finish()
+                        return
+                    else:                       
+                        real_cid = Data['id']
+                        cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['icon_url'])
+                        #cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'],Data['icon_url'])
+                        logging.info("cid is: %s"%cid)
+                        # create success message to member of circle.
+                        mid = self.message.create_message(
+                            self.message.TYPE['create circle success'],
+                            circle_name=Data['name'],circle_url=Data['icon_url'],circle_id=real_cid)
+                        mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
+                        self.message.add_new_message_queue_to_all(cid)
+                        # add my_create_circle
+                        self.user_detail_module.add_create_circle_list(cid,Data['creator_uid'])
+                        # [todo]: add follow funcion
+                        count,message,umengdata =yield self.focus_on_circle(Data['creator_uid'],real_cid)
+                        if count != 0 :
+                            code = count
+                            self.return_to_client(code,message,Data)
+                            self.finish()
+                            return                            
+                        self.return_to_client(0,message,Data)
             else:
                 mid = self.message.create_message(
                     self.message.TYPE['create circle fail'],
                     circle_name=Data['name'],circle_url=Data['icon_url'])
             # update review.
+            logging.info("result is %s review_id is %s"%(result,review_id))
             self.message_review_module.update_review_result(result,review_id)                
-            # deal new message
-            self.message.deal_message_to_one(self,mid,Data['creator_uid'])
+            # send result message to creator
+            self.message.deal_message_to_one(mid,Data['creator_uid'])
             self.return_to_client(1,"success",Data)
         self.finish()
 
@@ -265,38 +311,47 @@ class ReviewResultHandler(TopicHandler):
         self.url = '/0/topic/create'
         self.methodUsed='POST'
         Data = self.message_review_module.get_review_by_id(review_id)
-        type_id = Data[self.message_review_module._circle_type_id]
-        if virtual:
-            name = str("virtual_") + str(Data[self.message_review_module._circle_name])
+        logging.info("data in creator umeng topic is .%s"%Data)
+        #　type_id = Data[self.message_review_module._circle_type_id]
+        result = Data[self.message_review_module._result]
+       #  pdb.set_trace() 
+        if result != 0:
+            code = self.return_code_process(1)
+            message = 'this message has been review'
+            Data = {}
         else:
-            name = str(Data[self.message_review_module._circle_name]) 
-        # description = Data['description']
-        icon_url = Data[self.message_review_module._circle_icon_url]
-        description = Data[self.message_review_module._description]
-        creator_uid = Data[self.message_review_module._creator_uid]
-        if not virtual:
-            custom = {"creator_uid":creator_uid,"virtual_cid":virtual_cid}
-        else:
-            custom = {"creator_uid":creator_uid}
-        # todo : this access_token must get by a real admin user.
-        Data = {
-        "name":name,
-        # "icon_url":str(icon_url),
-        #[test todo]: when we get a real url, this should be use.
-        "description":description,
-        "custom":custom
-        }
-        access_token = self._virtual_access
-        logging.info("topic data is %s"%Data)
-        code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
-        Data['type_id'] = type_id
-        Data['icon_url'] = icon_url
-        Data['creator_uid']=creator_uid
+            if virtual:
+                name = str("virtual_") + str(Data[self.message_review_module._circle_name])
+            else:
+                name = str(Data[self.message_review_module._circle_name]) 
+            # description = Data['description']
+            icon_url = Data[self.message_review_module._circle_icon_url]
+            description = Data[self.message_review_module._description]
+            creator_uid = Data[self.message_review_module._creator_uid]
+            creator_name = Data[self.message_review_module._creator_name]
+            if not virtual:
+                custom = {"creator_uid":creator_uid,"creator_name":creator_name,"virtual_cid":virtual_cid}
+            else:
+                custom = {"creator_uid":creator_uid,"creator_name":creator_name}
+            custom = json.dumps(custom)
+            # todo : this access_token must get by a real admin user.
+            Data = {
+            "name":name,
+            "icon_url":str(icon_url),
+            #[test todo]: when we get a real url, this should be use.
+            "description":description,
+            "custom":custom
+            }
+            access_token = self._virtual_access
+            logging.info("topic data is %s"%Data)
+            code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
+            # Data['type_id'] = type_id
+            Data['icon_url'] = icon_url
+            Data['creator_uid']=creator_uid
         raise tornado.gen.Return((code,message,Data))
 
 class ApplyTopicHanlder(TopicHandler):
     pass
-
     
 """
     After admin deal the apply message, execute user's apply result.
@@ -307,53 +362,70 @@ class ReceiveApplyReviewHandler(TopicHandler):
         self.requestName= "receive_apply"
         self.url = '/0/topic/focus'
         self.methodUsed = 'POST'    
-        self.requestName ='receive_apply'
 
     @request.authenticated('receive_apply')        
     @tornado.web.asynchronous
     @tornado.gen.coroutine   
     def post(self):
         """
-            result: 0 or 1 receive result.
-            apply_user:
+            result: 0 or 1 receive result. 0 reject ,1 agree.
+            apply_user_id: apply user id.
+            apply_user_name: needn't when reject.
             circle_id:
+            circle_url:
+            circle_name:
             review_id:
         """
         result = int(self.get_argument("result"))
+        apply_user_id = self.get_argument("apply_user_id")
+        circle_id = self.get_argument("circle_id")
+        circle_url = self.get_argument("circle_url")
+        circle_name = self.get_argument("circle_name")
         # todo : check if the message has been review by other user.
         if result == 0:
-            # reject
-            # todo: send message.
-            pass
+            # create message to applyer, tell he review result
+            mid2 = self.message.create_message(type_id=self.message.TYPE['appply circle result'],
+                circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
+            # send message to apply user.
+            self.message.deal_message_to_one(mid1,apply_user_id)
+            code = self.return_code_process(0)
+            message = "reject successfully!"
+            Data = {}
         else:
             # agree, follow.
-            apply_user = self.get_argument("apply_user")
-            circle_id = self.get_argument("circle_id")
+            username = self.get_argument('apply_user_name')
             topic_id = self.circle_module.get_circle_umeng_cid(circle_id)
             # get apply user access token.
-
-            access_token = self.user_module.get_access_token_from_uid(apply_user)['access_token']
+            access_token = self.user_module.get_access_token_from_uid(apply_user_id)['access_token']
             logging.info("topic id is : %s access_token is : %s"%(topic_id,access_token))
             # follow to umeng.
             Data = {
                 "topic_id":topic_id
             }
             code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
-            if code != 0 :
-                self.return_to_client(code,message,Data)
-                self.finish()
-            else:
+            if code == 0 :
                 # update user info data.
                 Data = {}
-                Data['update']= self.user_detail_module.update_my_circle_list(circle_id,apply_user)
-                self.return_to_client(code,message,Data)
-                self.finish()
-                
+                Data['update']= self.user_detail_module.update_my_circle_list(circle_id,apply_user_id) 
+                # create message to all of member in the circle, to tell them new member.      
+                mid1 = self.message.create_message(type_id=self.message.TYPE['new member'],
+                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,uid=apply_user_id,username=username)
+                # set message to circle queue.
+                self.message.deal_message_to_all(mid1,circle_id)
+                # create message to applyer, tell he review result
+                mid2 = self.message.create_message(type_id=self.message.TYPE['apply circle result'],
+                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
+                # send message to apply user.
+                self.message.deal_message_to_one(mid1,apply_user_id)
+        self.return_to_client(code,message,Data)
+        self.finish()
 
 class AdminSetHandler(TopicHandler):
     pass
 
-
+"""
+    [needn't this version] edit circle information 
+"""
 class EditTopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(EditTopicHandler, self).__init__(*argc, **argkw)
@@ -389,11 +461,14 @@ class GetTopicTypeHandler(RequestHandler):
         Data = json.loads(Data)
         code = 0
         access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
+        code,message,Data = yield self.public_Umeng_request(Data)
         self.return_to_client(code,message,Data)
         self.finish()
 
-
+"""
+    [needn't] needn't this version.
+    search circle by circle name.
+"""
 class SearchTopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(SearchTopicHandler, self).__init__(*argc, **argkw)

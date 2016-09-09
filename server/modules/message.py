@@ -178,9 +178,10 @@ class MessagesListModule(MessageModule):
         Returns:
             mid: the id [primary key] of ac_message_table    
         """
+        logging.info("message is %s"%message)
         mid = self.db.execute(
             "INSERT INTO " + self._message_table + " ( "+ self._type + " , " + self._message + ")" + 
-            " VALUES ( %s, %s ) ",message_type,message)
+            " VALUES ( %s, %s ) ",message_type, str(message))
         return mid
 
     def get_message_by_mid_list(self,mid_list,update_time = 0):

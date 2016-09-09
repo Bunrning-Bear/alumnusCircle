@@ -47,7 +47,8 @@ class UpdateFeedHandler(RequestHandler):
         code = 0
         access_token = self.get_redis_dict_access_token(uid)
         # logging.info("access %s and Data %s:"%(access_token,Data))
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
         self.finish()
 
@@ -78,5 +79,6 @@ class DeleteFeedHandler(RequestHandler):
         code = 0
         access_token = self.get_user_dict(uid)[1]
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
         self.finish()

@@ -18,9 +18,9 @@ class IndexHandler(BaseHandler):
         try:
             Data = {"_xsrf":self.xsrf_token}
             # Data = json.dumps(Data)
-            result = json.dumps({"code": "100","message":self.xsrf_token,"Data":Data})
+            result = json.dumps({"code": 100,"message":self.xsrf_token,"Data":Data})
             self.write(result)
         except Exception, e:
-            result = json.dumps({"code": "101","message":"fail set cookie","Data":"{}"})
+            result = json.dumps({"code": 99,"message":"fail set cookie","Data":{}})
             self.write(result)
             raise

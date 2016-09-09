@@ -138,6 +138,7 @@ class UserInfoModule(UserModule):
             " FROM " + self._user_base_table + 
             " WHERE "+ self._uid  +" = %s LIMIT 1",
             uid)
+        logging.info("entity of access_token is %s"%entity)
         return entity
 
     def set_info_to_user(
@@ -199,6 +200,7 @@ class UserListModule(UserModule):
         Returns:
             return list_id in user_list_info table of this user.
         """
+        logging.info("icon_url %s"%icon_url)
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
             + self._admission_year + " , " + self._faculty+
@@ -208,6 +210,7 @@ class UserListModule(UserModule):
             " )" +
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s , %s , %s )",
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country)
+
         return author_id
 
 
@@ -232,7 +235,7 @@ class UserDetailModule(UserModule):
         self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
         self._instroduction = config.get(self._user_table,"instroduction")
         self._user_last_update_time = config.get(self._user_table,"last_update_time")
-        
+        self._create_circle_list = config.get(self._user_table,"create_circle_list")
         self._change_allowed = (
             self._job, self._icon_url,self._city,self._company,self._instroduction,
             self._job_list,self._public_contact_list,self._protect_contact_list,
@@ -280,8 +283,19 @@ class UserDetailModule(UserModule):
             " SET " + self._user_last_update_time + " = %s WHERE " + self._uid + " = %s",
             last_update_time,uid)
 
+    def add_create_circle_list(self,circle_id,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = CONCAT("+ self._create_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._create_circle_list  + " = CONCAT("+ self._create_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
     def update_my_circle_list(self,circle_id,uid):
         entity = self.db.update(
             "UPDATE "+ self._user_table + 
-            " SET " + self._my_circle_list + " = CONCAT("+self._my_circle_list + ", %s ) "+ 
+            " SET " + self._my_circle_list + " = CONCAT("+ self._my_circle_list  + ", %s ) "+ 
             "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)

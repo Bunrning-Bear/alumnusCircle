@@ -11,15 +11,14 @@
 <div class="topbar-wrap white">
     <div class="topbar-inner clearfix">
         <div class="topbar-logo-wrap clearfix">
-            <h1 class="topbar-logo none"><a href="index.html" class="navbar-brand">后台管理</a></h1>想`
+            <h1 class="topbar-logo none"><a href="/admin_main" class="navbar-brand">后台管理</a></h1>想`
             <ul class="navbar-list clearfix">
-                <li><a class="on" href="index.html">首页</a></li>
+                <li><a class="on" href="/admin_main">首页</a></li>
             </ul>
         </div>
         <div class="top-info-wrap">
             <ul class="top-info-list clearfix">
                 <li><a href="#">管理员</a></li>
-                <li><a href="#">修改密码</a></li>
                 <li><a href="#">退出</a></li>
             </ul>
         </div>
@@ -35,8 +34,8 @@
                 <li>
                     <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
                     <ul class="sub-menu">
-                        <li><a href="/admin_toreview"><i class="icon-font">&#xe008;</i>待审核的圈子</a></li>
-                        <li><a href="/admin_hasreview"><i class="icon-font">&#xe005;</i>已审核的圈子</a></li>
+                        <li><a href="/admin_toreview?result=0&max_id=99999&limit_num=10"><i class="icon-font">&#xe008;</i>待审核的圈子</a></li>
+                        <li><a href="/admin_toreview?result=1&max_id=99999&limit_num=10"><i class="icon-font">&#xe005;</i>已审核的圈子</a></li>
                     </ul>
                 </li>
 
@@ -59,45 +58,27 @@
                             <th class="tc" width="5%"><input class="allChoose" name="" type="checkbox"></th>
                             <th>圈子名称</th>
                             <th>圈子头像</th>
+                            <th>圈子类型</th>
                             <th>创建人</th>
-                            <th>创建时间</th>
                             <th>创建理由</th>
-                            <th>审核状态</th>
                             <th>操作</th>
                         </tr>
-                        <tr>
-                            <td class="tc"><input name="text" value="59" type="checkbox"></td>
-                            <td>
-                                <input name="ids[]" value="59" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
-                            </td>
-                            <td>59</td>
-                            <td title="liuchang"><a target="_blank" href="#" title="发哥经典">发哥经典 </a>
-                            </td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>admin</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td></td>
-                        </tr>
-
-
+                        {% for value in resultdata%}
                         <tr>
                             <td class="tc"><input name="id[]" value="58" type="checkbox"></td>
+    
+                            <td>{{value['circle_name']}}</td>
+                            
+                            <td><img src= "{{value['circle_icon_url']}}" height="50" width="50"></td>
+                            <td>{{value['circle_type_name']}}</td>
+                            <td>{{value['creator_name']}}</td>
+                            <td>{{value['reason_message']}}</td>
                             <td>
-                                <input name="ids[]" value="58" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
+                               <button>同意</button>
+                               <button>拒绝</button>
                             </td>
-                            <td>58</td>
-                            <td title="黑色经典"><a target="_blank" href="#" title="黑色经典">黑色经典</a>
-                            </td>
-                            <td>0</td>
-                            <td>35</td>
-                            <td>admin</td>
-                            <td>2013-12-30 22:34:00</td>
-                            <td></td>
-
                         </tr>
+                        {% end %}
                     </table>
                     <div class="list-page"> 2 条 1/1 页</div>
                 </div>

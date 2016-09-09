@@ -28,6 +28,7 @@ import handler.circle.circle_detail
 import handler.contact
 import handler.message 
 import handler.test
+import handler.circle.opt_circle
 from handler.web.login import IndexWebHandler,MainWebHandler
 from common.variables import AP 
 from common.variables import redis_dict
@@ -69,7 +70,7 @@ class Application(tornado.web.Application):
         # web
         (r'/adminlogin',IndexWebHandler),
         (r'/admin_main',MainWebHandler),
-#        (r'/admin_toreview',ToReviewHandler),
+        (r'/admin_toreview',handler.circle.circle.ReviewListHandler),
 #        (r'/admin_hasreview',HasReviewHandler),
         # user
         (r'/adminregister',handler.user.RegisterAdminHandler),
@@ -79,20 +80,25 @@ class Application(tornado.web.Application):
         (r'/login',handler.user.LoginHandler),
         (r'/logout',handler.user.LogoutHandler),
         (r'/updateinfo',handler.user.UpdataInfoHandler),    
+
         # user-user
         (r'/follow',handler.opt_user.FollowHandler),
         (r'/searchuser',handler.opt_user.SearchUserHandler),
         (r'/followslist',handler.user_list.FollowsListHandler),
         (r'/user_detail',handler.contact.UserDetailHandler),
+        
         # my feed
         (r'/myfeed/update',handler.my_feed.UpdateFeedHandler),
         (r'/myfeed/delete',handler.my_feed.DeleteFeedHandler),
+        
         # message
         (r'/getmessage',handler.message.GetMessageHandler),
         (r'/get_my_comment',handler.message.GetMyCommentHandler),
-
+        (r'/checkmessage',handler.message.CheckMessageHandler),
+        
         (r'/timefeedList',handler.feed_list.TimelineHandler),
         (r'/myfavouritelist',handler.user_list.FavouriteslistHandler),
+        
         # feed detail:
         (r'/feed_detail',handler.opt_feed.FeedDetailHandler),
         (r'/pubcomment',handler.opt_feed.PubCommentHandler),
@@ -110,6 +116,9 @@ class Application(tornado.web.Application):
         (r'/get_my_circle',handler.circle.circle.GetMyCircleHandler),
         (r'/circle_member_list',handler.circle.circle_detail.CircleMemberHandler),
 
+        # circle _operation
+        (r'/apply_circle',handler.circle.opt_circle.CircleApplyHandler),
+        (r'/leave_circle',handler.circle.opt_circle.LeaveCircleHandler),
         # circle-detail
         (r'/detail_circle',handler.circle.circle_detail.DetailCircleHandler),
         (r'/circle_feed',handler.circle.circle_detail.CircleFeedListHandler),
@@ -123,6 +132,7 @@ class Application(tornado.web.Application):
         # review circle
         (r'/reviewlisttopic',handler.circle.circle.ReviewListHandler),
         (r'/reviewresult',handler.circle.circle.ReviewResultHandler),
+
 
         ]
         tornado.web.Application.__init__(self, handlers,**settings)

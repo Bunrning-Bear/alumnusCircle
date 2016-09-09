@@ -14,7 +14,7 @@ import encrypted
 import sys
 location = '/home/burningbear/CodePlace/python/web/alumnusCircle/server/'
 sys.path.append(location)
-from common.variables import USER_DICT
+from common.variables import redis_dict
 
 
 
@@ -119,7 +119,7 @@ class LogHandler(object):
 		# demo:
 		# d.get('Thomas', -1)
 		# delete: d.pop('Bob')
-		result = USER_DICT.get(user_id,-1)
+		result = redis_dict.get(user_id,-1)
 		if result == -1:
 			USER_DICT[user_id] = (access_token,session)
 		elif result[1] != session:
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     loginObj = LogHandler()
     user_id = "406"
     access_token = "635755b350420c81c446da313733de1efd666c2fb56f49a3ef2da01345cb81f7b7501f95fab96fea6c98f926c28da46a192420aa93389f91d8cd777f493abd63"
-    userDict = loginObj.login(user_id,1234,access_token)
+    #userDict = loginObj.login(user_id,1234,access_token)
     #print "userDict"
     #print userDict
     print "access_token"

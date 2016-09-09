@@ -121,9 +121,9 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._redis_dict.hexists("user:" + uid,"_xsrf"):
+        if not self._redis_dict.hexists("user:" + str(uid),"_xsrf"):
             return 0
-        elif self._redis_dict.hget("user:" + uid,"_xsrf") != _xsrf:
+        elif self._redis_dict.hget("user:" + str(uid),"_xsrf") != _xsrf:
             return 1
         else:
             return 2
@@ -137,20 +137,20 @@ class BaseHandler(tornado.web.RequestHandler):
         "access_token":access_token,
         "adlevel":adlevel}
         
-        self._redis_dict.hmset("user:" + uid,dic)
+        self._redis_dict.hmset("user:" + str(uid),dic)
         # self.message.init_message(uid)
         
     def get_redis_dict(self,uid):
-        return self._redis_dict.hvals("user:"+uid)
+        return self._redis_dict.hvals("user:"+str(uid))
 
     def get_redis_dict_access_token(self,uid):
-        return self._redis_dict.hget("user:"+uid,"access_token")
+        return self._redis_dict.hget("user:"+str(uid),"access_token")
 
     def delete_redis_dict(self,uid):
-        self._redis_dict.hdel("user:" + uid,"_xsrf")
+        self._redis_dict.hdel("user:" + str(uid),"_xsrf")
 
     def get_user_last_update_time(self,uid):
-        return self._redis_dict.hget('user:'+uid, "last_update_time")
+        return self._redis_dict.hget('user:'+str(uid), "last_update_time")
     # [todo]:2016.8.26 restructure the logic of return code.
     def return_code_process(self,code):
         """Return status code to client after get a code from handler.
@@ -164,7 +164,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         return self._code_dict[self.requestName] + code
 
-
+    
     def return_to_client(self,code,message, Data = {}):
         """
         This method is to return status code and message to client.
@@ -177,15 +177,17 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
             not return, just send {'code':code,'message':message} json string to client.
         """
+
         update_Data = self.get_user_update()
         Data={'update':update_Data,'response':Data}
         temp = str(json.dumps(Data))# json
+        logging.info(" data : %s"%Data)
         temp = temp.replace("null","\"empty\"")
         json_after_replace = json.loads(temp)#dict
-        logging.info("response data is : %s"%json_after_replace)
+        logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
         self.change_custom_string_to_json(json_after_replace)# change custom type
         if Data == {}:
-            resultJson = json.dumps({'code':code,'message':message,'Data':{}})
+            resultJson = json.dumps({'code':code - 1,'message':message,'Data':{}})
         else:
             resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
         self.write(resultJson) 
@@ -196,23 +198,29 @@ class BaseHandler(tornado.web.RequestHandler):
     def change_custom_string_to_json(self,dic):
         if isinstance(dic,dict):
             for key,value in dic.items():
-                # print "in dictory : ",key,value
+                # print "in dictory : ",key, value
                 if value == [] or value == {}:
                     # change all of empty list and dicotry to "empty"
-                    dic[key] = "empty"
-
-                elif key == 'custom' and value !='' and value !='empty':
+                    dic[key] = str("empty")
+                elif key == 'custom' and value !='' and dic[key] !='empty':
                     # change custom string into json style data.
-                    # print "in custom:%s"%value
-                    dic[key] = json.loads(value)
+                    # print "in custom:%s type is : %s"%(value,type(value))
+                    try:
+                        dic[key] = json.loads(value)
+                    except Exception, e:
+                        try:
+                            dic[key]  = eval(value)
+                        except Exception, e:
+                            dic[key] = value
                 elif key == 'icon_url' and isinstance(value,dict):
                     # delete 360.720 origin.
-                    logging.info(" in icon_url : %s"%value)
+                    # logging.info(" in icon_url : %s"%value)
                     dic[key] = value['origin']
+
                 elif key == 'image_urls' and isinstance(value,list):
                     count = 0
                     while count < len(value):
-                        logging.info("image_urls key %s value %s"%(dic[key],value))
+                        # logging.info("image_urls key %s value %s"%(dic[key],value))
                         dic[key][count] = value[count]['origin']
                         count += 1
                 if isinstance(value,dict):

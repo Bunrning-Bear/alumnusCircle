@@ -19,7 +19,6 @@
         <div class="top-info-wrap">
             <ul class="top-info-list clearfix">
                 <li><a href="#">管理员</a></li>
-                <li><a href="#">修改密码</a></li>
                 <li><a href="#">退出</a></li>
             </ul>
         </div>
@@ -35,8 +34,8 @@
                 <li>
                     <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
                     <ul class="sub-menu">
-                        <li><a href="/admin_toreview"><i class="icon-font">&#xe008;</i>待审核的圈子</a></li>
-                        <li><a href="/admin_hasreview"><i class="icon-font">&#xe005;</i>已审核的圈子</a></li>
+                        <li><a href="/admin_toreview?result=0&max_id=99999&limit_num=10"><i class="icon-font">&#xe008;</i>待审核的圈子</a></li>
+                        <li><a href="/admin_toreview?result=1&max_id=99999&limit_num=10"><i class="icon-font">&#xe005;</i>已审核的圈子</a></li>
                     </ul>
                 </li>
 
@@ -67,38 +66,20 @@
                         </tr>
                         {% for value in resultdata%}
                         <tr>
-                            <td class="tc"><input name="text" value="59" type="checkbox"></td>
+                            <td class="tc"><input name="id[]" value="58" type="checkbox"></td>
+                            
+                            <td>{{value['circle_name']}}</td>
+                            
+                            <td><img src= "{{value['circle_icon_url']}}" height="50" width="50"></td>
+                            <td>{{value['circle_type_name']}}</td>
+                            <td>{{value['creator_name']}}</td>
+                            <td>{{value['reason_message']}}</td>
                             <td>
-                                <input name="ids[]" value="59" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
+                               <button name="agree" id="agree" >同意</button>
+                               <button name="reject" id="reject" >拒绝</button>
                             </td>
-                            <td>59</td>
-                            <td title="liuchang"><a target="_blank" href="#" title="发哥经典">发哥经典 </a>
-                            </td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>admin</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td></td>
                         </tr>
                         {% end %}
-
-                        <tr>
-                            <td class="tc"><input name="id[]" value="58" type="checkbox"></td>
-                            <td>
-                                <input name="ids[]" value="58" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
-                            </td>
-                            <td>58</td>
-                            <td title="黑色经典"><a target="_blank" href="#" title="黑色经典">黑色经典</a>
-                            </td>
-                            <td>0</td>
-                            <td>35</td>
-                            <td>admin</td>
-                            <td>2013-12-30 22:34:00</td>
-                            <td></td>
-
-                        </tr>
                     </table>
                     <div class="list-page"> 2 条 1/1 页</div>
                 </div>
@@ -107,5 +88,29 @@
     </div>
     <!--/main-->
 </div>
+<script type="text/javascript"> 
+    $(
+       function()
+       {
+        $("#agree").click(function()
+            {
+                var passw = hex_md5($("#pwd").val())
+                alert(passw)
+                var info_json = {'telephone':$("#user").val(),'password':passw};
+                var info_json_string = JSON.stringify(info_json)
+              //alert($("input[name='_xsrf']").val());
+              $.post("/login",{'info_json':info_json_string,'_xsrf':$("input[name='_xsrf']").val()},function(data,statusCode){
+                    alert(data.Data.response.adlevel)
+                    if (data.Data.response.adlevel == '1')
+                    {  
+                        alert('in 1')
+                        window.location.href="/admin_main"; 
+                    }
+              },"json");
+            });
+       
+       }
+        );
+</script>
 </body>
 </html>

@@ -33,6 +33,9 @@ class GetMessageHandler(RequestHandler):
     @request.authenticated('sendmessage')
     @tornado.gen.coroutine  
     def post(self):
+        """
+            my_circle_list: to get all of message updated in mysql.
+        """
         uid = self.get_secure_cookie('uid')
         my_circle_list = self.get_argument('my_circle_list')
         last_update_time = self.get_user_last_update_time(uid)
@@ -47,6 +50,24 @@ class GetMessageHandler(RequestHandler):
         code = self.return_code_process(code)
         self.return_to_client(code,message,result)
         self.finish()
+
+class CheckMessageHandler(RequestHandler):
+    def __init__(self, *argc, **argkw):
+        super(CheckMessageHandler, self).__init__(*argc, **argkw)
+        self.requestName='check_message'
+
+    @request.authenticated('check_message')
+    @tornado.gen.coroutine  
+    def post(self):
+        """
+            needn't post parameter.
+        """
+        uid = self.get_secure_cookie('uid')
+        self.message.return_message_check(uid)
+        code = 0
+        message = "successfully clear message."
+        code = self.return_code_process(code)
+        self.return_to_client(code,message)
 
 """
     Get my comment list by timeline
@@ -73,6 +94,7 @@ class GetMyCommentHandler(RequestHandler):
         uid = self.get_secure_cookie('uid')
         code = 0
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        code = self.return_code_process(count)
         self.return_to_client(code,message,Data)
         self.finish()

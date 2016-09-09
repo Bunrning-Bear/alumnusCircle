@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-# prefix = "http://139.196.207.155:8000"
-prefix = "http://127.0.0.1:8000 "
+# prefix ="http://139.196.207.155:8000"
+prefix = "http://127.0.0.1:8003"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -54,6 +54,52 @@ def do_request(api,dic,message,method,otherPara):
         print message[count] + the_page
         count = count + 1   
 
+def leave_circle():
+    api = '/leave_circle'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+        "umeng_circle_id":"57d14cc1b9a996288566c031",#the circle you want to leave. this is a string get from circle list.
+    }
+    info_json[num] = {
+    }
+    message[num] = "clear my message list : \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+def apply_circle():
+    api = '/apply_circle'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+        "circle_id":"15",
+        "circle_name":"软院大团圆",
+        "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg" ,
+        "reason":"我喜欢这个圈子,我想加入呢~",
+        "creator_id":"85"
+    }
+    info_json[num] = {
+    }
+    message[num] = "clear my message list : \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+def checkmessage():
+    api = '/checkmessage'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+    }
+    info_json[num] = {
+    }
+    message[num] = "clear my message list : \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
+
+
 def getcommentlist():
     api = '/get_my_comment'
     info_json = {}
@@ -78,11 +124,11 @@ def getmessage():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        'my_circle_list':'_14_'# POST or DELETE stand for like and cancel like
+        'my_circle_list':'_'# POST or DELETE stand for like and cancel like
     }
     info_json[num] = {
     }
-    message[num] = "my_circle_list: \n"    
+    message[num] = "get message : \n"    
     do_request(api,info_json,message,"POST",otherPara) 
 
 
@@ -96,7 +142,7 @@ def like():
         'method':'POST'# POST or DELETE stand for like and cancel like
     }
     info_json[num] = {
-        "feed_id":"57ce5a64b9a9965c03f6b679",
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
     }
     message[num] = "like \n"    
     num +=1
@@ -104,7 +150,7 @@ def like():
         'method':'DELETE'# POST or DELETE stand for like and cancel like
     }
     info_json[num] = {
-        "feed_id":"57ce5a64b9a9965c03f6b679",
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
     }    
     message[num] = "cancel like \n"    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -120,8 +166,8 @@ def pub_comment():
 
     }
     info_json[num] = {
-        "feed_id":"57ce5a64b9a9965c03f6b679",
-        "content":"this is a comment"+str(random.randint(1,1000))
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
+        "content":"[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! "
     }
     message[num] = "pub comment  \n"    
     do_request(api,info_json,message,"POST",otherPara)     
@@ -133,7 +179,7 @@ def commit_list():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "feed_id":"57ce5a64b9a9965c03f6b679",
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
         "page":1,
         "count":30
     }
@@ -164,7 +210,7 @@ def user_detail():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "uid":97
+        "uid":181
     }
     info_json[num] = {
     }
@@ -181,8 +227,8 @@ def search():
     otherPara[num] = {
         "filter_admission_year_min":2000,# 0 for not filter
         "filter_admission_year_max":2016,# 9999 for not filter
-        "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
-        "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
+        "filter_major_list":json.dumps([u'_金融_',u'_软件学院_']),#([u'_金融_',u'_软件学院_']), # [] for not filter
+        "filter_city_list": json.dumps([u'_中国_福建_漳州_']), # ([u'_中国_福建_漳州_']), # [] for not filter 
         "all_match":0,# 0 for not query search. 1 for query search 
         "query":""
     }
@@ -201,7 +247,7 @@ def circle_member_list():
     }
     info_json[num] = {
         "count":1000,
-        "topic_id":"57c69d68d36ef3151eb80bac",# this is the only circle can be use when test.
+        "topic_id":"57d2dd11d36ef3fc508aee94",# this is the only circle can be use when test.
         "page":1
     }
     message[num] = "circle member list .\n"    
@@ -218,7 +264,7 @@ def circle_feed_list():
     }
     info_json[num] = {
         "count":10,
-        "topic_id":"57c69d68d36ef3151eb80bac",# this is the only circle can be use when test.
+        "topic_id":"57d2dd11d36ef3fc508aee94",# this is the only circle can be use when test.
         "page":1,
         "order":0
     }
@@ -234,11 +280,11 @@ def update_feed():
     otherPara[num] = {
     }
     info_json[num] = {
-            "content":"this is a feed !yeah~~ "+ str(random.randint(1,100000)),
-            "topic_ids":"57c69d68d36ef3151eb80bac",
+            "content":"这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!",
+            "topic_ids":"57d2dd11d36ef3fc508aee94",
             "title":" circle feed list !",
             # "image_urls":[{'origin':'http://test1.jpg', '360':'http://test2.jpg', '750':'http://test3.jpg'}],
-            "img_str":"http://test2.jpg;http://test3.jpg"
+            "img_str":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg;http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
     }
     message[num] = "update a feed."    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -255,7 +301,7 @@ def get_follow_list():
     info_json[num] = {
         "count":30,
         "page":1,
-        "uid":85
+        "uid":182
     }
     message[num] = "get my circle list."    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -267,59 +313,57 @@ def follow_test():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "target":"follow",
+        "target":"unfollow",
+        "uid":'197'
     }
     info_json[num] = {
-        "target_uid":"57ce32e2d36ef3d9adcfce6f"
     }
     message[num] = "follow."
-    num +=1
-    otherPara[num] = {
-        "target":"follow",
-    }
-    info_json[num] = {
-        "target_uid":"57ce3064b9a996566bef6681"
-    }
-    message[num] = "follow."
-    num +=1
     do_request(api,info_json,message,"POST",otherPara)    
 
 def get_all_circle_test():
     api = '/get_my_circle'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
     otherPara[num] = {}
-    dic[num] = {
+    info_json[num] = {
     }
     message[num] = "get my circle list."
-    do_request(api,dic,message,"POST",otherPara)    
+    do_request(api,info_json,message,"POST",otherPara)    
 
 def get_my_filter_circle_test():
     api = '/get_my_filter_circle'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
     otherPara[num] = {"my_filter_circle":"_14_"}
-    dic[num] = {
+    info_json[num] = {
 
     }
     message[num] = "get my admin circle list."
-    do_request(api,dic,message,"POST",otherPara)   
+    do_request(api,info_json,message,"POST",otherPara)   
 
 def circle_apply_test(): 
     api ='/circle_apply_result'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    otherPara[num] = {"result":1,"apply_user":85,"circle_id":14}
-    dic[num] = {
+    otherPara[num] = {
+        "result":1,
+        "apply_user_id":85,
+        "apply_user_name":"刘龙飞",
+        "circle_id":20,
+        "circle_name":"软院圈子",
+        "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg"
+    }
+    info_json[num] = {
     }
     message[num] = "agree the user apply to the circle."
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
     """
     follow success:
     {
@@ -357,23 +401,23 @@ def circle_apply_test():
 def registerTest():
     api = '/register'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
     the_same_phone = "159961"+str(random.randint(10000,99999))
-    city = u"漳州"
+    city = u"洛阳"
     country = u"中国"
-    state = u"福建"
-    faculty = u"金融"
-    major = u"经济管理"
+    state = u"河南"
+    faculty = u"建筑设计及其理论"
+    major = u"建筑学院(研)"
     companny = "google China"
     admission_year = 2014
-    job = "student"
+    job = "设计师"
     gender = 0
     password = "cxh1234567"
-    name = "陈雄辉"
+    name = "曾博晖"
     # set request.
-    dic[num] = {
+    info_json[num] = {
         "city":city,
         "state":state,
         "country":country,
@@ -385,43 +429,44 @@ def registerTest():
         "telephone":the_same_phone,
         "job":job,
         "gender":gender,
-        "password":password
+        "password":password,
+        "icon_url":"http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
     }
     otherPara[num] = {}
     setMessage(message,num,"注册成功")
     num = num + 1
     #request.
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def loginTest():
     api ='/login'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
+    info_json[num] = {
         "password":"zp123455",
         "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"密码错误")
     num = num + 1
-    dic[num] = {
-        "password":"cxh1234567",
-        "telephone":"15996198251"
+    info_json[num] = {
+        "password":"llf123456",
+        "telephone":"15888888888"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
     """
     num = num + 1
-    dic[num] = {
+    info_json[num] = {
         "password":"cxh1234567",
         "telephone":"15996198251"
     }
     otherPara[num] = {}
     setMessage(message,num,"重复登陆")
     num = num + 1
-    dic[num] = {
+    info_json[num] = {
         "password":"zp19950310",
         "telephone":"15996198251"
     }
@@ -429,30 +474,30 @@ def loginTest():
     setMessage(message,num,"账号不存在")
     num = num + 1
     """
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def logoutTest():
     api = "/logout"
-    dic = {}
+    info_json = {}
     otherPara = {}
     message = {}
     num = 0
-    dic[num] = {}
+    info_json[num] = {}
     otherPara[num] = {}
     setMessage(message,num,"第1次退出账号")
     num = num + 1
-    dic[num] = {}
+    info_json[num] = {}
     otherPara[num] = {}
     setMessage(message,num,"第2次退出账号")
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def updateInfoTest():
     api = '/updateinfo'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
+    info_json[num] = {
     }
     update_json = {
         "icon_url":"defauslts",        
@@ -464,7 +509,7 @@ def updateInfoTest():
     }
     setMessage(message,num,"更新信息，icon_url 是 defaults")
     num += 1
-    dic[num] = {
+    info_json[num] = {
     }
     update_json = {
         "icon_url":"default",
@@ -477,7 +522,7 @@ def updateInfoTest():
     }
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker")
     num += 1
-    dic[num] = {
+    info_json[num] = {
     }
     update_json = {
         "icon_url":"default",
@@ -491,7 +536,7 @@ def updateInfoTest():
     }
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321")   
     num += 1
-    dic[num] = {
+    info_json[num] = {
     }
     update_json = {
         "icon_url":"default",
@@ -505,7 +550,7 @@ def updateInfoTest():
         "update_json":update_json
     }
     num+=1
-    dic[num] = {
+    info_json[num] = {
     }
     update_json = {
         "icon_url":"default",
@@ -518,60 +563,60 @@ def updateInfoTest():
     }
     setMessage(message,num,"更新信息，icon_url 是 defaults")
     setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321,company = another company")   
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def editTest():
     api ='/edittopic'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
+    info_json[num] = {
         "description":"changed!",
         "topic_id":"57bfa306ee78507903b49a06"
     }
     otherPara[num] = {}
     setMessage(message,num,"change description")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def detailTest():
     api = '/detailtopic'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
+    info_json[num] = {
         "topic_id":"57c69d68d36ef3151eb80bac"
     }
     otherPara[num] = {}
     setMessage(message,num,"get topic detail")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def gettypetopicTest():
     api = '/gettypetopic'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
-    "t_cat_id":"57bdcad0d0146385e6abb6be",
+    info_json[num] = {
+    "t_cat_id":"57cd04ba55c400f83aa1384d",
     "page":1,
     "count":2
     }
     otherPara[num] = {}
     setMessage(message,num,"get topic type")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def searchTopicTest():
     api = '/searchtopic'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    dic[num] = {
+    info_json[num] = {
         "count":10,
         "q":"软院",
         "page":1
@@ -579,38 +624,39 @@ def searchTopicTest():
     otherPara[num] = {}
     setMessage(message,num,"search topic")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)    
+    do_request(api,info_json,message,"POST",otherPara)    
 
 def createTopic():
     api = '/createTopic'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {
     }
-    dic[num] = {
+    info_json[num] = {
 
     }
     otherPara[num] = {
-        "circle_name":"new circle "+str(random.randint(1,1000)),
-        "circle_icon_url":"default",
-        "creator_uid":123,
-        "circle_type_id":1,
-        "circle_type_name":"学院圈",
-        "reason_message":"I love you!",
-        "description":" the circle will be beautiful!"
+        "circle_name":"android开发小组",
+        "circle_icon_url":"http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg",
+        "creator_uid":14,
+        "creator_name":"刘龙飞",
+        # "circle_type_id":"57bdcad0d0146385e6abb6be",
+        "circle_type_name":"职业圈",
+        "reason_message":"汇聚android开发的大神,一起谈到交流",
+        "description":" 汇聚所有android开发大神"
     }
     setMessage(message,num,"create topic")
     num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def reviewListTest():
     api = "/reviewlisttopic"
     num = 0
-    dic = {}
+    info_json = {}
     message ={}
     otherPara = {}
-    dic[num] = {}
+    info_json[num] = {}
     otherPara[num] ={
         "result":0,
         "since_id":1,
@@ -618,129 +664,157 @@ def reviewListTest():
     }
     setMessage(message,num,"review create topic list")
     num = num + 1
-    do_request(api,dic,message,"GET",otherPara)
+    do_request(api,info_json,message,"GET",otherPara)
 
 def reviewTest():
     api = "/reviewresult"
     num = 0
-    dic = {}
+    info_json = {}
     message ={}
     otherPara = {}
-    dic[num] = {}
+    info_json[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":86,
+        "review_id":3
+
     }
     setMessage(message,num,"review topic")
-    num = num + 1
-    do_request(api,dic,message,"POST",otherPara)
-
+    do_request(api,info_json,message,"POST",otherPara)
+    """
+{
+    "message": "get umeng api successfully",
+    "code": 2900,
+    "Data": {
+        "update": "empty",
+        "response": {
+            "status": 0,
+            "description": "the circle will be beautiful!",
+            "type_id": "57cd04ba55c400f83aa1384d",
+            "icon_url": "http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg",
+            "tags": "empty",
+            "image_urls": "empty",
+            "custom": {
+                "creator_uid": "123",
+                "creator_name": "刘龙飞"
+            },
+            "secret": false,
+            "create_time": "2016-09-09 19:21:25",
+            "has_followed": false,
+            "creator_uid": "123",
+            "id": "57d29b35d36ef3ede3235050",
+            "name": "virtual_刘龙飞的圈子"
+        }
+    }
+}
+    """
 
 def adminRegister():
     api = '/adminregister'
     num = 0
-    dic = {}
-    message = {}
-    otherPara = {}
-    the_same_phone = "15195861108"
-    city = 123
-    faculty_id = 71
-    major_id = 1
+    info_json = {}
+    message ={}
+    otherPara = {}    
+    city = u"南京"
+    country = u"中国"
+    state = u"江苏"
+    faculty = u"机械制造及其自动化"
+    major = u"机械工程学院(研)"
     companny = "google China"
     admission_year = 2014
-    job = "student"
+    job = "设计师"
     gender = 0
-    password = "123456"
-    m = hashlib.md5()
-    m.update(password)
-    psw = m.hexdigest()    
-    name = "陈雄辉"
+    password = "cxh1234567"
+    name = "刘龙飞"
     # set request.
-    dic[num] = {
+    info_json[num] = {
         "city":city,
-        "faculty_id":faculty_id,
+        "state":state,
+        "country":country,
+        "faculty":faculty,
         "name":name,
-        "major_id":major_id,
+        "major":major,
         "company":companny,
         "admission_year":admission_year,
-        "telephone":the_same_phone,
+        "telephone":"15195861108",
         "job":job,
         "gender":gender,
-        "password":psw
+        "password":password,
+        "icon_url":"http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
     }
     otherPara[num] = {}
-    setMessage(message,num,"admin 注册成功")
-    num = num + 1
     #request.
-    do_request(api,dic,message,"POST",otherPara)    
+    do_request(api,info_json,message,"POST",otherPara)    
 
 
 def adminloginTest():
     api ='/login'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
     password = "123456"
     m = hashlib.md5()
     m.update(password)
     psw = m.hexdigest()   
-    dic[num] = {
+    info_json[num] = {
         "password":psw,
         "telephone":"15195861108"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
-    do_request(api,dic,message,"POST",otherPara)
+    do_request(api,info_json,message,"POST",otherPara)
 
 def checkPhone():
     api = '/checkphone'
     num = 0
-    dic = {}
+    info_json = {}
     message = {}
     otherPara = {}
-    password = "123456"
-    m = hashlib.md5()
-    m.update(password)
-    psw = m.hexdigest()   
-    dic[num] = {
+    info_json[num] = {
     }
     otherPara[num] = {
         "telephone":"15195861108"
     }
     setMessage(message,num,"telephone has been register")
-    do_request(api,dic,message,"POST",otherPara)    
+    do_request(api,info_json,message,"POST",otherPara)    
 
 # checkPhone()
 # registerTest()    
+# adminloginTest()
 loginTest()
+# apply_circle()
 # getcommentlist()
-#getmessage()
-#circle_member_list()
-#user_detail()
-#like()
-#commit_list()
-# pub_comment()
+# getmessage()
+# checkmessage()
+# circle_member_list()
+# user_detail()
+like()
+# commit_list()
+#　pub_comment()
 # search()
-#follow_test()
+# follow_test()
 # get_follow_list() 
 # update_feed()
-circle_feed_list()
+# circle_feed_list()
 # feed_detail()
 # logoutTest()
 # updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
-# gettypetopicTest()
+gettypetopicTest()
 # get_all_circle_test()
+# leave_circle()
 # createTopic()
+#createTopic()
 # reviewListTest()
 # reviewTest()    
-#circle_apply_test()
-#get_my_filter_circle_test()
+# circle_apply_test()
+# get_my_filter_circle_test()
 # logoutTest()
+# update_feed()
+# adminRegister()
 """
-adminRegister()
-adminloginTest()
+
+
 """

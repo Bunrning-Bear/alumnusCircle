@@ -105,7 +105,7 @@ class ElasticUserModule(object):
             }
         }
 
-        if all_match == 0:
+        if int(all_match) == 0:
             # keyword match
             body['query']['filtered']['query']={"multi_match": {"query":q,
                 "fields":[ "faculty", "major","name","country","state","city","job","instroduction","company","job_list"]}}

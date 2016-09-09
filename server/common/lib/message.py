@@ -7,6 +7,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')  
 location = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir,os.pardir)))+'/'
 sys.path.append(location)
+import logging
 import time
 import string
 import pdb
@@ -24,7 +25,11 @@ class Message(object):
         self.TYPE = {
             "create circle success":0,
             "create circle fail":1,
+            "new member":2,
+            "apply circle result":3,
+            "apply circle":4
         }
+        self.format_time = "%Y-%m-%d %H:%M:%S"
     @property
     def user_message(self):
         return self._user_message
@@ -37,7 +42,8 @@ class Message(object):
     def message(self):
         return self._message
 
-    def create_message(self,type_id,circle_name=' ',circle_id=' ',reason=' ',circle_url='',uid=''):
+    def create_message(
+        self,type_id,circle_name=' ',circle_id=' ',reason=' ',circle_url='',uid='',result = '',username=''):
         """input parameter of a special type of message, then return the message id.
 
         Args:
@@ -55,8 +61,30 @@ class Message(object):
         elif type_id == 1:
             # create circle failed.
             dic = {'circle_name':circle_name,"circle_url":circle_url}
-            # store as json structure
-            dic = json.dumps(dic)
+        elif type_id == 2:
+            # apply to a circle.
+            dic = {
+            'circle_name':circle_name,# apply circle name.
+            "circle_id":circle_id,# apply circle id.
+            "circle_url":circle_url,# apply circle url.
+            "apply_uid":uid,# apply user id.
+            "reason":reason# apply join reason.
+            }
+        elif type_id == 3:
+            dic = {
+            'circle_name':circle_name,# apply circle name.
+            "circle_id":circle_id,# apply circle id.
+            "circle_url":circle_url,# apply circle url.
+            "result":result# apply result
+            }
+        elif type_id == 4:
+             dic = {
+             "circle_id":circle_id,
+             "circle_name":circle_name,
+             "circle_url":circle_url,
+             "reason":reason,
+             "uid":uid
+             }
         mid = self.message.set_message(type_id,dic)
         return mid
 
@@ -112,8 +140,7 @@ class Message(object):
         result = self.user_message.set_update_message_by_uid(uid,mid)
         if redis_dict.hexists("user:" + str(uid),"_xsrf"):
             # update user update_time.
-            format_time = "%Y-%m-%d %H:%M:%S"
-            update_time = time.strftime(format_time,time.localtime())
+            update_time = time.strftime(self.format_time,time.localtime())
             redis_dict.hset("user:"+str(uid),"update_time",update_time)
 
     def deal_message_to_many(self,mid,uid_list):
@@ -143,6 +170,7 @@ class Message(object):
         Returns:
             error or ok.[todo]       
         """
+        logging.info("deal message to all cid %s mid %s"%(cid,mid))
         result = self.circle_message.set_update_message_by_cid(cid,mid)
         message_update = redis_dict.hget("circle:"+str(cid),"message_queue")
         message_update = message_update+str(mid) + "_"
@@ -178,10 +206,9 @@ class Message(object):
             True: If update time now is later than last update time. return True
             False: else return false.
         """
-        print "update_time_now %s"%update_time_now
-        format_time = "%Y-%m-%d %H:%M:%S"
-        strp_now = time.strptime(update_time_now,format_time)
-        strp_last = time.strptime(last_update_time,format_time)
+        print "update_time_now %s"%update_time_now  
+        strp_now = time.strptime(update_time_now,self.format_time)
+        strp_last = time.strptime(last_update_time,self.format_time)
         result = time.mktime(strp_now) - time.mktime(strp_last)
         if result >= 0:            
             return True
@@ -235,7 +262,7 @@ class Message(object):
             return message_list
         return {}
 
-    def return_message_check(self,code,uid,my_circle_list,last_update_time):
+    def return_message_check(self,uid):
         """Check the status. If client receive the message or not. if not, resend it.
         
         Args:
@@ -246,14 +273,18 @@ class Message(object):
             my_circle_list:  request from client, the circle id user has join in.
 
         Returns:
-            
+        
+        [version 2.0]
+            just clear message queue of user. and update "last update time"
         """
-        if code ==0:
+        #if code ==0:
             # send message again.
-            return self.update_check(uid,my_circle_list,last_update_time)
-        elif code == 1:
+        #    return self.update_check(uid,my_circle_list,last_update_time)
+        #elif code == 1:
             # clear message queue.
-            self.user_message.clear_message_queue(uid)
+        self.user_message.clear_message_queue(uid)
+        last_update_time = time.strftime(self.format_time,time.localtime())
+        redis_dict.hset("user:"+str(uid),"last_update_time",last_update_time)
 
     def find_user_message(self,uid):
         """Send all of message in message_queue to client.
@@ -289,9 +320,9 @@ class Message(object):
         """
         update_time_now = redis_dict.hget(id_type+str(uid),"update_time")
         print "update_time_now : %s"%update_time_now
-        format_time = "%Y-%m-%d %H:%M:%S"
-        strp_now = time.strptime(update_time_now,format_time)
-        strp_last = time.strptime(last_update_time,format_time)
+   
+        strp_now = time.strptime(update_time_now,self.format_time)
+        strp_last = time.strptime(last_update_time,self.format_time)
         result = time.mktime(strp_now) - time.mktime(strp_last)
         if result >= 0:
             # this update time is latter than last time, we should send message to client.
@@ -326,9 +357,9 @@ class Message(object):
         """
         update_time_now = redis_dict.hget("circle:"+cid,"update_time")
         print "update_time_now : %s"%update_time_now
-        format_time = "%Y-%m-%d %H:%M:%S"
-        strp_now = time.strptime(update_time_now,format_time)
-        strp_last = time.strptime(last_update_time,format_time)
+   
+        strp_now = time.strptime(update_time_now,self.format_time)
+        strp_last = time.strptime(last_update_time,self.format_time)
         result = time.mktime(strp_now) - time.mktime(strp_last)
         if result >= 0:
             # this update time is latter than last time, we should send message to client.
