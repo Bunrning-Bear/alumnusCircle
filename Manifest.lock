@@ -24,7 +24,6 @@ PODS:
   - ReactiveCocoa/Core (2.1.8):
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.1.8)
-  - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -33,7 +32,6 @@ DEPENDENCIES:
   - MJExtension
   - RBStoryboardLink (~> 0.1)
   - ReactiveCocoa (= 2.1.8)
-  - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -42,8 +40,7 @@ SPEC CHECKSUMS:
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   RBStoryboardLink: 0faae84aea6a5e8716c4469984d847d958c3fcb3
   ReactiveCocoa: f89f2e009a87951b50321bf9feb958823fcc617e
-  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: db10da427c0ace59d9a6cd82e26d7b29c760432f
+PODFILE CHECKSUM: 147eee8e356b382449b49ebdd12aa0506ce571e0
 
 COCOAPODS: 1.0.1
