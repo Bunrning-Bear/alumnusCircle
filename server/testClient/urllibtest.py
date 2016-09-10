@@ -79,7 +79,8 @@ def apply_circle():
         "circle_name":"软院大团圆",
         "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg" ,
         "reason":"我喜欢这个圈子,我想加入呢~",
-        "creator_id":"85"
+        "creator_id":"85",
+        "username":"xionghui "
     }
     info_json[num] = {
     }
@@ -139,20 +140,23 @@ def like():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        'method':'POST'# POST or DELETE stand for like and cancel like
+        'method':'POST',# POST or DELETE stand for like and cancel like
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
     }
     info_json[num] = {
-        "feed_id":"57d2e44dd36ef3fbfcb032e4",
+
     }
     message[num] = "like \n"    
+    """
     num +=1
     otherPara[num] = {
-        'method':'DELETE'# POST or DELETE stand for like and cancel like
+        'method':'DELETE',# POST or DELETE stand for like and cancel like
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
     }
     info_json[num] = {
-        "feed_id":"57d2e44dd36ef3fbfcb032e4",
     }    
     message[num] = "cancel like \n"    
+    """
     do_request(api,info_json,message,"POST",otherPara) 
 
 
@@ -166,7 +170,7 @@ def pub_comment():
 
     }
     info_json[num] = {
-        "feed_id":"57d2e44dd36ef3fbfcb032e4",
+        "feed_id":"57d40332d36ef3a36eb2f145",
         "content":"[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! "
     }
     message[num] = "pub comment  \n"    
@@ -179,7 +183,7 @@ def commit_list():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "feed_id":"57d2df1ad36ef3fc508af255",
+        "feed_id":"57d2e44dd36ef3fbfcb032e4",
         "page":1,
         "count":30
     }
@@ -201,7 +205,7 @@ def feed_detail():
     info_json[num] = {
     }
     message[num] = "feed deatail\n"    
-    do_request(api,info_json,message,"POST",otherPara)  
+    do_request(api,info_json,message,"POST",otherPara)
 
 def user_detail():
     api = '/user_detail'
@@ -280,9 +284,9 @@ def update_feed():
     otherPara[num] = {
     }
     info_json[num] = {
-            "content":"这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!",
-            "topic_ids":"57d2dd11d36ef3fc508aee94",
-            "title":" circle feed list !",
+            "content":"4这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!",
+            "topic_ids":"57d402d8b9a9965b02927330",
+            "title":" 4circle feed list !",
             # "image_urls":[{'origin':'http://test1.jpg', '360':'http://test2.jpg', '750':'http://test3.jpg'}],
             "img_str":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg;http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
     }
@@ -301,7 +305,7 @@ def get_follow_list():
     info_json[num] = {
         "count":30,
         "page":1,
-        "uid":182
+        "uid":36
     }
     message[num] = "get my circle list."    
     do_request(api,info_json,message,"POST",otherPara) 
@@ -451,20 +455,19 @@ def loginTest():
     otherPara[num] = {}
     setMessage(message,num,"密码错误")
     num = num + 1
+#    info_json[num] = {
+#        "password":"zbh123",
+#        "telephone":"18888888886"
+#    }
+#    otherPara[num] = {}
+#    setMessage(message,num,"登陆成功")
+#     num = num + 1
     info_json[num] = {
         "password":"llf123456",
         "telephone":"15888888888"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
-    """
-    num = num + 1
-    info_json[num] = {
-        "password":"cxh1234567",
-        "telephone":"15996198251"
-    }
-    otherPara[num] = {}
-    setMessage(message,num,"重复登陆")
     num = num + 1
     info_json[num] = {
         "password":"zp19950310",
@@ -473,7 +476,6 @@ def loginTest():
     otherPara[num] = {}
     setMessage(message,num,"账号不存在")
     num = num + 1
-    """
     do_request(api,info_json,message,"POST",otherPara)
 
 def logoutTest():
@@ -509,6 +511,7 @@ def updateInfoTest():
     setMessage(message,num,"更新信息，icon_url 是 defaults")
    
     do_request(api,info_json,message,"POST",otherPara)
+
 
 def editTest():
     api ='/edittopic'
@@ -582,10 +585,10 @@ def createTopic():
 
     }
     otherPara[num] = {
-        "circle_name":"android开发小组",
+        "circle_name":"android开发小组2",
         "circle_icon_url":"http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg",
-        "creator_uid":14,
-        "creator_name":"刘龙飞",
+        "creator_uid":36,
+        "creator_name":"吴卓凡",
         # "circle_type_id":"57bdcad0d0146385e6abb6be",
         "circle_type_name":"职业圈",
         "reason_message":"汇聚android开发的大神,一起谈到交流",
@@ -620,7 +623,7 @@ def reviewTest():
     info_json[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":3
+        "review_id":7
 
     }
     setMessage(message,num,"review topic")
@@ -724,9 +727,9 @@ def checkPhone():
     do_request(api,info_json,message,"POST",otherPara)    
 
 # checkPhone()
-registerTest()    
+# registerTest()    
 # adminloginTest()
-# loginTest()
+loginTest()
 # apply_circle()
 # getcommentlist()
 # getmessage()
@@ -735,10 +738,10 @@ registerTest()
 # user_detail()
 # like()
 # commit_list()
-#pub_comment()
+# pub_comment()
 # search()
-#follow_test()
-# get_follow_list() 
+# follow_test()
+get_follow_list() 
 # update_feed()
 # circle_feed_list()
 # feed_detail()
@@ -751,7 +754,6 @@ registerTest()
 # get_all_circle_test()
 # leave_circle()
 # createTopic()
-#　createTopic()
 # reviewListTest()
 # reviewTest()    
 # circle_apply_test()

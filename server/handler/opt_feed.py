@@ -107,8 +107,8 @@ class LikeHandler(RequestHandler):
         uid = self.get_secure_cookie('uid')
         # self.url = self.url + self.get_argument('target')
         self.methodUsed = self.get_argument('method')
-        DataJson = self.get_argument('info_json')
-        Data = json.loads(DataJson)
+        feed_id = self.get_argument('feed_id')
+        Data = {'feed_id':feed_id}
         access_token = self.get_redis_dict_access_token(uid)
         count,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
         code = self.return_code_process(count)

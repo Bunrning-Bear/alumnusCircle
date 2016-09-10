@@ -48,6 +48,7 @@ class GetMessageHandler(RequestHandler):
             code = 0
             message = "get message successfully"
         code = self.return_code_process(code)
+        logging.info(" result of get message %s"%result)
         self.return_to_client(code,message,result)
         self.finish()
 

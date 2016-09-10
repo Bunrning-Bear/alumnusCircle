@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ static_url('css/common.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ static_url('css/main.css') }}"/>
     <script type="text/javascript" src="{{ static_url('js/libs/modernizr.min.js') }}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
 <div class="topbar-wrap white">
@@ -77,8 +78,8 @@
                                <form action="/reviewresult" method="post"> 
                                    <input type="hidden" name="result" value="1" /> 
                                    <input type="hidden" name="review_id" value="{{value['review_id']}}" /> 
-                                 <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
-                                  <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
+                                    <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
                                     <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
                                     <input type="hidden" name="name" value="{{value['creator_uid']}}" /> 
 

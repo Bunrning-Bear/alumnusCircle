@@ -212,6 +212,7 @@ class ReviewResultHandler(TopicHandler):
         """
         result = int(self.get_argument("result"))
         review_id = self.get_argument("review_id")
+        reviewData = self.message_review_module.get_review_by_id(review_id)
         count = 1
         if result > 2 or result <=0:
             code = self.return_code_process(count)
@@ -219,57 +220,56 @@ class ReviewResultHandler(TopicHandler):
         else:
             if result == 1:
                 # agree create new circle.
-                count,message,Data = yield self.__createUmengTopic(review_id,virtual=True)
+                count,message,umengData = yield self.__createUmengTopic(reviewData,virtual=True)
                 if count != 0:
                     # create virtual circle failed.
                     code = count
-                    self.return_to_client(code,message,Data)
+                    self.return_to_client(code,message)
                     self.finish()
                     return
                 else:                  
                     # create virtual circle success, now create real circle.  
-                    virtual_cid = Data['id']
-                    count,message,Data = yield self.__createUmengTopic(review_id,virtual=False,virtual_cid=virtual_cid)
+                    virtual_cid = umengData['id']
+                    count,message,umengData = yield self.__createUmengTopic(reviewData,virtual=False,virtual_cid=virtual_cid)
                     if count != 0:
                         code = count
-                        self.return_to_client(code,message,Data)
+                        self.return_to_client(code,message)
                         self.finish()
                         return
                     else:                       
-                        real_cid = Data['id']
-                        cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['icon_url'])
+                        real_cid = umengData['id']
+                        cid = self.circle_module.set_circle_info(real_cid,virtual_cid,reviewData[self.message_review_module._circle_icon_url])
                         #cid = self.circle_module.set_circle_info(real_cid,virtual_cid,Data['type_id'],Data['icon_url'])
                         logging.info("cid is: %s"%cid)
                         # create success message to member of circle.
                         mid = self.message.create_message(
                             self.message.TYPE['create circle success'],
-                            circle_name=Data['name'],circle_url=Data['icon_url'],circle_id=real_cid)
+                            circle_name=reviewData[self.message_review_module._circle_name],circle_url=reviewData[self.message_review_module._circle_icon_url],circle_id=real_cid)
                         mc_id = self.message_circle_module.set_circle_info(cid,real_cid)
                         self.message.add_new_message_queue_to_all(cid)
                         # add my_create_circle
-                        self.user_detail_module.add_create_circle_list(cid,Data['creator_uid'])
-                        # [todo]: add follow funcion
-                        count,message,umengdata =yield self.focus_on_circle(Data['creator_uid'],real_cid)
+                        self.user_detail_module.add_create_circle_list(cid,reviewData[self.message_review_module._creator_uid])
+                        # 】follow circle
+                        count,message,umengdata =yield self.focus_on_circle(reviewData[self.message_review_module._creator_uid],real_cid)
                         if count != 0 :
                             code = count
-                            self.return_to_client(code,message,Data)
+                            self.return_to_client(code,message)
                             self.finish()
-                            return                            
-                        self.return_to_client(0,message,Data)
+                            return                        
             else:
                 mid = self.message.create_message(
                     self.message.TYPE['create circle fail'],
-                    circle_name=Data['name'],circle_url=Data['icon_url'])
+                    circle_name=reviewData[self.message_review_module._circle_name],circle_url=reviewData[self.message_review_module._circle_icon_url])
             # update review.
             logging.info("result is %s review_id is %s"%(result,review_id))
             self.message_review_module.update_review_result(result,review_id)                
             # send result message to creator
-            self.message.deal_message_to_one(mid,Data['creator_uid'])
-            self.return_to_client(1,"success",Data)
+            self.message.deal_message_to_one(mid,reviewData[self.message_review_module._creator_uid])
+            self.return_to_client(1,"success",reviewData)
         self.finish()
 
     @tornado.gen.coroutine
-    def __createUmengTopic(self,review_id,virtual,virtual_cid =''):
+    def __createUmengTopic(self,Data,virtual,virtual_cid =''):
         """Create topic in Umeng database.
         In this app, we define "virtual circle" to store those feed upload by user out of circle.
         
@@ -310,7 +310,6 @@ class ReviewResultHandler(TopicHandler):
         """
         self.url = '/0/topic/create'
         self.methodUsed='POST'
-        Data = self.message_review_module.get_review_by_id(review_id)
         logging.info("data in creator umeng topic is .%s"%Data)
         #　type_id = Data[self.message_review_module._circle_type_id]
         result = Data[self.message_review_module._result]
@@ -346,8 +345,6 @@ class ReviewResultHandler(TopicHandler):
             logging.info("topic data is %s"%Data)
             code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
             # Data['type_id'] = type_id
-            Data['icon_url'] = icon_url
-            Data['creator_uid']=creator_uid
         raise tornado.gen.Return((code,message,Data))
 
 class ApplyTopicHanlder(TopicHandler):

@@ -44,9 +44,9 @@ class DetailCircleHandler(RequestHandler):
         Data = json.loads(Data)
         uid = self.get_secure_cookie('uid')
         code = 0
-        access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(access_token,Data)
-        self.return_to_client(code,message,Data)
+        access_token = self.get_redis_dict_access_token(uid)
+        count,message,umengData =yield self.Umeng_asyn_request(access_token,Data)   
+        self.return_to_client(code,message,umengData)
         self.finish()
 
 """
@@ -141,7 +141,8 @@ class CircleFeedListHandler(RequestHandler):
         Data = json.loads(Data)
         uid = self.get_secure_cookie('uid')
         code = 0
-        code,message,umengData = yield self.public_Umeng_request(Data)
+        access_token = self.get_redis_dict_access_token(uid)
+        count,message,umengData =yield self.Umeng_asyn_request(access_token,Data)
         for dictUnit in umengData['results']:
             del dictUnit['seq']
             del dictUnit['creator']['medal_ids']

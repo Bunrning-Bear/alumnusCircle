@@ -22,9 +22,10 @@ class CircleApplyHandler(TopicHandler):
         reason = self.get_argument('reason')
         uid = self.get_secure_cookie('uid')
         creator_id =self.get_argument('creator_id')
+        username = self.get_argument('username')
         # create message to all of admin and creators
-        mid = self.message.create_message(type_id=4,
-            circle_id=circle_id,circle_name=circle_name,circle_url=circle_url,reason=reason,uid=uid)
+        mid = self.message.create_message(self.message.TYPE['apply circle'],
+            circle_id=circle_id,circle_name=circle_name,circle_url=circle_url,reason=reason,uid=uid,username=username)
         # [todo] this message should send to all of admin and creator.
         self.message.deal_message_to_one(mid,creator_id)
         code = self.return_code_process(0)

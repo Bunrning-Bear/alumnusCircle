@@ -49,6 +49,7 @@ import tornado.web
 import tornado.gen
 import tornado.httpclient
 
+from modules.uploadimg import Aliyun
 from common.lib.prpcrypt import set_encrypt
 
 from common.variables import AP,CODE_DICT
@@ -195,14 +196,16 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_user_update(self):
         return {}
 
-    def change_custom_string_to_json(self,dic):
+    def change_custom_string_to_json(self, dic):
         if isinstance(dic,dict):
             for key,value in dic.items():
                 # print "in dictory : ",key, value
-                if value == [] or value == {}:
+#               if value == [] or value == {}:
                     # change all of empty list and dicotry to "empty"
-                    dic[key] = str("empty")
-                elif key == 'custom' and value !='' and dic[key] !='empty':
+#                    dic[key] = str("empty")
+                if type(value) == bool:
+                    dic[key] = str(value)
+                elif key == 'custom' and value !='' and dic[key] !={}:
                     # change custom string into json style data.
                     # print "in custom:%s type is : %s"%(value,type(value))
                     try:
@@ -212,16 +215,19 @@ class BaseHandler(tornado.web.RequestHandler):
                             dic[key]  = eval(value)
                         except Exception, e:
                             dic[key] = value
-                elif key == 'icon_url' and isinstance(value,dict):
+                elif key == 'icon_url' and isinstance(value,dict) and dic[key] != {}:
                     # delete 360.720 origin.
                     # logging.info(" in icon_url : %s"%value)
                     dic[key] = value['origin']
-
-                elif key == 'image_urls' and isinstance(value,list):
+                    logging.info("origin dic[key] is :%s"%dic[key])
+                    dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
+                elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:
                     count = 0
                     while count < len(value):
                         # logging.info("image_urls key %s value %s"%(dic[key],value))
                         dic[key][count] = value[count]['origin']
+                        logging.info("origin dic[key] is :%s"%dic[key][count])
+                        dic[key][count] = Aliyun().parseUrlByFakeKey(dic[key][count])                        
                         count += 1
                 if isinstance(value,dict):
                     self.change_custom_string_to_json(value)
