@@ -53,3 +53,7 @@ class LeaveCircleHandler(TopicHandler):
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         self.return_to_client(code,message,Data)
         self.finish()
+
+
+class DetailCircleHadnler(TopicHandler):
+    pass

@@ -14,6 +14,7 @@ import pdb
 import logging
 import random
 import chardet
+import pdb
 
 import tornado.httpclient
 import tornado.web
@@ -39,7 +40,7 @@ class UserHandler(RequestHandler):
         self._regex_dict[self.user_module._user_phone] = ur"^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$\Z"
         # begin with letter, length between 6 and 18, all allowed char are letter, number and underline.
         # length allowed is: 6 to 18
-        self._regex_dict[self._user_module._user_password] = ur"^[a-zA-Z]\w{5,64}$\Z"
+        self._regex_dict[self._user_module._user_password] = ur"^\w{5,64}$\Z"
         # username should been decode with 'utf8',all allowed are chinese char, letter, number and underline.
         # length allowed is: 6 to 16
         self._regex_dict[self.user_list_module._name] = ur"^[\u4e00-\u9fa5\w\s]{1,20}$"
@@ -147,15 +148,20 @@ class UserHandler(RequestHandler):
             message = "%s format error"%message
         return count, message
 
+    @tornado.web.asynchronous       
+    @tornado.gen.coroutine
+    def update_icon(self,access_token,icon_url):
+        self.url = '/0/user/icon'
+        self.methodUsed = 'PUT'
+        icon_url_dic = {'icon_url':icon_url}
+        count,message,DataTemp =yield self.Umeng_asyn_request(access_token,icon_url_dic)
+        raise tornado.gen.Return((count,message,DataTemp))    
 
-class CheckTelephoneHandler(UserHandler):
-    def __init__(self, *argc, **argkw):
-        super(CheckTelephoneHandler, self).__init__(*argc, **argkw)
-        self.requestName ='check_phone'
 
-    def post(self):
-        count = 0
-        phone = self.get_argument(self.user_module._user_phone)
+    def checkphone(self,phone):
+        """
+            check if the phone has been register.
+        """
         if self._check_unit(self.user_module._user_phone,phone):
             hasRegister = self.user_module.find_user_phone(phone)
             if hasRegister:
@@ -167,6 +173,17 @@ class CheckTelephoneHandler(UserHandler):
         else:
             count = 2
             message = "telephone format error!"
+        return count,message      
+
+class CheckTelephoneHandler(UserHandler):
+    def __init__(self, *argc, **argkw):
+        super(CheckTelephoneHandler, self).__init__(*argc, **argkw)
+        self.requestName ='checkphone'
+
+    def post(self):
+        count = 0
+        phone = self.get_argument(self.user_module._user_phone)
+        count,message = self.checkphone(phone)
         code = self.return_code_process(count)
         self.return_to_client(code,message)
         self.finish()
@@ -175,6 +192,7 @@ class RegisterHandler(UserHandler):
     def __init__(self, *argc, **argkw):
         super(RegisterHandler, self).__init__(*argc, **argkw)
         self.requestName = 'register'
+
     def __get_cryptedData(self,Data):
         """Encrypted data from user infromation to Umeng.
         
@@ -192,8 +210,7 @@ class RegisterHandler(UserHandler):
         # logging.info("umengdata: %s"%UmengData)
         cryptedData = set_encrypt(self._aes_key,UmengData)
         return cryptedData
-
-    @tornado.web.asynchronous       
+    
     @tornado.gen.coroutine
     def post(self):
         """
@@ -217,11 +234,9 @@ class RegisterHandler(UserHandler):
         Data = json.loads(jsonData)
         count,message = self._check(Data)
         # check data 
+
         if count != 0:
             code = self.return_code_process(count)
-            self.return_to_client(code,message)
-            self.finish()
-            return
         else:
             message = "register successful!"
             cryptedData = self.__get_cryptedData(Data)
@@ -241,9 +256,6 @@ class RegisterHandler(UserHandler):
             if "err_code" in body:
                 code = body['err_code']
                 message = body['err_msg']
-                self.return_to_client(code,message)
-                self.finish()
-                return
             else:
                 # get umeng access token successfully
                 access_token = body['access_token']
@@ -256,11 +268,8 @@ class RegisterHandler(UserHandler):
                     stu_id)
                 logging.info("after register code is %s message is %s"%(count,message))
                 # update umeng icon_url
-                self.url = '/0/user/icon'
-                self.methodUsed = 'PUT'
                 icon_url = Data[self._user_module._icon_url]
-                icon_url_dic = {'icon_url':icon_url}
-                count,message,DataTemp =yield self.Umeng_asyn_request(access_token,icon_url_dic)
+                count,message,tempData =yield self.update_icon(access_token,icon_url)
                 if count != 0:
                     code = count
                 else:
@@ -309,11 +318,14 @@ class RegisterHandler(UserHandler):
                     logging.info("register data is %s"%Data)
                     count,message,Data = yield self.Umeng_asyn_request(access_token,Data)
                     access_token = self.get_redis_dict_access_token(user_id)
+                    count,message = self.checkphone(phone)
                     if count != 0:
-                        code = count  
+                        code = count
+
                     else:              
                         # set umeng data success.
                         # [todo]xionghui:2016.8.21 all of thos operate should be atomic operation
+                        pdb.set_trace()
                         code = self.return_code_process(0)
                         umeng_id = Data['id']
                         logging.info("data after umeng  of register is : %s"%Data['id'])
@@ -332,7 +344,7 @@ class RegisterHandler(UserHandler):
                     # logging.info('user_id :%s'%user_id)
         # encode message and code to json, send to client.
         self.return_to_client(code,message)
-        self.finish()
+
 
 class UpdateUserIconHandler(UserHandler):
     def __init__(self, *argc, **argkw):
@@ -475,17 +487,6 @@ class UpdataInfoHandler(UserHandler):
     def post(self):
         """
         POST from client:
-        POST['list_info_has_update']:bool: if list info has been update, set value true[1].
-        info_json:
-            'custom':json： if list_info_has_update, client dumps custom field to this parameter.
-                "ay":admission_year,
-                "fa":faculty,
-                "ma":major,
-                "jo":job,
-                "uid":user_id,
-                "ct":city,
-            'telephone': this parameter must be stored in client.
-        [those field is used in Umeng update].
         "info_json":
             POST['icon_url']:
             # POST['publicity_level']:
@@ -500,50 +501,47 @@ class UpdataInfoHandler(UserHandler):
             POST['company']
             # POST['company_publicity_level ']
             POST['instoduction']
-        POST['telephone']
+            POST['telephone']
+            POST['name']
         """
         code = 0 
         count = 0
         uid = self.get_secure_cookie(self._user_module._uid)
-        update_list = self.get_argument('list_info_has_update')
-        # logging.info("update_list%s type is : %s"%(update_list,type(update_list)))
         info_json = self.ger_argument('info_json')
         json_data = json.loads(info_json)
-        if update_list == 0:
-            count,message =self._check(json_data)
-            if count == 0:
-                access_token = self.get_redis_dict(uid)[1]
-                custom = {
-                    "ay":json_data['admission_year'],
-                    "fa":json_data['faculty'],
-                    "ma":json_data['major'],
-                    "jo":json_data['job'],
-                    "uid":uid,
-                    "ct":json_data['city']
-                }
-                custom = json.dumps(custom)
-                phone = json_data['telephone']
-                code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
-                logging.info("in update_list to umeng")
+        count,message =self._check(json_data)
+        if count == 0:
+            access_token = self.get_redis_dict(uid)[1]
+            custom = {
+                "ay":json_data['admission_year'],
+                "fa":json_data['faculty'],
+                "ma":json_data['major'],
+                "jo":json_data['job'],
+                "uid":uid,
+                "ct":json_data['city']
+            }
+            custom = json.dumps(custom)
+            name = json_data['telephone'] + json_data['name']
+            Data = {
+                "custom":custom,
+                "name":name,
+            }
+            countumeng,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+            logging.info("in update_list to umeng")
         # update data to mysql
-        if code != 0 or count != 0 :
+        if countumeng != 0 or count != 0 :
             # request Umeng error!
             code = self.return_code_process(count)
             self.return_to_client(code,message)
             self.finish()
         else:
-            update_dic = self.get_argument('update_json')
-            update_dic = json.loads(update_dic)
-            count,message = self._check(update_dic)
-            if count == 0:
-                # [todo]:add mysql operate error expection
-                message = self.user_list_module.update_info_to_user(update_dic,uid)
-                message = self.user_detail_module.update_info_to_user(update_dic,uid)
-                message = self.elastic_user_module.updateinfo(update_dic,uid)
+            # update message in mysql.
+            message = self.user_list_module.update_info_to_user(update_dic,uid)
+            message = self.user_detail_module.update_info_to_user(update_dic,uid)
+            # update message in elastisearch
+            message = self.elastic_user_module.updateinfo(update_dic,uid)
             code = self.return_code_process(count)
             self.return_to_client(code,message)
-        # update data to elasticsearch
-        self.elastic_user_module.updateinfo()
 
 """
 Register admin user.

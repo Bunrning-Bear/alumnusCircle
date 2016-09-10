@@ -124,7 +124,7 @@ def getmessage():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        'my_circle_list':'_'# POST or DELETE stand for like and cancel like
+        'my_circle_list':'_',
     }
     info_json[num] = {
     }
@@ -170,7 +170,7 @@ def pub_comment():
         "content":"[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! "
     }
     message[num] = "pub comment  \n"    
-    do_request(api,info_json,message,"POST",otherPara)     
+    do_request(api,info_json,message,"POST",otherPara)
 
 def commit_list():
     api='/commentlist'
@@ -179,7 +179,7 @@ def commit_list():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "feed_id":"57d2e44dd36ef3fbfcb032e4",
+        "feed_id":"57d2df1ad36ef3fc508af255",
         "page":1,
         "count":30
     }
@@ -225,10 +225,10 @@ def search():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "filter_admission_year_min":2000,# 0 for not filter
-        "filter_admission_year_max":2016,# 9999 for not filter
-        "filter_major_list":json.dumps([u'_金融_',u'_软件学院_']),#([u'_金融_',u'_软件学院_']), # [] for not filter
-        "filter_city_list": json.dumps([u'_中国_福建_漳州_']), # ([u'_中国_福建_漳州_']), # [] for not filter 
+        "filter_admission_year_min":0,# 0 for not filter
+        "filter_admission_year_max":9999,# 9999 for not filter
+        "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
+        "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
         "all_match":0,# 0 for not query search. 1 for query search 
         "query":""
     }
@@ -313,8 +313,8 @@ def follow_test():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "target":"unfollow",
-        "uid":'197'
+        "target":"follow",
+        "uid":'66'
     }
     info_json[num] = {
     }
@@ -504,65 +504,10 @@ def updateInfoTest():
     }
     update_json = json.dumps(update_json)
     otherPara[num] = {
-        "list_info_has_update":0,
-        "update_json":update_json
+
     }
     setMessage(message,num,"更新信息，icon_url 是 defaults")
-    num += 1
-    info_json[num] = {
-    }
-    update_json = {
-        "icon_url":"default",
-        "job":"worker"+str(random.randint(1,120))     
-    }
-    update_json = json.dumps(update_json)
-    otherPara[num] = {
-        "list_info_has_update":1,
-        "update_json":update_json
-    }
-    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker")
-    num += 1
-    info_json[num] = {
-    }
-    update_json = {
-        "icon_url":"default",
-        "job":"worker"+str(random.randint(1,120)),
-        "city":"321"      
-    }
-    update_json = json.dumps(update_json)
-    otherPara[num] = {
-        "list_info_has_update":0,
-        "update_json":update_json
-    }
-    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321")   
-    num += 1
-    info_json[num] = {
-    }
-    update_json = {
-        "icon_url":"default",
-        "job":"worker"+str(random.randint(1,120)),
-        "city":"321",
-        "company":"another company"
-    }
-    update_json = json.dumps(update_json)
-    otherPara[num] = {
-        "list_info_has_update":0,
-        "update_json":update_json
-    }
-    num+=1
-    info_json[num] = {
-    }
-    update_json = {
-        "icon_url":"default",
-        "introduction":"i change my introduction"+str(random.randint(1,120)),   
-    }
-    update_json = json.dumps(update_json)
-    otherPara[num] = {
-        "list_info_has_update":0,
-        "update_json":update_json
-    }
-    setMessage(message,num,"更新信息，icon_url 是 defaults")
-    setMessage(message,num,"更新信息，icon_url 是 default，job 是 worker,city = 321,company = another company")   
+   
     do_request(api,info_json,message,"POST",otherPara)
 
 def editTest():
@@ -779,20 +724,20 @@ def checkPhone():
     do_request(api,info_json,message,"POST",otherPara)    
 
 # checkPhone()
-# registerTest()    
+registerTest()    
 # adminloginTest()
-loginTest()
+# loginTest()
 # apply_circle()
 # getcommentlist()
 # getmessage()
 # checkmessage()
 # circle_member_list()
 # user_detail()
-like()
+# like()
 # commit_list()
-#　pub_comment()
+#pub_comment()
 # search()
-# follow_test()
+#follow_test()
 # get_follow_list() 
 # update_feed()
 # circle_feed_list()
@@ -802,11 +747,11 @@ like()
 # editTest()
 # detailTest()
 # searchTopicTest()
-gettypetopicTest()
+# gettypetopicTest()
 # get_all_circle_test()
 # leave_circle()
 # createTopic()
-#createTopic()
+#　createTopic()
 # reviewListTest()
 # reviewTest()    
 # circle_apply_test()

@@ -74,8 +74,26 @@
                             <td>{{value['creator_name']}}</td>
                             <td>{{value['reason_message']}}</td>
                             <td>
-                               <button>同意</button>
-                               <button>拒绝</button>
+                               <form action="/reviewresult" method="post"> 
+                                   <input type="hidden" name="result" value="1" /> 
+                                   <input type="hidden" name="review_id" value="{{value['review_id']}}" /> 
+                                 <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
+                                  <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['creator_uid']}}" /> 
+
+                                   {% raw xsrf_form_html() %}    
+                                   <button button="submit" value="同意" >同意</button> 
+                               </form> 
+                               <form action="/reviewresult" method="post"> 
+                                   <input type="hidden" name="result" value="2" /> 
+                                  <input type="hidden" name="review_id" value="{{value['review_id']}}" /> 
+                                   <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
+                                  <input type="hidden" name="name" value="{{value['circle_name']}}" />
+                                  <input type="hidden" name="name" value="{{value['creator_uid']}}" /> 
+                                   {% raw xsrf_form_html() %}    
+                                   <button button="submit" value="拒绝">拒绝</button> 
+                               </form> 
                             </td>
                         </tr>
                         {% end %}

@@ -12,7 +12,7 @@ CODE_DICT = {
     "register": 1200,
     "login": 1200,
     "logout":1300,
-    "check_phone":3000,
+    "checkphone":3000,
 
     "update":1400,
     "delete":1450,
@@ -42,7 +42,6 @@ CODE_DICT = {
     "circle_apply":3900,
     "user_topic":4000,
     "commentlist":4100,
-    "topictype":4200
-
-
+    "topictype":4200,
+    "get_comment_list":4300
 }

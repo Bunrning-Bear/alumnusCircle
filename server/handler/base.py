@@ -164,7 +164,6 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         return self._code_dict[self.requestName] + code
 
-    
     def return_to_client(self,code,message, Data = {}):
         """
         This method is to return status code and message to client.
@@ -191,6 +190,7 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
         self.write(resultJson) 
+        self.finish()
 
     def get_user_update(self):
         return {}
