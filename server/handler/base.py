@@ -190,7 +190,7 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
         self.write(resultJson) 
-        self.finish()
+#        self.finish()
 
     def get_user_update(self):
         return {}
