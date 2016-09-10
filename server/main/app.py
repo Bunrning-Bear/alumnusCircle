@@ -105,7 +105,7 @@ class Application(tornado.web.Application):
         (r'/like',handler.opt_feed.LikeHandler),
         (r'/commentlist',handler.opt_feed.CommentListHandler),
         # message :
-       #  (r'/receive_message',handler.message.)
+        #  (r'/receive_message',handler.message.)
         #(r'/deletecomment',handler.opt_feed.DeleteCommentHandler),
         #(r'/forward',handler.opt_feed.ForwoardHandler),
         #(r'/favourite',handler.opt_feed.FavouritesHandler),
