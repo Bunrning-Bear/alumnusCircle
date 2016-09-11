@@ -264,6 +264,12 @@ class UserDetailModule(UserModule):
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company)
         return author_id
 
+    def get_name_from_uid(self,uid):
+
+        entity = self.db.query(
+            "SELECT "+ self._name +" FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._name]
+
     def get_info_from_uid(self,uid):
         """Get all of information in user_detail_info table.
         Args:
@@ -298,4 +304,24 @@ class UserDetailModule(UserModule):
         entity = self.db.update(
             "UPDATE "+ self._user_table + 
             " SET " + self._my_circle_list + " = CONCAT("+ self._my_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
+    def get_create_circle_list(self,uid):
+        entity = self.db.query(
+            "SELECT "+ self._create_circle_list +
+            " FROM " + self._user_table + 
+            " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._create_circle_list]      
+
+    def get_my_circle_list(self,uid):
+        entity = self.db.query(
+            "SELECT "+ self._my_circle_list +
+            " FROM " + self._user_table + 
+            " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._my_circle_list]      
+
+    def leave_circle(self,string_my_circle_list,string_create_circle_list,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = %s , "+ self._create_circle_list  + " = %s  "+ 
             "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)

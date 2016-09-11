@@ -78,13 +78,21 @@ class UserFilterHandler(ContactHandler):
 class UserDetailHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(UserDetailHandler, self).__init__(*argc, **argkw)
+        self.requestName = 'user_detail'
+        self.methodUsed= 'GET'
+        self.url = '/0/user'
 
-    @request.authenticated('user_filter')
+    @request.authenticated('user_detail')
     @tornado.gen.coroutine
     def post(self):
         user_id = self.get_argument('uid')
-        Data = self.user_detail_module.get_info_from_uid(user_id)
+        umeng_id =self.user_module.get_umeng_id_from_uid(user_id)
+        uid = self.get_secure_cookie('uid')
+        access_token = self.user_module.get_access_token_from_uid(uid)['access_token']
+        Data = {'uid':umeng_id}
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         code = 0
         message = "get detail user successfully"
         self.return_to_client(code,message,Data)
         self.finish()
+

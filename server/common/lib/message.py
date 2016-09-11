@@ -69,7 +69,7 @@ class Message(object):
             "circle_url":circle_url,# apply circle url.
             "apply_uid":uid,# apply user id.
             "apply_name":username,
-            "reason":reason# apply join reason.
+            "reason":reason# apply join reason. 
             }
         elif type_id == 3:
             dic = {
@@ -231,7 +231,7 @@ class Message(object):
         last_update_time = redis_dict.hget("user:"+str(uid),"last_update_time")
         if self.__time_check_unit(last_update_time,update_time_now) >= 0:
             # this update time is latter than last time, we should send message to client.
-            message_list = {}
+            message_list = {"user":[],"circle":[]}
             message_id_list = self.user_message.get_message_queue_by_uid(uid)['message_queue']
             #print "message _list is " + str(message_id_list)
             circle_list = self.custom_list_to_list(my_circle_list)

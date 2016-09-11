@@ -121,7 +121,7 @@ class Aliyun(object):
 	def parseUrlByKey(self, key):
 		return self.bucket.sign_url('GET', key, 300)
 
-
+	
 	def parseUrlByFakeKey(self, fakeKey):
 		# logging.info("fackkey is %s"%fackkey)
 		keyPrefix = r'http://www.seu.edu.cn/'

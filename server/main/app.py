@@ -46,9 +46,9 @@ define("mysql_database", default = "alumnuscircle", help = "community database n
 define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
-logging.basicConfig(level=logging.INFO)
-               #  filename='err.log',  
-               #  filemode='w')
+logging.basicConfig(level=logging.INFO,
+               filename='err.log',  
+               filemode='w')
 
 class Application(tornado.web.Application):
     def __init__(self, *argc, **argkw):

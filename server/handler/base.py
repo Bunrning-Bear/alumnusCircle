@@ -217,16 +217,13 @@ class BaseHandler(tornado.web.RequestHandler):
                             dic[key] = value
                 elif key == 'icon_url' and isinstance(value,dict) and dic[key] != {}:
                     # delete 360.720 origin.
-                    # logging.info(" in icon_url : %s"%value)
                     dic[key] = value['origin']
-                    logging.info("origin dic[key] is :%s"%dic[key])
+                
                     dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
                 elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:
                     count = 0
                     while count < len(value):
-                        # logging.info("image_urls key %s value %s"%(dic[key],value))
                         dic[key][count] = value[count]['origin']
-                        logging.info("origin dic[key] is :%s"%dic[key][count])
                         dic[key][count] = Aliyun().parseUrlByFakeKey(dic[key][count])                        
                         count += 1
                 if isinstance(value,dict):

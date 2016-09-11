@@ -99,7 +99,7 @@ class UploadCircleHdimgHandler(UploadImgHandler):
 			currentTime = time.time()
 			key = cid + str(currentTime) + '.jpg'
 			fakeKey = self.keyPrefix + key
-			yield self.aliyun.uploadImgBytes(key, imgBytes)
+			self.aliyun.uploadImgBytes(key, imgBytes)
 			self.executeSQL.update_circle_table(self.db, fakeKey, cid)
 			img_url = self.aliyun.parseUrlByKey(key)
 			result = json.dumps({

@@ -98,7 +98,7 @@ class UploadFeedImgHandler(UploadImgHandler):
 			currentTime = time.time()
 			key = uid + str(currentTime) + '.jpg'
 			fakeKey = self.keyPrefix + key
-			yield self.aliyun.uploadImgBytes(key, imgBytes)
+			self.aliyun.uploadImgBytes(key, imgBytes)
 			img_url = self.aliyun.parseUrlByKey(key)
 			result = json.dumps({
 					"code":600

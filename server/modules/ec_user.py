@@ -109,7 +109,9 @@ class ElasticUserModule(object):
             # keyword match
             body['query']['filtered']['query']={"multi_match": {"query":q,
                 "fields":[ "faculty", "major","name","country","state","city","job","instroduction","company","job_list"]}}
-        else:
+        elif int(all_match) == 0:# filter
+            body['query']['filtered']['query']= {"match_all":{}}
+        elif int(all_match) == 2:# all user.
             body['query']['filtered']['query']= {"match_all":{}}
             body['sort']= {"register_time":{"order":"desc"}}
 
@@ -146,9 +148,11 @@ class ElasticUserModule(object):
         for city_string in filter_city_list:
             city_unit = custom_list_to_list(city_string,False)
             count = 0
+            result_unit = {"bool":{"must":[]}}
             while count< len(city_unit):
-                result['bool']['should'].append(set_city_unit[count](city_unit[count]))
+                result_unit['bool']['must'].append(set_city_unit[count](city_unit[count]))
                 count+=1
+            result['bool']['should'].append(result_unit)
         body.append(result)
 
     def set_major_filter(self,body,filter_major_list):
@@ -160,9 +164,11 @@ class ElasticUserModule(object):
         for major_string in filter_major_list:
             major_unit = custom_list_to_list(major_string,False)
             count = 0
+            result_unit = {"bool":{"must":[]}}
             while count< len(major_unit):
-                result['bool']['should'].append(set_major_unit[count](major_unit[count]))
+                result_unit['bool']['must'].append(set_major_unit[count](major_unit[count]))
                 count+=1
+            result['bool']['should'].append(result_unit)
         body.append(result)
 
 

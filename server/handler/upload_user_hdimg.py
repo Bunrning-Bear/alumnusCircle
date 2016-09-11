@@ -100,7 +100,7 @@ class UploadUserHdimgHandler(UploadImgHandler):
 			currentTime = time.time()
 			key = uid + str(currentTime) + '.jpg'
 			fakeKey = self.keyPrefix + key
-			yield self.aliyun.uploadImgBytes(key, imgBytes)
+			self.aliyun.uploadImgBytes(key, imgBytes)
 			self.executeSQL.update_user_detail_info(self.db, fakeKey, uid)
 			self.executeSQL.update_user_list_info(self.db, fakeKey, uid)
 			img_url = self.aliyun.parseUrlByKey(key)

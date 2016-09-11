@@ -16,6 +16,7 @@ import tornado.web
 import tornado.gen
 import request
 import base
+import logging
 from request import RequestHandler
 """
 [needn't]
@@ -49,6 +50,7 @@ class FollowsListHandler(RequestHandler):
             GET value page from client:
             page[integer]:[must] represent the page will return the next request.
         """
+
         info_json = self.get_argument('info_json')
         Data = json.loads(info_json)
         user_id = Data['uid']
@@ -56,9 +58,15 @@ class FollowsListHandler(RequestHandler):
         Data['uid']=umeng_id
         uid = self.get_secure_cookie('uid')
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        code,message,resultData =yield self.Umeng_asyn_request(access_token,Data)  
+        logging.info("result Data %s"%resultData)
+        def user_filter(unit):
+            logging.info("unit is %s"%(unit['id'] != u'57d2a965b9a9967859f13886'))
+            if unit['id'] != u'57d2a965b9a9967859f13886' and unit['id'] != u'57b18b0fea77f731e29e41de':
+                return unit
+        resultData['results'] = filter(user_filter,resultData['results'])
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message,Data)    
+        self.return_to_client(code,message,resultData)    
         self.finish() 
 
 #[todo]:count should be resquest by client?

@@ -157,7 +157,7 @@ class CeateTopicHandler(TopicHandler):
         circle_icon_url = self.get_argument(self.message_review_module._circle_icon_url)
 
         creator_name = self.get_argument(self.message_review_module._creator_name)
-        creator_uid = self.get_argument(self.message_review_module._creator_uid)
+        creator_uid = self.get_secure_cookie('uid')
         # creator_uid
         circle_type_name = self.get_argument(self.message_review_module._circle_type_name)
        # circle_type_id = self.get_argument(self.message_review_module._circle_type_id)
@@ -376,6 +376,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
         result = int(self.get_argument("result"))
         apply_user_id = self.get_argument("apply_user_id")
         circle_id = self.get_argument("circle_id")
+        logging.info("circle id after change is %s"%circle_id)
         circle_url = self.get_argument("circle_url")
         circle_name = self.get_argument("circle_name")
         # todo : check if the message has been review by other user.
@@ -384,18 +385,18 @@ class ReceiveApplyReviewHandler(TopicHandler):
             mid2 = self.message.create_message(type_id=self.message.TYPE['appply circle result'],
                 circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
             # send message to apply user.
-            self.message.deal_message_to_one(mid1,apply_user_id)
+            self.message.deal_message_to_one(mid2,apply_user_id)
             code = self.return_code_process(0)
             message = "reject successfully!"
             Data = {}
         else:
             # agree, follow.
             username = self.get_argument('apply_user_name')
-            topic_id = self.circle_module.get_circle_umeng_cid(circle_id)
             # get apply user access token.
             access_token = self.user_module.get_access_token_from_uid(apply_user_id)['access_token']
-            logging.info("topic id is : %s access_token is : %s"%(topic_id,access_token))
+            # logging.info("topic id is : %s access_token is : %s"%(topic_id,access_token))
             # follow to umeng.
+            topic_id = self.circle_module.get_circle_umeng_cid(circle_id)
             Data = {
                 "topic_id":topic_id
             }
@@ -413,7 +414,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
                 mid2 = self.message.create_message(type_id=self.message.TYPE['apply circle result'],
                     circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
                 # send message to apply user.
-                self.message.deal_message_to_one(mid1,apply_user_id)
+                self.message.deal_message_to_one(mid2,apply_user_id)
         self.return_to_client(code,message,Data)
         self.finish()
 

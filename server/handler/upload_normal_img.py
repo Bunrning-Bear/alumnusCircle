@@ -98,7 +98,7 @@ class UploadNormalImgHandler(UploadImgHandler):
 			currentTime = time.time()
 			key = random_num + str(currentTime) + '.jpg'
 			fakeKey = self.keyPrefix + key
-			yield self.aliyun.uploadImgBytes(key, imgBytes)
+			self.aliyun.uploadImgBytes(key, imgBytes)
 			img_url = self.aliyun.parseUrlByKey(key)
 			result = json.dumps({
 					"code":600
@@ -106,8 +106,10 @@ class UploadNormalImgHandler(UploadImgHandler):
 					,"img_key":fakeKey
 					,"img_url":img_url
 					})
+			print "Here"
 			self.write(result)
-		except:
+		except Exception,e:
+			print e
 			result = json.dumps({
 				"code":601
 				,"message":"I'm sorry about that you are faild to upload image."

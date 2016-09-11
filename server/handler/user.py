@@ -146,6 +146,7 @@ class UserHandler(RequestHandler):
             count = 0
         else: 
             message = "%s format error"%message
+            count = 1
         return count, message
 
       
@@ -394,30 +395,30 @@ class LoginHandler(UserHandler):
             phone = Data[self.user_module._user_phone]
             entity = self.user_module.get_info_from_phone(phone)
             if entity == []: 
-                count += 1
+                count  = 2
                 message = "the phone has not been register now."
                 code = self.return_code_process(count)
                 self.return_to_client(code,message)
                 
             else:
                 if Data[self._user_module._user_password] != entity[0][self._user_module._user_password]:
-                    count += 2
+                    count = 3
                     message = "your input a wrong password"
                     code = self.return_code_process(count)
                     self.return_to_client(code,message)
                     
                 else:
                     uid = str(entity[0][self.user_module._uid]) 
-                    count += 3
+                    count = 4
                     result = self.redis_dict_check(str(uid), str(_xsrf))
                     # logging.info("login uid is %s _xsrf is %s result is %s"%(uid,_xsrf,result))
                     if result == 0:
                         message = "login successfully!"
                     elif result == 1:
-                        count += 1
+                        count  = 5
                         message = "login successfully! another user been logout!"
                     else:
-                        count += 2
+                        count  = 6
                         message = "you have login! needn't do it again!"
                     access_token = entity[0]['access_token']
                     uid = entity[0]['uid']
@@ -564,6 +565,7 @@ class RegisterAdminHandler(UserHandler):
         Returns:
         encrypted data.
         """
+    
         source = "self_account"
         UmengData = {
         "user_info":{"name":str(Data[self._user_module._user_phone])},

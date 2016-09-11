@@ -75,12 +75,11 @@ def apply_circle():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        "circle_id":"15",
+        "circle_id":"57d2ca3eb9a9960c9cb47a56",
         "circle_name":"软院大团圆",
         "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg" ,
         "reason":"我喜欢这个圈子,我想加入呢~",
-        "creator_id":"85",
-        "username":"xionghui "
+        "creator_id":"30",
     }
     info_json[num] = {
     }
@@ -214,7 +213,7 @@ def user_detail():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "uid":181
+        "uid":98
     }
     info_json[num] = {
     }
@@ -231,9 +230,9 @@ def search():
     otherPara[num] = {
         "filter_admission_year_min":0,# 0 for not filter
         "filter_admission_year_max":9999,# 9999 for not filter
-        "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
+        "filter_major_list":json.dumps([u'_金融_',u'_软件学院_']),#([u'_金融_',u'_软件学院_']), # [] for not filter
         "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
-        "all_match":0,# 0 for not query search. 1 for query search 
+        "all_match":0,# 0 for not query search. 1 for query search ,2 to get all people
         "query":""
     }
     info_json[num] = {
@@ -350,6 +349,7 @@ def get_my_filter_circle_test():
     message[num] = "get my admin circle list."
     do_request(api,info_json,message,"POST",otherPara)   
 
+
 def circle_apply_test(): 
     api ='/circle_apply_result'
     num = 0
@@ -358,11 +358,11 @@ def circle_apply_test():
     otherPara = {}
     otherPara[num] = {
         "result":1,
-        "apply_user_id":85,
-        "apply_user_name":"刘龙飞",
-        "circle_id":20,
-        "circle_name":"软院圈子",
-        "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg"
+        "apply_user_id":40,
+        "apply_user_name":"大神",
+        "circle_id":"18",
+        "circle_name":"大神带你装逼带你飞",
+        "circle_url":"http: //img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg"
     }
     info_json[num] = {
     }
@@ -448,32 +448,25 @@ def loginTest():
     info_json = {}
     message = {}
     otherPara = {}
-    info_json[num] = {
-        "password":"zp123455",
-        "telephone":"15996198251"
-    }
-    otherPara[num] = {}
-    setMessage(message,num,"密码错误")
-    num = num + 1
-#    info_json[num] = {
-#        "password":"zbh123",
-#        "telephone":"18888888886"
-#    }
-#    otherPara[num] = {}
-#    setMessage(message,num,"登陆成功")
-#     num = num + 1
+    # info_json[num] = {
+    #     "password":"xcf324",
+    #     "telephone":"15689236999"
+    # }
+    # otherPara[num] = {}
+    # setMessage(message,num,"密码错误")
+    # num = num + 1
     info_json[num] = {
         "password":"llf123456",
         "telephone":"15888888888"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
-    num = num + 1
-    info_json[num] = {
-        "password":"zp19950310",
-        "telephone":"15996198251"
-    }
-    otherPara[num] = {}
+    # num = num + 1
+    # info_json[num] = {
+    #     "password":"zp19950310",
+    #     "telephone":"15996198251"
+    # }
+    # otherPara[num] = {}
     setMessage(message,num,"账号不存在")
     num = num + 1
     do_request(api,info_json,message,"POST",otherPara)
@@ -623,7 +616,7 @@ def reviewTest():
     info_json[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":7
+        "review_id":21
 
     }
     setMessage(message,num,"review topic")
@@ -726,6 +719,20 @@ def checkPhone():
     setMessage(message,num,"telephone has been register")
     do_request(api,info_json,message,"POST",otherPara)    
 
+def leaveCircle():
+
+    api = '/leave_circle'
+    num = 0
+    info_json = {}
+    message = {}
+    otherPara = {}
+    info_json[num] = {
+    }
+    otherPara[num] = {
+        "umeng_circle_id":"57d2ca3eb9a9960c9cb47a56"
+    }
+    setMessage(message,num,"telephone has been register")
+    do_request(api,info_json,message,"POST",otherPara)    
 # checkPhone()
 # registerTest()    
 # adminloginTest()
@@ -738,10 +745,10 @@ loginTest()
 # user_detail()
 # like()
 # commit_list()
-# pub_comment()
+#pub_comment()
 # search()
 # follow_test()
-get_follow_list() 
+# get_follow_list() 
 # update_feed()
 # circle_feed_list()
 # feed_detail()
@@ -751,17 +758,15 @@ get_follow_list()
 # detailTest()
 # searchTopicTest()
 # gettypetopicTest()
+# leaveCircle()
 # get_all_circle_test()
 # leave_circle()
 # createTopic()
 # reviewListTest()
 # reviewTest()    
-# circle_apply_test()
+circle_apply_test()
 # get_my_filter_circle_test()
 # logoutTest()
 # update_feed()
 # adminRegister()
-"""
 
-
-"""
