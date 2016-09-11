@@ -830,3 +830,4 @@
 [2016-09-11 06:48:54,410][INFO ][cluster.routing.allocation.decider] [Kate Neville] low disk watermark [85%] exceeded on [3LH09YXFQgmaZvRsk4bXpA][Kate Neville][/home/burningbear/SoftWare/elasticsearch-2.3.5/data/elasticsearch/nodes/0] free: 2.5gb[13.3%], replicas will not be assigned to this node
 [2016-09-11 06:49:24,419][INFO ][cluster.routing.allocation.decider] [Kate Neville] low disk watermark [85%] exceeded on [3LH09YXFQgmaZvRsk4bXpA][Kate Neville][/home/burningbear/SoftWare/elasticsearch-2.3.5/data/elasticsearch/nodes/0] free: 2.5gb[13.3%], replicas will not be assigned to this node
 [2016-09-11 06:49:54,427][INFO ][cluster.routing.allocation.decider] [Kate Neville] rerouting shards: [one or more nodes has gone under the high or low watermark]
+[2016-09-11 20:11:35,822][INFO ][cluster.metadata         ] [Kate Neville] [alumnuscircle] update_mapping [user]

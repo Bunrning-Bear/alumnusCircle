@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016-09-11 08:42:13
+-- 生成日期: 2016-09-11 22:40:47
 -- 服务器版本: 5.5.50-0ubuntu0.14.04.1
 -- PHP 版本: 5.5.9-1ubuntu4.19
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `ac_circle_table` (
   `icon_url` varchar(255) NOT NULL,
   PRIMARY KEY (`cid`),
   KEY `umeng_cid` (`umeng_cid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 --
 -- 转存表中的数据 `ac_circle_table`
@@ -47,7 +47,8 @@ INSERT INTO `ac_circle_table` (`cid`, `umeng_cid`, `umeng_virtual_cid`, `icon_ur
 (20, '57d3eb28b9a9964cdcff2cc1', '57d3eb28b9a9967859f15edc', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'),
 (21, '57d402d8b9a9965b02927330', '57d402d8b9a996112cc6cdf4', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'),
 (22, '57d421abd36ef3fc508b350f', '57d421abd36ef3fc508b350c', 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg'),
-(23, '57d421abd36ef3fc508b350f', '57d421abd36ef3fc508b350c', 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg');
+(23, '57d421abd36ef3fc508b350f', '57d421abd36ef3fc508b350c', 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg'),
+(24, '57d55755d36ef331bf48e6ce', '57d55754b9a9964cc69ade2f', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473599179.85.jpg');
 
 -- --------------------------------------------------------
 
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `ac_manual_review_table` (
   `description` varchar(300) DEFAULT NULL,
   `creator_name` varchar(12) NOT NULL,
   PRIMARY KEY (`review_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- 转存表中的数据 `ac_manual_review_table`
@@ -83,7 +84,17 @@ INSERT INTO `ac_manual_review_table` (`review_id`, `result`, `circle_name`, `cir
 (8, 0, 'sadasdas', '兴趣圈', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg', '30', 'sadasdas', 'Drfff', '大神'),
 (9, 0, 'asdasd', '兴趣圈', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg', '30', 'Hghgb', 'Hh', '大神'),
 (10, 0, 'kkljkljlkj', '兴趣圈', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg', '30', 'Jnjkbjk', 'Jkjjkhjkhj', '大神'),
-(11, 0, 'jhjhjhjk', '兴趣圈', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg', '30', 'Kjkjk kjklklke', 'Jhjkhjkhjkhhjk', '大神');
+(11, 0, 'jhjhjhjk', '兴趣圈', 'http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg', '30', 'Kjkjk kjklklke', 'Jhjkhjkhjkhhjk', '大神'),
+(12, 0, 'uhhjk', '职业圈', 'empty', '30', 'Jhjkhjkhjkhhjk', 'Kjhkjhjhj', '大神'),
+(13, 0, 'jkbjk', '职业圈', 'empty', '30', 'Jhjkhjkhjkhhjk', 'Jkbjkbjkb', '大神'),
+(14, 0, 'hjkhjk', '兴趣圈', 'empty', '30', 'Mann,n', 'Mann,n', '大神'),
+(15, 0, 'jhkhkj', '职业圈', 'empty', '30', 'Njknjknj', 'Jkhjk', '大神'),
+(16, 0, 'jhkjkjh', '兴趣圈', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473558167.48.jpg', '30', 'Kjkjk kjkjk', 'Jhjkhjkhjkh', '大神'),
+(17, 0, 'kkkkl;k', '职业圈', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473559572.95.jpg', '30', 'Kkkkl mom', 'Mkmmklmklmlm', '大神'),
+(18, 0, 'njnj', '院系圈', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473564125.49.jpg', '30', 'H', 'Jh', '大神'),
+(19, 0, 'ljnkjlnjk', '职业圈', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473590457.62.jpg', '30', 'M m mm', 'Kkmklmkl', '大神'),
+(20, 0, '嘎嘎嘎嘎', '社团圈', 'http://www.seu.edu.cn/123456781473597369.98.jpg', '36', '吃擦擦擦', '烦烦烦', '陈小熊'),
+(21, 1, 'hkjhkj', '兴趣圈', 'http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473599179.85.jpg', '30', 'Kjklklke', 'Jljkhj', '大神');
 
 -- --------------------------------------------------------
 
@@ -100,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `ac_message_circle_table` (
   PRIMARY KEY (`mc_id`),
   KEY `umeng_circle_id` (`cid`),
   KEY `umeng_circle_id_2` (`umeng_circle_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- 转存表中的数据 `ac_message_circle_table`
@@ -110,11 +121,12 @@ INSERT INTO `ac_message_circle_table` (`mc_id`, `umeng_circle_id`, `cid`, `messa
 (3, '57d2bbb7d36ef3ede32366f5', '3', '_', '2016-09-09 13:40:07'),
 (4, '57d2bc9dd36ef3ede32367be', '4', '_', '2016-09-09 13:43:57'),
 (17, '57d2ca3eb9a9960c9cb47a56', '17', '_', '2016-09-11 00:28:26'),
-(18, '57d2dd11d36ef3fc508aee94', '18', '_', '2016-09-11 00:28:28'),
+(18, '57d2dd11d36ef3fc508aee94', '18', '_52_', '2016-09-11 13:18:12'),
 (19, '57d3eb28b9a9964cdcff2cc1', '19', '_', '2016-09-10 11:14:48'),
 (20, '57d3eb28b9a9964cdcff2cc1', '20', '_', '2016-09-10 11:22:30'),
 (21, '57d402d8b9a9965b02927330', '21', '_', '2016-09-10 12:55:52'),
-(22, '57d421abd36ef3fc508b350f', '23', '_', '2016-09-10 15:09:47');
+(22, '57d421abd36ef3fc508b350f', '23', '_', '2016-09-10 15:09:47'),
+(23, '57d55755d36ef331bf48e6ce', '24', '_', '2016-09-11 13:08:37');
 
 -- --------------------------------------------------------
 
@@ -129,7 +141,25 @@ CREATE TABLE IF NOT EXISTS `ac_message_table` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `finished` tinyint(1) NOT NULL DEFAULT '0' COMMENT '标记该消息是否已经被处理',
   PRIMARY KEY (`mid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+
+--
+-- 转存表中的数据 `ac_message_table`
+--
+
+INSERT INTO `ac_message_table` (`mid`, `type`, `message`, `update_time`, `finished`) VALUES
+(42, 4, '{''circle_url'': u''http://img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 18L, ''circle_name'': u''\\u5e26\\u4f60\\u88c5\\u903c\\uff0c\\u5e26\\u4f60\\u98de \\u4e8c\\u53f7''}', '2016-09-11 02:42:13', 0),
+(43, 4, '{''circle_url'': u''empty'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 17L, ''circle_name'': u''\\u5e26\\u4f60\\u88c5\\u903c\\uff0c\\u5e26\\u4f60\\u98de''}', '2016-09-11 02:42:19', 0),
+(44, 4, '{''circle_url'': u''http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 20L, ''circle_name'': u''lol\\u56db\\u4e2a\\u5708''}', '2016-09-11 03:18:02', 0),
+(45, 4, '{''circle_url'': u''http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 20L, ''circle_name'': u''lol\\u56db\\u4e2a\\u5708''}', '2016-09-11 03:18:04', 0),
+(46, 4, '{''circle_url'': u''http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 20L, ''circle_name'': u''lol\\u56db\\u4e2a\\u5708''}', '2016-09-11 03:18:09', 0),
+(47, 4, '{''circle_url'': u''http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 20L, ''circle_name'': u''lol\\u56db\\u4e2a\\u5708''}', '2016-09-11 03:18:14', 0),
+(48, 4, '{''circle_url'': u''http://img5.imgtn.bdimg.com/it/u=2856180651,1164389396&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''36'', ''apply_name'': u''\\u5434\\u5353\\u51e1'', ''circle_id'': 20L, ''circle_name'': u''lol\\u56db\\u4e2a\\u5708''}', '2016-09-11 03:18:16', 0),
+(49, 4, '{''circle_url'': u''http://img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''30'', ''apply_name'': u''\\u5927\\u795e'', ''circle_id'': 18L, ''circle_name'': u''\\u5e26\\u4f60\\u88c5\\u903c\\uff0c\\u5e26\\u4f60\\u98de \\u4e8c\\u53f7''}', '2016-09-11 11:25:43', 0),
+(50, 0, '{''circle_url'': u''http://www.seu.edu.cn/73a944d4217e46bfb914a83dc50df9c01473599179.85.jpg'', ''circle_name'': u''hkjhkj'', ''circle_id'': u''57d55755d36ef331bf48e6ce''}', '2016-09-11 13:08:37', 0),
+(51, 4, '{''circle_url'': u''http://img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg'', ''reason'': u'''', ''apply_uid'': ''40'', ''apply_name'': u''\\u96c4\\u8f89'', ''circle_id'': 18L, ''circle_name'': u''\\u5e26\\u4f60\\u88c5\\u903c\\uff0c\\u5e26\\u4f60\\u98de \\u4e8c\\u53f7''}', '2016-09-11 13:12:19', 0),
+(52, 2, '{''circle_url'': u''http: //img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg'', ''apply_uid'': u''40'', ''reason'': '' '', ''apply_name'': u''\\u5927\\u795e'', ''circle_name'': u''\\u5927\\u795e\\u5e26\\u4f60\\u88c5\\u903c\\u5e26\\u4f60\\u98de'', ''circle_id'': u''18''}', '2016-09-11 13:18:12', 0),
+(53, 3, '{''result'': 1, ''circle_url'': u''http: //img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg'', ''circle_name'': u''\\u5927\\u795e\\u5e26\\u4f60\\u88c5\\u903c\\u5e26\\u4f60\\u98de'', ''circle_id'': u''18''}', '2016-09-11 13:18:12', 0);
 
 -- --------------------------------------------------------
 
@@ -144,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `ac_message_user_table` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`mu_id`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
 
 --
 -- 转存表中的数据 `ac_message_user_table`
@@ -163,17 +193,17 @@ INSERT INTO `ac_message_user_table` (`mu_id`, `uid`, `message_queue`, `update_ti
 (18, 27, '_', '2016-09-09 14:04:33'),
 (19, 28, '_', '2016-09-09 14:04:35'),
 (20, 29, '_', '2016-09-09 14:20:17'),
-(21, 30, '_', '2016-09-11 00:29:01'),
+(21, 30, '_42_43_49_50_51_', '2016-09-11 13:12:19'),
 (22, 31, '_', '2016-09-09 14:24:17'),
 (23, 32, '_', '2016-09-09 14:24:25'),
 (24, 33, '_', '2016-09-09 14:55:49'),
 (25, 34, '_', '2016-09-09 16:14:29'),
 (26, 35, '_', '2016-09-09 16:19:20'),
 (27, 36, '_', '2016-09-11 00:29:01'),
-(28, 37, '_', '2016-09-11 00:29:01'),
+(28, 37, '_44_45_46_47_48_', '2016-09-11 03:18:16'),
 (29, 38, '_', '2016-09-09 16:34:46'),
 (30, 39, '_', '2016-09-09 16:48:02'),
-(31, 40, '_', '2016-09-09 16:51:59'),
+(31, 40, '_53_', '2016-09-11 13:18:12'),
 (32, 41, '_', '2016-09-09 17:11:15'),
 (33, 42, '_', '2016-09-09 17:17:42'),
 (34, 43, '_', '2016-09-09 17:21:30'),
@@ -200,7 +230,10 @@ INSERT INTO `ac_message_user_table` (`mu_id`, `uid`, `message_queue`, `update_ti
 (55, 64, '_', '2016-09-09 18:05:14'),
 (56, 65, '_', '2016-09-09 18:10:34'),
 (57, 66, '_', '2016-09-09 18:15:56'),
-(58, 98, '_', '2016-09-10 10:47:25');
+(58, 98, '_', '2016-09-10 10:47:25'),
+(59, 99, '_', '2016-09-11 09:49:20'),
+(60, 101, '_', '2016-09-11 11:42:08'),
+(61, 102, '_', '2016-09-11 11:43:54');
 
 -- --------------------------------------------------------
 
@@ -219,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_base_info` (
   `umeng_id` varchar(24) DEFAULT ''' ''',
   PRIMARY KEY (`uid`),
   KEY `telephone` (`telephone`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=105 ;
 
 --
 -- 转存表中的数据 `ac_user_base_info`
@@ -269,7 +302,13 @@ INSERT INTO `ac_user_base_info` (`uid`, `adlevel`, `telephone`, `password`, `stu
 (62, 0, '15689236999', 'xcf324', '89195595', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d363cfcf1df11c667566c357c73e022749fad0ce18f561314eadd7f121fb9e664', '2016-09-09 17:51:10', '57d2f68eb9a9965b029267b8'),
 (63, 0, '15623456789', 'jjkk777', '36557680', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d54a244c16de88b489a91c528aa6025ec4c93fa15c1159b15b66489bc43326ded', '2016-09-09 17:52:49', '57d2f6f1d36ef3fbfcb03943'),
 (64, 1, '15195861108', 'e10adc3949ba59abbe56e057f20f883e', '32462530', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d60b1a8506cb695e750626832a67db984ee03a956f34261dd15f1bf1e733104a0', '2016-09-10 07:56:55', '57d2f9dab9a9963aecd1af26'),
-(98, 0, '15996122757', 'cxh1234567', '66545865', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98dab31019191c1d8f519e0801847f06079d7356dc2b7dd2ad465c8cb16949c399b', '2016-09-10 10:47:25', '57d3e4bcd36ef3fc508b2e3d');
+(98, 0, '15996122757', 'cxh1234567', '66545865', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98dab31019191c1d8f519e0801847f06079d7356dc2b7dd2ad465c8cb16949c399b', '2016-09-10 10:47:25', '57d3e4bcd36ef3fc508b2e3d'),
+(99, 0, '15850686158', 'lc137025', '30134822', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d76665d0b975fd720d089ec98f010e90a101306b6238e6ded4debf69cb54610d4', '2016-09-11 09:49:20', '57d5289fd36ef3399a13b949'),
+(100, 0, '15896969636', 'llf123456', '16370172', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98ded3b424522b04e2c7249bf25b069d39819e11454c7489c2b64fdcfe6eea22afc', '2016-09-11 10:49:22', ''' '''),
+(101, 0, '15363636336', 'zbh123456', '70852238', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98de4dc14346ed4efe5352f26f9e7616dde104960d74b8b4c84f6225ed0dc4f24df', '2016-09-11 11:42:08', '57d5430fd36ef348664ee6e7'),
+(102, 0, '15232323233', 'zbh123', '89910149', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98dd3b53e0e3f6df1ea93a8457985f0ba65a7218e1223249c4a045c4c4f5f107441', '2016-09-11 11:43:54', '57d5437ad36ef3399a13c21b'),
+(103, 0, '15850641234', 'aa11111', '93810302', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98db35d3479485047e907d6f5b558dee2881f6547ed9c7c525760c52cccb5a855e9', '2016-09-11 13:13:01', ''' '''),
+(104, 0, '13652979774', 'dsb2232', '53707798', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d50819785c6412eba1c552623651b3674d859a70821142658a425efbdc6a73662', '2016-09-11 13:17:29', ''' ''');
 
 -- --------------------------------------------------------
 
@@ -307,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_detail_info` (
   KEY `uid` (`detail_id`),
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
 
 --
 -- 转存表中的数据 `ac_user_detail_info`
@@ -326,7 +365,7 @@ INSERT INTO `ac_user_detail_info` (`detail_id`, `uid`, `icon_url`, `admission_ye
 (18, 27, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1965, '土木工程学院', '土木工程', '曾博晖', 1, '高级架构师', '贝尔法斯特', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:04:33', '_', '_', '北爱尔兰', '英国'),
 (19, 28, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1965, '土木工程学院', '土木工程', '曾博晖', 1, '高级架构师', '贝尔法斯特', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:04:35', '_', '_', '北爱尔兰', '英国'),
 (20, 29, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院', '建筑学', '白洋', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 14:20:17', '_', '_', '江苏', '中国'),
-(21, 30, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1970, '电子科学与工程学院(研)', '光学工程', '大神', 1, '执行总裁', '杭州', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:24:15', '_', '_17_18_', '浙江', '中国'),
+(21, 30, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1970, '电子科学与工程学院(研)', '光学工程', '大神', 1, '执行总裁', '杭州', '{}', '{}', '_17_18_24_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:24:15', '_', '_17_18_24_', '浙江', '中国'),
 (22, 31, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1970, '电子科学与工程学院(研)', '光学工程', '大神', 1, '执行总裁', '杭州', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:24:17', '_', '_', '浙江', '中国'),
 (23, 32, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1970, '电子科学与工程学院(研)', '光学工程', '大神', 1, '执行总裁', '杭州', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 14:24:25', '_', '_', '浙江', '中国'),
 (24, 33, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1988, '信息科学与工程学院(研)', '信息安全', '男神', 1, '首席执行官', '费耶特维尔', '{}', '{}', '_', '谷歌', 0, '{}', '{}', '{}', 0, '2016-09-09 14:55:49', '_', '_', '阿肯色', '美国'),
@@ -336,7 +375,7 @@ INSERT INTO `ac_user_detail_info` (`detail_id`, `uid`, `icon_url`, `admission_ye
 (28, 37, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '大神爸爸', 1, 'student', '南京', '{}', '{}', '_20_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 16:32:11', '_', '_20_', '江苏', '中国'),
 (29, 38, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '刘畅', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 16:34:46', '_', '_', '江苏', '中国'),
 (30, 39, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '陈二逼', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 16:48:02', '_', '_', '江苏', '中国'),
-(31, 40, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '雄辉', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 16:51:59', '_', '_', '江苏', '中国'),
+(31, 40, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '雄辉', 1, 'student', '南京', '{}', '{}', '_18_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 16:51:59', '_', '_', '江苏', '中国'),
 (32, 41, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '你哪呢', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 17:11:15', '_', '_', '江苏', '中国'),
 (33, 42, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '博晖', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 17:17:42', '_', '_', '江苏', '中国'),
 (34, 43, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '陈晓华', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-09 17:21:30', '_', '_', '江苏', '中国'),
@@ -363,7 +402,10 @@ INSERT INTO `ac_user_detail_info` (`detail_id`, `uid`, `icon_url`, `admission_ye
 (55, 64, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '你哪呢', 1, '斧子', '费耶特维尔', '{}', '{}', '_', '德莱文', 0, '{}', '{}', '{}', 0, '2016-09-09 18:05:14', '_', '_', '阿肯色', '美国'),
 (56, 65, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '陈三胖', 1, '打杂', '费耶特维尔', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 18:10:34', '_', '_', '阿肯色', '美国'),
 (57, 66, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', 1952, '建筑学院(研)', '美术学', '曾博晖', 1, '开车', '费耶特维尔', '{}', '{}', '_', '阿里巴巴', 0, '{}', '{}', '{}', 0, '2016-09-09 18:15:56', '_', '_', '阿肯色', '美国'),
-(58, 98, 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg', 2014, '建筑设计及其理论', '建筑学院(研)', '曾博晖', 0, '设计师', '洛阳', '{}', '{}', '_', 'google China', 0, '{}', '{}', '{}', 0, '2016-09-10 10:47:25', '_', '_', '河南', '中国');
+(58, 98, 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg', 2014, '建筑设计及其理论', '建筑学院(研)', '曾博晖', 0, '设计师', '洛阳', '{}', '{}', '_', 'google China', 0, '{}', '{}', '{}', 0, '2016-09-10 10:47:25', '_', '_', '河南', '中国'),
+(59, 99, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/444761473587355.35.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473587656&Signature=emHoDKHHZgkFfnE3mJrq2K2LESU%3D', 2014, '软件学院', '软件工程', '刘畅', 0, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-11 09:49:20', '_', '_', '江苏', '中国'),
+(60, 101, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/3387371473594120.45.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473594421&Signature=s%2FbZEsOsUnc1S%2Fk8bnSn1xd4EtU%3D', 1952, '建筑学院(研)', '美术学', '陆天一', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-11 11:42:08', '_', '_', '江苏', '中国'),
+(61, 102, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/3553251473594230.05.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473594531&Signature=ix0srutaERHXU6p16kpZDxvLjdQ%3D', 1952, '建筑学院(研)', '美术学', '李梦雅', 1, 'student', '南京', '{}', '{}', '_', 'the SEU', 0, '{}', '{}', '{}', 0, '2016-09-11 11:43:54', '_', '_', '江苏', '中国');
 
 -- --------------------------------------------------------
 
@@ -387,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `ac_user_list_info` (
   `city` varchar(20) NOT NULL,
   PRIMARY KEY (`list_id`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
 
 --
 -- 转存表中的数据 `ac_user_list_info`
@@ -443,7 +485,10 @@ INSERT INTO `ac_user_list_info` (`list_id`, `country`, `state`, `uid`, `icon_url
 (55, '美国', '阿肯色', 64, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', '你哪呢', '建筑学院(研)', '美术学', '斧子', 1, 0, 1952, '费耶特维尔'),
 (56, '美国', '阿肯色', 65, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', '陈三胖', '建筑学院(研)', '美术学', '打杂', 1, 0, 1952, '费耶特维尔'),
 (57, '美国', '阿肯色', 66, 'http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg', '曾博晖', '建筑学院(研)', '美术学', '开车', 1, 0, 1952, '费耶特维尔'),
-(58, '中国', '河南', 98, 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg', '曾博晖', '建筑设计及其理论', '建筑学院(研)', '设计师', 0, 0, 2014, '洛阳');
+(58, '中国', '河南', 98, 'http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg', '曾博晖', '建筑设计及其理论', '建筑学院(研)', '设计师', 0, 0, 2014, '洛阳'),
+(59, '中国', '江苏', 99, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/444761473587355.35.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473587656&Signature=emHoDKHHZgkFfnE3mJrq2K2LESU%3D', '刘畅', '软件学院', '软件工程', 'student', 0, 0, 2014, '南京'),
+(60, '中国', '江苏', 101, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/3387371473594120.45.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473594421&Signature=s%2FbZEsOsUnc1S%2Fk8bnSn1xd4EtU%3D', '陆天一', '建筑学院(研)', '美术学', 'student', 1, 0, 1952, '南京'),
+(61, '中国', '江苏', 102, 'http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/3553251473594230.05.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1473594531&Signature=ix0srutaERHXU6p16kpZDxvLjdQ%3D', '李梦雅', '建筑学院(研)', '美术学', 'student', 1, 0, 1952, '南京');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
