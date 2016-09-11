@@ -124,12 +124,12 @@ def getmessage():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        'my_circle_list':'_',
+        'my_circle_list':'_17_18_24',
     }
     info_json[num] = {
     }
     message[num] = "get message : \n"    
-    do_request(api,info_json,message,"POST",otherPara) 
+    do_request(api,info_json,message,"POST",otherPara)  
 
 
 def like():
@@ -739,7 +739,7 @@ def leaveCircle():
 loginTest()
 # apply_circle()
 # getcommentlist()
-# getmessage()
+getmessage()
 # checkmessage()
 # circle_member_list()
 # user_detail()
@@ -764,7 +764,7 @@ loginTest()
 # createTopic()
 # reviewListTest()
 # reviewTest()    
-circle_apply_test()
+# circle_apply_test()
 # get_my_filter_circle_test()
 # logoutTest()
 # update_feed()
