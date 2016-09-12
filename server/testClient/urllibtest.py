@@ -6,14 +6,15 @@ import cookielib
 import json
 import random
 import hashlib
-# prefix ="http://139.196.207.155:8000"
-prefix = "http://127.0.0.1:8003"
+prefix ="http://139.196.207.155:8000"
+# prefix = "http://127.0.0.1:8003"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
 # get _xsrff
 resp = urllib2.urlopen(prefix+'/')
 the_page = resp.read()
+print resp.getcode() == 200
 print the_page
 
 _xsrf = json.loads(the_page)['Data']['_xsrf']
@@ -734,12 +735,12 @@ def leaveCircle():
     setMessage(message,num,"telephone has been register")
     do_request(api,info_json,message,"POST",otherPara)    
 # checkPhone()
-# registerTest()    
+registerTest()    
 # adminloginTest()
-loginTest()
+# loginTest()
 # apply_circle()
 # getcommentlist()
-getmessage()
+# getmessage()
 # checkmessage()
 # circle_member_list()
 # user_detail()

@@ -181,15 +181,17 @@ class BaseHandler(tornado.web.RequestHandler):
         update_Data = self.get_user_update()
         Data={'update':update_Data,'response':Data}
         temp = str(json.dumps(Data))# json
-        logging.info(" data : %s"%Data)
+        # logging.info(" data : %s"%Data)
         temp = temp.replace("null","\"empty\"")
         json_after_replace = json.loads(temp)#dict
-        logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
+        # logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
         self.change_custom_string_to_json(json_after_replace)# change custom type
+
         if Data == {}:
             resultJson = json.dumps({'code':code - 1,'message':message,'Data':{}})
         else:
             resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
+        logging.info('json returned to client is :%s'%resultJson)        
         self.write(resultJson) 
 #        self.finish()
 

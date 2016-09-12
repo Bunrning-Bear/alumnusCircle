@@ -63,7 +63,7 @@ class UserFilterHandler(ContactHandler):
         filter_city_list = json.loads(self.get_argument("filter_city_list"))
         all_match = self.get_argument("all_match")
         query = self.get_argument("query")
-        logging.info("filter_major_list : %s type is %s"%(  filter_major_list,type(filter_major_list)))
+        logging.info("filter_major_list : %s type is %s"%(filter_major_list,type(filter_major_list)))
         Data = self._elastic_user_module.keyword_search(
             all_match,query,filter_admission_year_min,filter_admission_year_max,
             filter_major_list,filter_city_list)

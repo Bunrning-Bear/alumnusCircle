@@ -12,6 +12,7 @@ class ElasticUserModule(object):
         self.es = elasticsearch
         self._index = "alumnuscircle"
         self._type = "user"
+        
     def createInfo(
         self,uid,faculty,major,name,country,state,city,admission_year,icon_url="default",job="student",
         company="the seu"):
