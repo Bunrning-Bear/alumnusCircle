@@ -90,9 +90,9 @@ class ElasticUserModule(object):
 
     def keyword_search(
         self,all_match,q='',filter_admission_year_min=0,filter_admission_year_max=9999,
-        filter_major_list=[],filter_city_list=[]):
+        filter_major_list=[],filter_city_list=[],page=1,size=10):
         #admission_year_query = self.set_admission_filter(filter_admission_year_min,filter_admission_year_max)
-
+        from_num = size*(page - 1)
         body={
             "query":{
                     "filtered":{
@@ -104,7 +104,9 @@ class ElasticUserModule(object):
                         }
 
                 }
-            }
+            },
+            "from":from_num,
+            "size":size
         }
         print "all match is %s"%all_match
         if int(all_match) == 1:

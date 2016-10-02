@@ -233,8 +233,10 @@ def search():
         "filter_admission_year_max":9999,# 9999 for not filter
         "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
         "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
-        "all_match":0,# 0 for not query search. 1 for query search ,2 to get all people
-        "query":""
+        "all_match":2,# 0 for not query search. 1 for query search ,2 to get all people
+        "query":"",
+        "page":2,
+        "size":10
     }
     info_json[num] = {
     }
@@ -744,7 +746,7 @@ loginTest()
 
 
 # apply_circle()
-getcommentlist()
+# getcommentlist()
 # getmessage()
 # checkmessage()
 # circle_member_list()
@@ -752,7 +754,7 @@ getcommentlist()
 # like()
 # commit_list()
 #pub_comment()
-# search()
+search()
 # follow_test()
 # get_follow_list() 
 # update_feed()

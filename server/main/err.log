@@ -3,13 +3,13 @@ INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', metho
  
 
 INFO:root:request arguments: {}
-INFO:tornado.access:200 GET / (127.0.0.1) 9.18ms
-INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '128', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=b63e8fcb18804b39b5c6c25ec352af6a', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+INFO:tornado.access:200 GET / (127.0.0.1) 8.79ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '128', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=475c59185f624bfa9ed28b8a166417da', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
  
 
-INFO:root:request arguments: {'_xsrf': ['b63e8fcb18804b39b5c6c25ec352af6a'], 'info_json': ['{"password": "cxh123456", "telephone": "15195861108"}']}
+INFO:root:request arguments: {'_xsrf': ['475c59185f624bfa9ed28b8a166417da'], 'info_json': ['{"password": "cxh123456", "telephone": "15195861108"}']}
 INFO:root: uid is 127
-INFO:root:data ['2016-09-13 12:36:40', 'b63e8fcb18804b39b5c6c25ec352af6a', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57', '0', '2016-09-13 19:51:47']
+INFO:root:data ['2016-09-13 12:36:40', '475c59185f624bfa9ed28b8a166417da', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57', '0', '2016-09-13 19:51:47']
 INFO:root:in return to client
 INFO:root:in change custom string to json
 INFO:root: print key update and value {}
@@ -41,46 +41,506 @@ INFO:root: print key job_list_level and value 0
 INFO:root: print key country and value 中国
 INFO:root: print key adlevel and value 0
 INFO:root: print key job_list and value {}
-INFO:root:json returned to client is :{"message": "login successfully!", "code": 1204, "Data": {"update": {}, "response": {"last_update_time": "2016-09-13 12:36:40", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "uid": 127, "admission_year": 2014, "instroduction": "{}", "create_circle_list": "_41_42_43_", "city": "\u5357\u4eac", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5734751473770195.01.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475387132&Signature=UoBvBjvHKTtPua07M1brjwXzpvE%3D", "my_circle_list": "_41_42_43_36_32_", "state": "\u6c5f\u82cf", "protect_contact_list": "{}", "detail_id": 82, "company_publicity_level": 0, "public_contact_list": "{}", "admin_circle_list": "_", "tags": "{}", "company": "the SEU", "job": "student", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "name": "\u9648\u96c4\u8f89", "gender": 1, "job_list_level": 0, "country": "\u4e2d\u56fd", "adlevel": 0, "job_list": "{}"}}}
-INFO:tornado.access:200 POST /login (127.0.0.1) 71.30ms
-INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/get_my_comment', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '123', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=b63e8fcb18804b39b5c6c25ec352af6a; uid=MTI3|1475386832|154235ed855d9b7524bad0d1808209670ce5d876', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+INFO:root:json returned to client is :{"message": "login successfully!", "code": 1204, "Data": {"update": {}, "response": {"last_update_time": "2016-09-13 12:36:40", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "uid": 127, "admission_year": 2014, "instroduction": "{}", "create_circle_list": "_41_42_43_", "city": "\u5357\u4eac", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5734751473770195.01.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=UU2cDkJpQvyWNqMG7f4UqsQKC%2BE%3D", "my_circle_list": "_41_42_43_36_32_", "state": "\u6c5f\u82cf", "protect_contact_list": "{}", "detail_id": 82, "company_publicity_level": 0, "public_contact_list": "{}", "admin_circle_list": "_", "tags": "{}", "company": "the SEU", "job": "student", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "name": "\u9648\u96c4\u8f89", "gender": 1, "job_list_level": 0, "country": "\u4e2d\u56fd", "adlevel": 0, "job_list": "{}"}}}
+INFO:tornado.access:200 POST /login (127.0.0.1) 62.15ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/search_user', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '197', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=475c59185f624bfa9ed28b8a166417da; uid=MTI3|1475393397|044361bc01a7626eabf4d3d776d5dcd4a12cfd2b', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
  
 
-INFO:root:request arguments: {'_xsrf': ['b63e8fcb18804b39b5c6c25ec352af6a'], 'info_json': ['{"count": 30, "type": "received", "page": 1}']}
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/my/comments?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57
-INFO:root:Umeng_asyn_request request url https://rest.wsq.umeng.com/0/my/comments?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57&count=30&type=received&page=1 
- body None:
-INFO:root:umeng response is HTTPResponse(_body=None,buffer=<_io.BytesIO object at 0x7fd0b7da97d0>,code=200,effective_url='https://rest.wsq.umeng.com/0/my/comments?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57&count=30&type=received&page=1',error=None,headers={'Content-Encoding': 'gzip', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=31536000', 'Vary': 'Accept, Cookie', 'Server': 'Tengine/Aserver', 'Connection': 'close', 'Allow': 'GET, HEAD, OPTIONS', 'Access-Control-Allow-Credentials': 'true', 'Date': 'Sun, 02 Oct 2016 05:40:33 GMT', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', 'Content-Type': 'application/json', 'Timing-Allow-Origin': '*'},reason='OK',request=<tornado.httpclient.HTTPRequest object at 0x7fd0b7db5610>,request_time=0.16362309455871582,time_info={})
-INFO:root:unit creator is {u'icon_url': {u'origin': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'640': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'240': u'http://www.seu.edu.cn/9993031473744250.17.jpg'}, u'medal_ids': [], u'id': u'57d78d7eb9a9965b93087927', u'source_uid': u'15514410026', u'name': u'15514410026\u66fe\u535a\u6656'}
-INFO:root:unit creator is {u'icon_url': {u'origin': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'640': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'240': u'http://www.seu.edu.cn/5734751473770195.01.jpg'}, u'medal_ids': [], u'id': u'57d7f2d7d36ef37d0df6ab46', u'source_uid': u'15195861108', u'name': u'15195861108\u9648\u96c4\u8f89'}
+INFO:root:request arguments: {'filter_admission_year_max': ['9999'], 'filter_city_list': ['[]'], 'filter_admission_year_min': ['0'], 'filter_major_list': ['[]'], '_xsrf': ['475c59185f624bfa9ed28b8a166417da'], 'info_json': ['{}'], 'all_match': ['2'], 'query': [''], 'page': ['1'], 'size': ['10']}
+INFO:root:filter_major_list : [] type is <type 'list'>
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): 139.196.207.155
+INFO:elasticsearch:GET http://139.196.207.155:9200/alumnuscircle/user/_search [status:200 request:0.041s]
+INFO:root: print the serch body {'sort': {'register_time': {'order': 'desc'}}, 'query': {'filtered': {'filter': {'bool': {'must': [{'bool': {'should': []}}, {'bool': {'should': []}}, {'range': {'admission_year': {'lt': 9999, 'gte': 0}}}]}}, 'query': {'match_all': {}}}}, 'from': 0, 'size': 10}
 INFO:root:in return to client
 INFO:root:in change custom string to json
 INFO:root: print key update and value {}
 INFO:root:in change custom string to json
-INFO:root: print key response and value {u'count': 30, u'total': 2, u'page': 1, u'results': [{u'feed': {u'content': u'\u5bfb\u6c42\u4eba\u5de5\u667a\u80fd\u9886\u57df\u7684\u5927\u725b\uff0c\u62db\u8d24\u7eb3\u58eb\uff0c\u5728\u627e\u5de5\u4f5c\u7684\u901f\u901f\u79c1\u6233\u3002\u7b80\u5386\u6295\u90ae\u7bb1zpcxh95@outlook.com'}, u'content': u'\u5df2\u7ecf\u79c1\u6233\uff0c\u5e0c\u671b\u8be6\u804a\uff01', u'create_time': u'2016-10-02 13:37:06', u'id': u'57f09d02d36ef3c6f51455e3', u'creator': {u'icon_url': {u'origin': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'640': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'240': u'http://www.seu.edu.cn/9993031473744250.17.jpg'}, u'medal_ids': [], u'id': u'57d78d7eb9a9965b93087927', u'source_uid': u'15514410026', u'name': u'15514410026\u66fe\u535a\u6656'}}]}
+INFO:root: print key response and value {u'hits': {u'hits': [{u'sort': [1475402313000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5e73\u8c37', u'major': u'\u4f26\u7406\u5b66', u'name': u'\u5f20\u8c6a\u5f3a', u'icon_url': u'http://www.seu.edu.cn/6119851475373510.57.jpg', u'company': u'\u8c37\u6b4c\u4e2d\u56fd', u'admission_year': u'2010', u'register_time': u'2016-10-02 09:58:33', u'job': u'java\u5de5\u7a0b\u5e08', u'state': u'\u5317\u4eac', u'faculty': u'\u4eba\u6587\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'139'}, {u'sort': [1474659554000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|ce4e55bb|5a0288a639529de6e83b6c4bd45f1824|14746307171474630753.85.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:39:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'136'}, {u'sort': [1474659366000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|2a87a851|69a606230c1fc429c070191729e049b8|14746305261474630566.22.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:36:06', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'135'}, {u'sort': [1473955444000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u671d\u9633', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u9648\u6c50\u96c5', u'icon_url': u'http://www.seu.edu.cn/4901601473926641.56.jpg', u'company': u'\u610f\u6797', u'admission_year': u'2010', u'register_time': u'2016-09-15 16:04:04', u'job': u'\u7f16\u8f91\u90e8\u90e8\u957f', u'state': u'\u5317\u4eac', u'faculty': u'\u827a\u672f\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'134'}, {u'sort': [1473836397000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u676d\u5dde', u'major': u'\u81ea\u52a8\u5316', u'name': u'\u8bb8\u65d6', u'icon_url': u'http://www.seu.edu.cn/4334081473807594.6.jpg', u'company': u'\u4e2d\u5174\u901a\u8baf', u'admission_year': u'2010', u'register_time': u'2016-09-14 06:59:57', u'job': u'\u4ea7\u54c1\u7ecf\u7406', u'state': u'\u6d59\u6c5f', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'133'}, {u'sort': [1473836280000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u62a4\u7406\u5b66', u'name': u'\u674e\u57f9', u'icon_url': u'http://www.seu.edu.cn/5422531473807479.09.jpg', u'company': u'\u9f13\u697c\u533b\u9662', u'admission_year': u'2011', u'register_time': u'2016-09-14 06:58:00', u'job': u'\u62a4\u58eb\u957f', u'state': u'\u6c5f\u82cf', u'faculty': u'\u533b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'132'}, {u'sort': [1473836171000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u57ce\u5e02\u89c4\u5212', u'name': u'\u590f\u6c5f\u534e', u'icon_url': u'http://www.seu.edu.cn/9783491473807366.96.jpg', u'company': u'the SEU', u'admission_year': u'2013', u'register_time': u'2016-09-14 06:56:11', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5efa\u7b51\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'131'}, {u'sort': [1473836091000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u8944\u9633', u'major': u'\u571f\u6728\u5de5\u7a0b', u'name': u'\u9646\u5cf0', u'icon_url': u'http://www.seu.edu.cn/8806971473807290.19.jpg', u'company': u'\u4e2d\u94c1\u4e8c\u5c40', u'admission_year': u'2006', u'register_time': u'2016-09-14 06:54:51', u'job': u'\u9879\u76ee\u7ecf\u7406', u'state': u'\u6e56\u5317', u'faculty': u'\u571f\u6728\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'130'}, {u'sort': [1473835904000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u4fe1\u606f\u5de5\u7a0b', u'name': u'\u5f20\u5065', u'icon_url': u'http://www.seu.edu.cn/2012961473807101.74.jpg', u'company': u'\u534e\u4e3a', u'admission_year': u'2012', u'register_time': u'2016-09-14 06:51:44', u'job': u'\u7814\u53d1\u90e8\u7ecf\u7406', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5434\u5065\u96c4\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'129'}, {u'sort': [1473825713000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u6280\u672f', u'name': u'\u53f6\u9752', u'icon_url': u'http://www.seu.edu.cn/8691111473796911.42.jpg', u'company': u'\u5357\u4eac\u901a\u529b\u5a92\u4f53\u6709\u9650\u516c\u53f8', u'admission_year': u'1986', u'register_time': u'2016-09-14 04:01:53', u'job': u'\u526f\u603b\u88c1', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'128'}], u'total': 20, u'max_score': u'empty'}, u'took': 10, u'timed_out': False, u'_shards': {u'successful': 5, u'failed': 0, u'total': 5}}
 INFO:root:in change custom string to json
-INFO:root: print key count and value 30
-INFO:root: print key total and value 2
-INFO:root: print key page and value 1
-INFO:root: print key results and value [{u'feed': {u'content': u'\u5bfb\u6c42\u4eba\u5de5\u667a\u80fd\u9886\u57df\u7684\u5927\u725b\uff0c\u62db\u8d24\u7eb3\u58eb\uff0c\u5728\u627e\u5de5\u4f5c\u7684\u901f\u901f\u79c1\u6233\u3002\u7b80\u5386\u6295\u90ae\u7bb1zpcxh95@outlook.com'}, u'content': u'\u5df2\u7ecf\u79c1\u6233\uff0c\u5e0c\u671b\u8be6\u804a\uff01', u'create_time': u'2016-10-02 13:37:06', u'id': u'57f09d02d36ef3c6f51455e3', u'creator': {u'icon_url': {u'origin': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'640': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'240': u'http://www.seu.edu.cn/9993031473744250.17.jpg'}, u'medal_ids': [], u'id': u'57d78d7eb9a9965b93087927', u'source_uid': u'15514410026', u'name': u'15514410026\u66fe\u535a\u6656'}}]
+INFO:root: print key hits and value {u'hits': [{u'sort': [1475402313000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5e73\u8c37', u'major': u'\u4f26\u7406\u5b66', u'name': u'\u5f20\u8c6a\u5f3a', u'icon_url': u'http://www.seu.edu.cn/6119851475373510.57.jpg', u'company': u'\u8c37\u6b4c\u4e2d\u56fd', u'admission_year': u'2010', u'register_time': u'2016-10-02 09:58:33', u'job': u'java\u5de5\u7a0b\u5e08', u'state': u'\u5317\u4eac', u'faculty': u'\u4eba\u6587\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'139'}, {u'sort': [1474659554000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|ce4e55bb|5a0288a639529de6e83b6c4bd45f1824|14746307171474630753.85.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:39:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'136'}, {u'sort': [1474659366000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|2a87a851|69a606230c1fc429c070191729e049b8|14746305261474630566.22.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:36:06', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'135'}, {u'sort': [1473955444000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u671d\u9633', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u9648\u6c50\u96c5', u'icon_url': u'http://www.seu.edu.cn/4901601473926641.56.jpg', u'company': u'\u610f\u6797', u'admission_year': u'2010', u'register_time': u'2016-09-15 16:04:04', u'job': u'\u7f16\u8f91\u90e8\u90e8\u957f', u'state': u'\u5317\u4eac', u'faculty': u'\u827a\u672f\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'134'}, {u'sort': [1473836397000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u676d\u5dde', u'major': u'\u81ea\u52a8\u5316', u'name': u'\u8bb8\u65d6', u'icon_url': u'http://www.seu.edu.cn/4334081473807594.6.jpg', u'company': u'\u4e2d\u5174\u901a\u8baf', u'admission_year': u'2010', u'register_time': u'2016-09-14 06:59:57', u'job': u'\u4ea7\u54c1\u7ecf\u7406', u'state': u'\u6d59\u6c5f', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'133'}, {u'sort': [1473836280000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u62a4\u7406\u5b66', u'name': u'\u674e\u57f9', u'icon_url': u'http://www.seu.edu.cn/5422531473807479.09.jpg', u'company': u'\u9f13\u697c\u533b\u9662', u'admission_year': u'2011', u'register_time': u'2016-09-14 06:58:00', u'job': u'\u62a4\u58eb\u957f', u'state': u'\u6c5f\u82cf', u'faculty': u'\u533b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'132'}, {u'sort': [1473836171000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u57ce\u5e02\u89c4\u5212', u'name': u'\u590f\u6c5f\u534e', u'icon_url': u'http://www.seu.edu.cn/9783491473807366.96.jpg', u'company': u'the SEU', u'admission_year': u'2013', u'register_time': u'2016-09-14 06:56:11', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5efa\u7b51\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'131'}, {u'sort': [1473836091000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u8944\u9633', u'major': u'\u571f\u6728\u5de5\u7a0b', u'name': u'\u9646\u5cf0', u'icon_url': u'http://www.seu.edu.cn/8806971473807290.19.jpg', u'company': u'\u4e2d\u94c1\u4e8c\u5c40', u'admission_year': u'2006', u'register_time': u'2016-09-14 06:54:51', u'job': u'\u9879\u76ee\u7ecf\u7406', u'state': u'\u6e56\u5317', u'faculty': u'\u571f\u6728\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'130'}, {u'sort': [1473835904000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u4fe1\u606f\u5de5\u7a0b', u'name': u'\u5f20\u5065', u'icon_url': u'http://www.seu.edu.cn/2012961473807101.74.jpg', u'company': u'\u534e\u4e3a', u'admission_year': u'2012', u'register_time': u'2016-09-14 06:51:44', u'job': u'\u7814\u53d1\u90e8\u7ecf\u7406', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5434\u5065\u96c4\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'129'}, {u'sort': [1473825713000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u6280\u672f', u'name': u'\u53f6\u9752', u'icon_url': u'http://www.seu.edu.cn/8691111473796911.42.jpg', u'company': u'\u5357\u4eac\u901a\u529b\u5a92\u4f53\u6709\u9650\u516c\u53f8', u'admission_year': u'1986', u'register_time': u'2016-09-14 04:01:53', u'job': u'\u526f\u603b\u88c1', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'128'}], u'total': 20, u'max_score': u'empty'}
 INFO:root:in change custom string to json
-INFO:root: print key feed and value {u'content': u'\u5bfb\u6c42\u4eba\u5de5\u667a\u80fd\u9886\u57df\u7684\u5927\u725b\uff0c\u62db\u8d24\u7eb3\u58eb\uff0c\u5728\u627e\u5de5\u4f5c\u7684\u901f\u901f\u79c1\u6233\u3002\u7b80\u5386\u6295\u90ae\u7bb1zpcxh95@outlook.com'}
+INFO:root: print key hits and value [{u'sort': [1475402313000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5e73\u8c37', u'major': u'\u4f26\u7406\u5b66', u'name': u'\u5f20\u8c6a\u5f3a', u'icon_url': u'http://www.seu.edu.cn/6119851475373510.57.jpg', u'company': u'\u8c37\u6b4c\u4e2d\u56fd', u'admission_year': u'2010', u'register_time': u'2016-10-02 09:58:33', u'job': u'java\u5de5\u7a0b\u5e08', u'state': u'\u5317\u4eac', u'faculty': u'\u4eba\u6587\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'139'}, {u'sort': [1474659554000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|ce4e55bb|5a0288a639529de6e83b6c4bd45f1824|14746307171474630753.85.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:39:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'136'}, {u'sort': [1474659366000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|2a87a851|69a606230c1fc429c070191729e049b8|14746305261474630566.22.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:36:06', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'135'}, {u'sort': [1473955444000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u671d\u9633', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u9648\u6c50\u96c5', u'icon_url': u'http://www.seu.edu.cn/4901601473926641.56.jpg', u'company': u'\u610f\u6797', u'admission_year': u'2010', u'register_time': u'2016-09-15 16:04:04', u'job': u'\u7f16\u8f91\u90e8\u90e8\u957f', u'state': u'\u5317\u4eac', u'faculty': u'\u827a\u672f\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'134'}, {u'sort': [1473836397000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u676d\u5dde', u'major': u'\u81ea\u52a8\u5316', u'name': u'\u8bb8\u65d6', u'icon_url': u'http://www.seu.edu.cn/4334081473807594.6.jpg', u'company': u'\u4e2d\u5174\u901a\u8baf', u'admission_year': u'2010', u'register_time': u'2016-09-14 06:59:57', u'job': u'\u4ea7\u54c1\u7ecf\u7406', u'state': u'\u6d59\u6c5f', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'133'}, {u'sort': [1473836280000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u62a4\u7406\u5b66', u'name': u'\u674e\u57f9', u'icon_url': u'http://www.seu.edu.cn/5422531473807479.09.jpg', u'company': u'\u9f13\u697c\u533b\u9662', u'admission_year': u'2011', u'register_time': u'2016-09-14 06:58:00', u'job': u'\u62a4\u58eb\u957f', u'state': u'\u6c5f\u82cf', u'faculty': u'\u533b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'132'}, {u'sort': [1473836171000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u57ce\u5e02\u89c4\u5212', u'name': u'\u590f\u6c5f\u534e', u'icon_url': u'http://www.seu.edu.cn/9783491473807366.96.jpg', u'company': u'the SEU', u'admission_year': u'2013', u'register_time': u'2016-09-14 06:56:11', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5efa\u7b51\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'131'}, {u'sort': [1473836091000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u8944\u9633', u'major': u'\u571f\u6728\u5de5\u7a0b', u'name': u'\u9646\u5cf0', u'icon_url': u'http://www.seu.edu.cn/8806971473807290.19.jpg', u'company': u'\u4e2d\u94c1\u4e8c\u5c40', u'admission_year': u'2006', u'register_time': u'2016-09-14 06:54:51', u'job': u'\u9879\u76ee\u7ecf\u7406', u'state': u'\u6e56\u5317', u'faculty': u'\u571f\u6728\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'130'}, {u'sort': [1473835904000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u4fe1\u606f\u5de5\u7a0b', u'name': u'\u5f20\u5065', u'icon_url': u'http://www.seu.edu.cn/2012961473807101.74.jpg', u'company': u'\u534e\u4e3a', u'admission_year': u'2012', u'register_time': u'2016-09-14 06:51:44', u'job': u'\u7814\u53d1\u90e8\u7ecf\u7406', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5434\u5065\u96c4\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'129'}, {u'sort': [1473825713000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u6280\u672f', u'name': u'\u53f6\u9752', u'icon_url': u'http://www.seu.edu.cn/8691111473796911.42.jpg', u'company': u'\u5357\u4eac\u901a\u529b\u5a92\u4f53\u6709\u9650\u516c\u53f8', u'admission_year': u'1986', u'register_time': u'2016-09-14 04:01:53', u'job': u'\u526f\u603b\u88c1', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'128'}]
 INFO:root:in change custom string to json
-INFO:root: print key content and value 寻求人工智能领域的大牛，招贤纳士，在找工作的速速私戳。简历投邮箱zpcxh95@outlook.com
-INFO:root: print key content and value 已经私戳，希望详聊！
-INFO:root: print key create_time and value 2016-10-02 13:37:06
-INFO:root: print key id and value 57f09d02d36ef3c6f51455e3
-INFO:root: print key creator and value {u'icon_url': {u'origin': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'640': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'240': u'http://www.seu.edu.cn/9993031473744250.17.jpg'}, u'medal_ids': [], u'id': u'57d78d7eb9a9965b93087927', u'source_uid': u'15514410026', u'name': u'15514410026\u66fe\u535a\u6656'}
+INFO:root: print key sort and value [1475402313000]
 INFO:root:in change custom string to json
-INFO:root: print key icon_url and value {u'origin': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'640': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'240': u'http://www.seu.edu.cn/9993031473744250.17.jpg'}
-INFO:root:in icon_url ,key isicon_url
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5e73\u8c37', u'major': u'\u4f26\u7406\u5b66', u'name': u'\u5f20\u8c6a\u5f3a', u'icon_url': u'http://www.seu.edu.cn/6119851475373510.57.jpg', u'company': u'\u8c37\u6b4c\u4e2d\u56fd', u'admission_year': u'2010', u'register_time': u'2016-10-02 09:58:33', u'job': u'java\u5de5\u7a0b\u5e08', u'state': u'\u5317\u4eac', u'faculty': u'\u4eba\u6587\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
 INFO:root:in change custom string to json
-INFO:root: print key origin and value http://www.seu.edu.cn/9993031473744250.17.jpg
-INFO:root: print key 640 and value http://www.seu.edu.cn/9993031473744250.17.jpg
-INFO:root: print key 240 and value http://www.seu.edu.cn/9993031473744250.17.jpg
-INFO:root: print key medal_ids and value []
-INFO:root: print key id and value 57d78d7eb9a9965b93087927
-INFO:root: print key source_uid and value 15514410026
-INFO:root: print key name and value 15514410026曾博晖
-INFO:root:json returned to client is :{"message": "get umeng api successfully", "code": 4300, "Data": {"update": {}, "response": {"count": 30, "total": 2, "page": 1, "results": [{"feed": {"content": "\u5bfb\u6c42\u4eba\u5de5\u667a\u80fd\u9886\u57df\u7684\u5927\u725b\uff0c\u62db\u8d24\u7eb3\u58eb\uff0c\u5728\u627e\u5de5\u4f5c\u7684\u901f\u901f\u79c1\u6233\u3002\u7b80\u5386\u6295\u90ae\u7bb1zpcxh95@outlook.com"}, "content": "\u5df2\u7ecf\u79c1\u6233\uff0c\u5e0c\u671b\u8be6\u804a\uff01", "create_time": "2016-10-02 13:37:06", "id": "57f09d02d36ef3c6f51455e3", "creator": {"icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/9993031473744250.17.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475387133&Signature=dUJEVuxPuwaLIepXLrmLupnYCAk%3D", "medal_ids": [], "id": "57d78d7eb9a9965b93087927", "source_uid": "15514410026", "name": "15514410026\u66fe\u535a\u6656"}}]}}}
-INFO:tornado.access:200 POST /get_my_comment (127.0.0.1) 193.12ms
+INFO:root: print key city and value 平谷
+INFO:root: print key major and value 伦理学
+INFO:root: print key name and value 张豪强
+INFO:root: print key icon_url and value http://www.seu.edu.cn/6119851475373510.57.jpg
+INFO:root: print key company and value 谷歌中国
+INFO:root: print key admission_year and value 2010
+INFO:root: print key register_time and value 2016-10-02 09:58:33
+INFO:root: print key job and value java工程师
+INFO:root: print key state and value 北京
+INFO:root: print key faculty and value 人文学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 139
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1474659554000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|ce4e55bb|5a0288a639529de6e83b6c4bd45f1824|14746307171474630753.85.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:39:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 模式识别与智能系统
+INFO:root: print key name and value 韩襄
+INFO:root: print key icon_url and value http://www.seu.edu.cn/2|ce4e55bb|5a0288a639529de6e83b6c4bd45f1824|14746307171474630753.85.jpg
+INFO:root: print key company and value The SEU
+INFO:root: print key admission_year and value 1908
+INFO:root: print key register_time and value 2016-09-23 19:39:14
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 自动化学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 136
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1474659366000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf', u'name': u'\u97e9\u8944', u'icon_url': u'http://www.seu.edu.cn/2|2a87a851|69a606230c1fc429c070191729e049b8|14746305261474630566.22.jpg', u'company': u'The SEU', u'admission_year': 1908, u'register_time': u'2016-09-23 19:36:06', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 模式识别与智能系统
+INFO:root: print key name and value 韩襄
+INFO:root: print key icon_url and value http://www.seu.edu.cn/2|2a87a851|69a606230c1fc429c070191729e049b8|14746305261474630566.22.jpg
+INFO:root: print key company and value The SEU
+INFO:root: print key admission_year and value 1908
+INFO:root: print key register_time and value 2016-09-23 19:36:06
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 自动化学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 135
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473955444000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u671d\u9633', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u9648\u6c50\u96c5', u'icon_url': u'http://www.seu.edu.cn/4901601473926641.56.jpg', u'company': u'\u610f\u6797', u'admission_year': u'2010', u'register_time': u'2016-09-15 16:04:04', u'job': u'\u7f16\u8f91\u90e8\u90e8\u957f', u'state': u'\u5317\u4eac', u'faculty': u'\u827a\u672f\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 朝阳
+INFO:root: print key major and value 美术学
+INFO:root: print key name and value 陈汐雅
+INFO:root: print key icon_url and value http://www.seu.edu.cn/4901601473926641.56.jpg
+INFO:root: print key company and value 意林
+INFO:root: print key admission_year and value 2010
+INFO:root: print key register_time and value 2016-09-15 16:04:04
+INFO:root: print key job and value 编辑部部长
+INFO:root: print key state and value 北京
+INFO:root: print key faculty and value 艺术学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 134
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473836397000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u676d\u5dde', u'major': u'\u81ea\u52a8\u5316', u'name': u'\u8bb8\u65d6', u'icon_url': u'http://www.seu.edu.cn/4334081473807594.6.jpg', u'company': u'\u4e2d\u5174\u901a\u8baf', u'admission_year': u'2010', u'register_time': u'2016-09-14 06:59:57', u'job': u'\u4ea7\u54c1\u7ecf\u7406', u'state': u'\u6d59\u6c5f', u'faculty': u'\u81ea\u52a8\u5316\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 杭州
+INFO:root: print key major and value 自动化
+INFO:root: print key name and value 许旖
+INFO:root: print key icon_url and value http://www.seu.edu.cn/4334081473807594.6.jpg
+INFO:root: print key company and value 中兴通讯
+INFO:root: print key admission_year and value 2010
+INFO:root: print key register_time and value 2016-09-14 06:59:57
+INFO:root: print key job and value 产品经理
+INFO:root: print key state and value 浙江
+INFO:root: print key faculty and value 自动化学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 133
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473836280000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u62a4\u7406\u5b66', u'name': u'\u674e\u57f9', u'icon_url': u'http://www.seu.edu.cn/5422531473807479.09.jpg', u'company': u'\u9f13\u697c\u533b\u9662', u'admission_year': u'2011', u'register_time': u'2016-09-14 06:58:00', u'job': u'\u62a4\u58eb\u957f', u'state': u'\u6c5f\u82cf', u'faculty': u'\u533b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 护理学
+INFO:root: print key name and value 李培
+INFO:root: print key icon_url and value http://www.seu.edu.cn/5422531473807479.09.jpg
+INFO:root: print key company and value 鼓楼医院
+INFO:root: print key admission_year and value 2011
+INFO:root: print key register_time and value 2016-09-14 06:58:00
+INFO:root: print key job and value 护士长
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 医学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 132
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473836171000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u57ce\u5e02\u89c4\u5212', u'name': u'\u590f\u6c5f\u534e', u'icon_url': u'http://www.seu.edu.cn/9783491473807366.96.jpg', u'company': u'the SEU', u'admission_year': u'2013', u'register_time': u'2016-09-14 06:56:11', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5efa\u7b51\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 城市规划
+INFO:root: print key name and value 夏江华
+INFO:root: print key icon_url and value http://www.seu.edu.cn/9783491473807366.96.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2013
+INFO:root: print key register_time and value 2016-09-14 06:56:11
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 建筑学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 131
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473836091000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u8944\u9633', u'major': u'\u571f\u6728\u5de5\u7a0b', u'name': u'\u9646\u5cf0', u'icon_url': u'http://www.seu.edu.cn/8806971473807290.19.jpg', u'company': u'\u4e2d\u94c1\u4e8c\u5c40', u'admission_year': u'2006', u'register_time': u'2016-09-14 06:54:51', u'job': u'\u9879\u76ee\u7ecf\u7406', u'state': u'\u6e56\u5317', u'faculty': u'\u571f\u6728\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 襄阳
+INFO:root: print key major and value 土木工程
+INFO:root: print key name and value 陆峰
+INFO:root: print key icon_url and value http://www.seu.edu.cn/8806971473807290.19.jpg
+INFO:root: print key company and value 中铁二局
+INFO:root: print key admission_year and value 2006
+INFO:root: print key register_time and value 2016-09-14 06:54:51
+INFO:root: print key job and value 项目经理
+INFO:root: print key state and value 湖北
+INFO:root: print key faculty and value 土木工程学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 130
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473835904000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u4fe1\u606f\u5de5\u7a0b', u'name': u'\u5f20\u5065', u'icon_url': u'http://www.seu.edu.cn/2012961473807101.74.jpg', u'company': u'\u534e\u4e3a', u'admission_year': u'2012', u'register_time': u'2016-09-14 06:51:44', u'job': u'\u7814\u53d1\u90e8\u7ecf\u7406', u'state': u'\u6c5f\u82cf', u'faculty': u'\u5434\u5065\u96c4\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 信息工程
+INFO:root: print key name and value 张健
+INFO:root: print key icon_url and value http://www.seu.edu.cn/2012961473807101.74.jpg
+INFO:root: print key company and value 华为
+INFO:root: print key admission_year and value 2012
+INFO:root: print key register_time and value 2016-09-14 06:51:44
+INFO:root: print key job and value 研发部经理
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 吴健雄学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 129
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473825713000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u6280\u672f', u'name': u'\u53f6\u9752', u'icon_url': u'http://www.seu.edu.cn/8691111473796911.42.jpg', u'company': u'\u5357\u4eac\u901a\u529b\u5a92\u4f53\u6709\u9650\u516c\u53f8', u'admission_year': u'1986', u'register_time': u'2016-09-14 04:01:53', u'job': u'\u526f\u603b\u88c1', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u5de5\u7a0b\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 计算机科学与技术
+INFO:root: print key name and value 叶青
+INFO:root: print key icon_url and value http://www.seu.edu.cn/8691111473796911.42.jpg
+INFO:root: print key company and value 南京通力媒体有限公司
+INFO:root: print key admission_year and value 1986
+INFO:root: print key register_time and value 2016-09-14 04:01:53
+INFO:root: print key job and value 副总裁
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 计算机科学与工程学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 128
+INFO:root: print key total and value 20
+INFO:root: print key max_score and value empty
+INFO:root: print key took and value 10
+INFO:root: print key timed_out and value False
+INFO:root:in bool value ,key istimed_out
+INFO:root: print key _shards and value {u'successful': 5, u'failed': 0, u'total': 5}
+INFO:root:in change custom string to json
+INFO:root: print key successful and value 5
+INFO:root: print key failed and value 0
+INFO:root: print key total and value 5
+INFO:root:json returned to client is :{"message": "success", "code": 5000, "Data": {"update": {}, "response": {"hits": {"hits": [{"sort": [1475402313000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5e73\u8c37", "major": "\u4f26\u7406\u5b66", "name": "\u5f20\u8c6a\u5f3a", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/6119851475373510.57.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=iNTaI5GC%2FCJLTBfj3Dpm5QofmVk%3D", "company": "\u8c37\u6b4c\u4e2d\u56fd", "admission_year": "2010", "register_time": "2016-10-02 09:58:33", "job": "java\u5de5\u7a0b\u5e08", "state": "\u5317\u4eac", "faculty": "\u4eba\u6587\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "139"}, {"sort": [1474659554000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf", "name": "\u97e9\u8944", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/2%7Cce4e55bb%7C5a0288a639529de6e83b6c4bd45f1824%7C14746307171474630753.85.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=sIwwWbqmWHmIfWoh9VNaf%2B8Fm2w%3D", "company": "The SEU", "admission_year": 1908, "register_time": "2016-09-23 19:39:14", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u81ea\u52a8\u5316\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "136"}, {"sort": [1474659366000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u6a21\u5f0f\u8bc6\u522b\u4e0e\u667a\u80fd\u7cfb\u7edf", "name": "\u97e9\u8944", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/2%7C2a87a851%7C69a606230c1fc429c070191729e049b8%7C14746305261474630566.22.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=5yT%2FKOOlI8ayZtcmz1COWEMVWa8%3D", "company": "The SEU", "admission_year": 1908, "register_time": "2016-09-23 19:36:06", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u81ea\u52a8\u5316\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "135"}, {"sort": [1473955444000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u671d\u9633", "major": "\u7f8e\u672f\u5b66", "name": "\u9648\u6c50\u96c5", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/4901601473926641.56.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=ISXeZgZ%2FpuR6muP2gk6T5ckuuoU%3D", "company": "\u610f\u6797", "admission_year": "2010", "register_time": "2016-09-15 16:04:04", "job": "\u7f16\u8f91\u90e8\u90e8\u957f", "state": "\u5317\u4eac", "faculty": "\u827a\u672f\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "134"}, {"sort": [1473836397000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u676d\u5dde", "major": "\u81ea\u52a8\u5316", "name": "\u8bb8\u65d6", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/4334081473807594.6.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=Pbgm2VnuHVHjQuKmufiDnaB1EN0%3D", "company": "\u4e2d\u5174\u901a\u8baf", "admission_year": "2010", "register_time": "2016-09-14 06:59:57", "job": "\u4ea7\u54c1\u7ecf\u7406", "state": "\u6d59\u6c5f", "faculty": "\u81ea\u52a8\u5316\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "133"}, {"sort": [1473836280000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u62a4\u7406\u5b66", "name": "\u674e\u57f9", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5422531473807479.09.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=R8cgiMNvb6hHL1a7e2tSKSVYNwg%3D", "company": "\u9f13\u697c\u533b\u9662", "admission_year": "2011", "register_time": "2016-09-14 06:58:00", "job": "\u62a4\u58eb\u957f", "state": "\u6c5f\u82cf", "faculty": "\u533b\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "132"}, {"sort": [1473836171000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u57ce\u5e02\u89c4\u5212", "name": "\u590f\u6c5f\u534e", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/9783491473807366.96.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=iSKeOh8qFQYfd%2B6vKuYug%2FeN6xQ%3D", "company": "the SEU", "admission_year": "2013", "register_time": "2016-09-14 06:56:11", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u5efa\u7b51\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "131"}, {"sort": [1473836091000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u8944\u9633", "major": "\u571f\u6728\u5de5\u7a0b", "name": "\u9646\u5cf0", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/8806971473807290.19.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=Kg2p9pPjrSHkuWnI1h5AZm68zmE%3D", "company": "\u4e2d\u94c1\u4e8c\u5c40", "admission_year": "2006", "register_time": "2016-09-14 06:54:51", "job": "\u9879\u76ee\u7ecf\u7406", "state": "\u6e56\u5317", "faculty": "\u571f\u6728\u5de5\u7a0b\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "130"}, {"sort": [1473835904000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u4fe1\u606f\u5de5\u7a0b", "name": "\u5f20\u5065", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/2012961473807101.74.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=2sAfivS1Q9hQOkqnkDdlp27u9S4%3D", "company": "\u534e\u4e3a", "admission_year": "2012", "register_time": "2016-09-14 06:51:44", "job": "\u7814\u53d1\u90e8\u7ecf\u7406", "state": "\u6c5f\u82cf", "faculty": "\u5434\u5065\u96c4\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "129"}, {"sort": [1473825713000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u6280\u672f", "name": "\u53f6\u9752", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/8691111473796911.42.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393697&Signature=zIoQUBo2HA6YGULoBhTigbASP0U%3D", "company": "\u5357\u4eac\u901a\u529b\u5a92\u4f53\u6709\u9650\u516c\u53f8", "admission_year": "1986", "register_time": "2016-09-14 04:01:53", "job": "\u526f\u603b\u88c1", "state": "\u6c5f\u82cf", "faculty": "\u8ba1\u7b97\u673a\u79d1\u5b66\u4e0e\u5de5\u7a0b\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "128"}], "total": 20, "max_score": "empty"}, "took": 10, "timed_out": "False", "_shards": {"successful": 5, "failed": 0, "total": 5}}}}
+INFO:tornado.access:200 POST /search_user (127.0.0.1) 74.76ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='GET', uri='/', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Host': '127.0.0.1:8000', 'User-Agent': 'Python-urllib/2.7', 'Connection': 'close', 'Accept-Encoding': 'identity'}) 
+ 
+
+INFO:root:request arguments: {}
+INFO:tornado.access:200 GET / (127.0.0.1) 8.54ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '128', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=606fe840982e4ee2a55c638ab120ed22', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+ 
+
+INFO:root:request arguments: {'_xsrf': ['606fe840982e4ee2a55c638ab120ed22'], 'info_json': ['{"password": "cxh123456", "telephone": "15195861108"}']}
+INFO:root: uid is 127
+INFO:root:data ['2016-09-13 12:36:40', '2016-09-13 19:51:47', '606fe840982e4ee2a55c638ab120ed22', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d2e3161cc6931e04580bf6837a7f4fe51cfd7c56a6c5f579be81fa40c97e02f57', '0']
+INFO:root:in return to client
+INFO:root:in change custom string to json
+INFO:root: print key update and value {}
+INFO:root:in change custom string to json
+INFO:root: print key response and value {u'last_update_time': u'2016-09-13 12:36:40', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'uid': 127, u'admission_year': 2014, u'instroduction': u'{}', u'create_circle_list': u'_41_42_43_', u'city': u'\u5357\u4eac', u'icon_url': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'my_circle_list': u'_41_42_43_36_32_', u'state': u'\u6c5f\u82cf', u'protect_contact_list': u'{}', u'detail_id': 82, u'company_publicity_level': 0, u'public_contact_list': u'{}', u'admin_circle_list': u'_', u'tags': u'{}', u'company': u'the SEU', u'job': u'student', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'name': u'\u9648\u96c4\u8f89', u'gender': 1, u'job_list_level': 0, u'country': u'\u4e2d\u56fd', u'adlevel': 0, u'job_list': u'{}'}
+INFO:root:in change custom string to json
+INFO:root: print key last_update_time and value 2016-09-13 12:36:40
+INFO:root: print key major and value 软件工程
+INFO:root: print key uid and value 127
+INFO:root: print key admission_year and value 2014
+INFO:root: print key instroduction and value {}
+INFO:root: print key create_circle_list and value _41_42_43_
+INFO:root: print key city and value 南京
+INFO:root: print key icon_url and value http://www.seu.edu.cn/5734751473770195.01.jpg
+INFO:root: print key my_circle_list and value _41_42_43_36_32_
+INFO:root: print key state and value 江苏
+INFO:root: print key protect_contact_list and value {}
+INFO:root: print key detail_id and value 82
+INFO:root: print key company_publicity_level and value 0
+INFO:root: print key public_contact_list and value {}
+INFO:root: print key admin_circle_list and value _
+INFO:root: print key tags and value {}
+INFO:root: print key company and value the SEU
+INFO:root: print key job and value student
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key name and value 陈雄辉
+INFO:root: print key gender and value 1
+INFO:root: print key job_list_level and value 0
+INFO:root: print key country and value 中国
+INFO:root: print key adlevel and value 0
+INFO:root: print key job_list and value {}
+INFO:root:json returned to client is :{"message": "login successfully! another user been logout!", "code": 1205, "Data": {"update": {}, "response": {"last_update_time": "2016-09-13 12:36:40", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "uid": 127, "admission_year": 2014, "instroduction": "{}", "create_circle_list": "_41_42_43_", "city": "\u5357\u4eac", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5734751473770195.01.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=bk4YsTq%2FfdwDoZTQlDbWQfb9lI8%3D", "my_circle_list": "_41_42_43_36_32_", "state": "\u6c5f\u82cf", "protect_contact_list": "{}", "detail_id": 82, "company_publicity_level": 0, "public_contact_list": "{}", "admin_circle_list": "_", "tags": "{}", "company": "the SEU", "job": "student", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "name": "\u9648\u96c4\u8f89", "gender": 1, "job_list_level": 0, "country": "\u4e2d\u56fd", "adlevel": 0, "job_list": "{}"}}}
+INFO:tornado.access:200 POST /login (127.0.0.1) 54.27ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/search_user', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '197', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=606fe840982e4ee2a55c638ab120ed22; uid=MTI3|1475393424|fa3cc170b79d1d6c9aa7a01f3b90b46add0c7513', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+ 
+
+INFO:root:request arguments: {'filter_admission_year_max': ['9999'], 'filter_city_list': ['[]'], 'filter_admission_year_min': ['0'], 'filter_major_list': ['[]'], '_xsrf': ['606fe840982e4ee2a55c638ab120ed22'], 'info_json': ['{}'], 'all_match': ['2'], 'query': [''], 'page': ['2'], 'size': ['10']}
+INFO:root:filter_major_list : [] type is <type 'list'>
+INFO:elasticsearch:GET http://139.196.207.155:9200/alumnuscircle/user/_search [status:200 request:0.027s]
+INFO:root: print the serch body {'sort': {'register_time': {'order': 'desc'}}, 'query': {'filtered': {'filter': {'bool': {'must': [{'bool': {'should': []}}, {'bool': {'should': []}}, {'range': {'admission_year': {'lt': 9999, 'gte': 0}}}]}}, 'query': {'match_all': {}}}}, 'from': 10, 'size': 10}
+INFO:root:in return to client
+INFO:root:in change custom string to json
+INFO:root: print key update and value {}
+INFO:root:in change custom string to json
+INFO:root: print key response and value {u'hits': {u'hits': [{u'sort': [1473799000000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u9648\u96c4\u8f89', u'icon_url': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 20:36:40', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'127'}, {u'sort': [1473777744000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5510\u5c71', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u5434\u660a\u5929', u'icon_url': u'http://www.seu.edu.cn/5962751473748940.18.jpg', u'company': u'\u4e07\u8fbe', u'admission_year': u'2009', u'register_time': u'2016-09-13 14:42:24', u'job': u'\u5de5\u7a0b\u5e08', u'state': u'\u6cb3\u5317', u'faculty': u'\u5efa\u7b51\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'126'}, {u'sort': [1473776687000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u653f\u6cbb\u5b66\u4e0e\u884c\u653f\u5b66', u'name': u'\u5218\u6708', u'icon_url': u'http://www.seu.edu.cn/1660081473747884.38.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:24:47', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u4eba\u6587\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'125'}, {u'sort': [1473776421000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u7269\u7406\u5b66', u'name': u'\u4e8e\u6d0b', u'icon_url': u'http://www.seu.edu.cn/1712871473747618.81.jpg', u'company': u'the SEU', u'admission_year': u'2012', u'register_time': u'2016-09-13 14:20:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u7269\u7406\u7cfb', u'country': u'\u4e2d\u56fd'}, u'_id': u'124'}, {u'sort': [1473775861000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u9f99\u98de', u'icon_url': u'http://www.seu.edu.cn/821771473747058.45.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:11:01', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'123'}, {u'sort': [1473775401000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b\u7855\u58eb', u'name': u'\u97e9\u96ea\u6ee2', u'icon_url': u'http://www.seu.edu.cn/2|57df68f5|af9f2732638f14370f0ba55bcc3776ba|14733854851473746600.46.jpg', u'company': u'The SEU', u'admission_year': 2014, u'register_time': u'2016-09-13 14:03:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'122'}, {u'sort': [1473775195000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5434\u6b63\u51e1', u'icon_url': u'http://www.seu.edu.cn/3216811473746388.89.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:59:55', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'121'}, {u'sort': [1473773054000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u66fe\u535a\u6656', u'icon_url': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:24:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'120'}, {u'sort': [1473772379000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u7545', u'icon_url': u'http://www.seu.edu.cn/5790061473743575.3.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:12:59', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'119'}, {u'sort': [1473772234000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u767d\u6d0b', u'icon_url': u'http://www.seu.edu.cn/319791473743423.0.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:10:34', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'118'}], u'total': 20, u'max_score': u'empty'}, u'took': 11, u'timed_out': False, u'_shards': {u'successful': 5, u'failed': 0, u'total': 5}}
+INFO:root:in change custom string to json
+INFO:root: print key hits and value {u'hits': [{u'sort': [1473799000000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u9648\u96c4\u8f89', u'icon_url': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 20:36:40', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'127'}, {u'sort': [1473777744000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5510\u5c71', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u5434\u660a\u5929', u'icon_url': u'http://www.seu.edu.cn/5962751473748940.18.jpg', u'company': u'\u4e07\u8fbe', u'admission_year': u'2009', u'register_time': u'2016-09-13 14:42:24', u'job': u'\u5de5\u7a0b\u5e08', u'state': u'\u6cb3\u5317', u'faculty': u'\u5efa\u7b51\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'126'}, {u'sort': [1473776687000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u653f\u6cbb\u5b66\u4e0e\u884c\u653f\u5b66', u'name': u'\u5218\u6708', u'icon_url': u'http://www.seu.edu.cn/1660081473747884.38.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:24:47', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u4eba\u6587\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'125'}, {u'sort': [1473776421000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u7269\u7406\u5b66', u'name': u'\u4e8e\u6d0b', u'icon_url': u'http://www.seu.edu.cn/1712871473747618.81.jpg', u'company': u'the SEU', u'admission_year': u'2012', u'register_time': u'2016-09-13 14:20:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u7269\u7406\u7cfb', u'country': u'\u4e2d\u56fd'}, u'_id': u'124'}, {u'sort': [1473775861000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u9f99\u98de', u'icon_url': u'http://www.seu.edu.cn/821771473747058.45.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:11:01', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'123'}, {u'sort': [1473775401000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b\u7855\u58eb', u'name': u'\u97e9\u96ea\u6ee2', u'icon_url': u'http://www.seu.edu.cn/2|57df68f5|af9f2732638f14370f0ba55bcc3776ba|14733854851473746600.46.jpg', u'company': u'The SEU', u'admission_year': 2014, u'register_time': u'2016-09-13 14:03:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'122'}, {u'sort': [1473775195000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5434\u6b63\u51e1', u'icon_url': u'http://www.seu.edu.cn/3216811473746388.89.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:59:55', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'121'}, {u'sort': [1473773054000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u66fe\u535a\u6656', u'icon_url': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:24:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'120'}, {u'sort': [1473772379000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u7545', u'icon_url': u'http://www.seu.edu.cn/5790061473743575.3.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:12:59', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'119'}, {u'sort': [1473772234000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u767d\u6d0b', u'icon_url': u'http://www.seu.edu.cn/319791473743423.0.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:10:34', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'118'}], u'total': 20, u'max_score': u'empty'}
+INFO:root:in change custom string to json
+INFO:root: print key hits and value [{u'sort': [1473799000000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u9648\u96c4\u8f89', u'icon_url': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 20:36:40', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'127'}, {u'sort': [1473777744000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5510\u5c71', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u5434\u660a\u5929', u'icon_url': u'http://www.seu.edu.cn/5962751473748940.18.jpg', u'company': u'\u4e07\u8fbe', u'admission_year': u'2009', u'register_time': u'2016-09-13 14:42:24', u'job': u'\u5de5\u7a0b\u5e08', u'state': u'\u6cb3\u5317', u'faculty': u'\u5efa\u7b51\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'126'}, {u'sort': [1473776687000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u653f\u6cbb\u5b66\u4e0e\u884c\u653f\u5b66', u'name': u'\u5218\u6708', u'icon_url': u'http://www.seu.edu.cn/1660081473747884.38.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:24:47', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u4eba\u6587\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'125'}, {u'sort': [1473776421000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u7269\u7406\u5b66', u'name': u'\u4e8e\u6d0b', u'icon_url': u'http://www.seu.edu.cn/1712871473747618.81.jpg', u'company': u'the SEU', u'admission_year': u'2012', u'register_time': u'2016-09-13 14:20:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u7269\u7406\u7cfb', u'country': u'\u4e2d\u56fd'}, u'_id': u'124'}, {u'sort': [1473775861000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u9f99\u98de', u'icon_url': u'http://www.seu.edu.cn/821771473747058.45.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:11:01', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'123'}, {u'sort': [1473775401000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b\u7855\u58eb', u'name': u'\u97e9\u96ea\u6ee2', u'icon_url': u'http://www.seu.edu.cn/2|57df68f5|af9f2732638f14370f0ba55bcc3776ba|14733854851473746600.46.jpg', u'company': u'The SEU', u'admission_year': 2014, u'register_time': u'2016-09-13 14:03:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}, u'_id': u'122'}, {u'sort': [1473775195000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5434\u6b63\u51e1', u'icon_url': u'http://www.seu.edu.cn/3216811473746388.89.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:59:55', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'121'}, {u'sort': [1473773054000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u66fe\u535a\u6656', u'icon_url': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:24:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'120'}, {u'sort': [1473772379000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u7545', u'icon_url': u'http://www.seu.edu.cn/5790061473743575.3.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:12:59', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'119'}, {u'sort': [1473772234000], u'_type': u'user', u'_index': u'alumnuscircle', u'_score': u'empty', u'_source': {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u767d\u6d0b', u'icon_url': u'http://www.seu.edu.cn/319791473743423.0.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:10:34', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}, u'_id': u'118'}]
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473799000000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u9648\u96c4\u8f89', u'icon_url': u'http://www.seu.edu.cn/5734751473770195.01.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 20:36:40', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 陈雄辉
+INFO:root: print key icon_url and value http://www.seu.edu.cn/5734751473770195.01.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 20:36:40
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 127
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473777744000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5510\u5c71', u'major': u'\u7f8e\u672f\u5b66', u'name': u'\u5434\u660a\u5929', u'icon_url': u'http://www.seu.edu.cn/5962751473748940.18.jpg', u'company': u'\u4e07\u8fbe', u'admission_year': u'2009', u'register_time': u'2016-09-13 14:42:24', u'job': u'\u5de5\u7a0b\u5e08', u'state': u'\u6cb3\u5317', u'faculty': u'\u5efa\u7b51\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 唐山
+INFO:root: print key major and value 美术学
+INFO:root: print key name and value 吴昊天
+INFO:root: print key icon_url and value http://www.seu.edu.cn/5962751473748940.18.jpg
+INFO:root: print key company and value 万达
+INFO:root: print key admission_year and value 2009
+INFO:root: print key register_time and value 2016-09-13 14:42:24
+INFO:root: print key job and value 工程师
+INFO:root: print key state and value 河北
+INFO:root: print key faculty and value 建筑学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 126
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473776687000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u653f\u6cbb\u5b66\u4e0e\u884c\u653f\u5b66', u'name': u'\u5218\u6708', u'icon_url': u'http://www.seu.edu.cn/1660081473747884.38.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:24:47', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u4eba\u6587\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 政治学与行政学
+INFO:root: print key name and value 刘月
+INFO:root: print key icon_url and value http://www.seu.edu.cn/1660081473747884.38.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 14:24:47
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 人文学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 125
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473776421000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u7269\u7406\u5b66', u'name': u'\u4e8e\u6d0b', u'icon_url': u'http://www.seu.edu.cn/1712871473747618.81.jpg', u'company': u'the SEU', u'admission_year': u'2012', u'register_time': u'2016-09-13 14:20:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u7269\u7406\u7cfb', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 物理学
+INFO:root: print key name and value 于洋
+INFO:root: print key icon_url and value http://www.seu.edu.cn/1712871473747618.81.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2012
+INFO:root: print key register_time and value 2016-09-13 14:20:21
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 物理系
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 124
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473775861000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u9f99\u98de', u'icon_url': u'http://www.seu.edu.cn/821771473747058.45.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 14:11:01', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 刘龙飞
+INFO:root: print key icon_url and value http://www.seu.edu.cn/821771473747058.45.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 14:11:01
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 123
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473775401000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b\u7855\u58eb', u'name': u'\u97e9\u96ea\u6ee2', u'icon_url': u'http://www.seu.edu.cn/2|57df68f5|af9f2732638f14370f0ba55bcc3776ba|14733854851473746600.46.jpg', u'company': u'The SEU', u'admission_year': 2014, u'register_time': u'2016-09-13 14:03:21', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662(\u7814)', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程硕士
+INFO:root: print key name and value 韩雪滢
+INFO:root: print key icon_url and value http://www.seu.edu.cn/2|57df68f5|af9f2732638f14370f0ba55bcc3776ba|14733854851473746600.46.jpg
+INFO:root: print key company and value The SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 14:03:21
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院(研)
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 122
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473775195000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5434\u6b63\u51e1', u'icon_url': u'http://www.seu.edu.cn/3216811473746388.89.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:59:55', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 吴正凡
+INFO:root: print key icon_url and value http://www.seu.edu.cn/3216811473746388.89.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 13:59:55
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 121
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473773054000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u66fe\u535a\u6656', u'icon_url': u'http://www.seu.edu.cn/9993031473744250.17.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:24:14', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 曾博晖
+INFO:root: print key icon_url and value http://www.seu.edu.cn/9993031473744250.17.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 13:24:14
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 120
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473772379000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u5218\u7545', u'icon_url': u'http://www.seu.edu.cn/5790061473743575.3.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:12:59', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 刘畅
+INFO:root: print key icon_url and value http://www.seu.edu.cn/5790061473743575.3.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 13:12:59
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 119
+INFO:root:in change custom string to json
+INFO:root: print key sort and value [1473772234000]
+INFO:root:in change custom string to json
+INFO:root: print key _type and value user
+INFO:root: print key _index and value alumnuscircle
+INFO:root: print key _score and value empty
+INFO:root: print key _source and value {u'city': u'\u5357\u4eac', u'major': u'\u8f6f\u4ef6\u5de5\u7a0b', u'name': u'\u767d\u6d0b', u'icon_url': u'http://www.seu.edu.cn/319791473743423.0.jpg', u'company': u'the SEU', u'admission_year': u'2014', u'register_time': u'2016-09-13 13:10:34', u'job': u'student', u'state': u'\u6c5f\u82cf', u'faculty': u'\u8f6f\u4ef6\u5b66\u9662', u'country': u'\u4e2d\u56fd'}
+INFO:root:in change custom string to json
+INFO:root: print key city and value 南京
+INFO:root: print key major and value 软件工程
+INFO:root: print key name and value 白洋
+INFO:root: print key icon_url and value http://www.seu.edu.cn/319791473743423.0.jpg
+INFO:root: print key company and value the SEU
+INFO:root: print key admission_year and value 2014
+INFO:root: print key register_time and value 2016-09-13 13:10:34
+INFO:root: print key job and value student
+INFO:root: print key state and value 江苏
+INFO:root: print key faculty and value 软件学院
+INFO:root: print key country and value 中国
+INFO:root: print key _id and value 118
+INFO:root: print key total and value 20
+INFO:root: print key max_score and value empty
+INFO:root: print key took and value 11
+INFO:root: print key timed_out and value False
+INFO:root:in bool value ,key istimed_out
+INFO:root: print key _shards and value {u'successful': 5, u'failed': 0, u'total': 5}
+INFO:root:in change custom string to json
+INFO:root: print key successful and value 5
+INFO:root: print key failed and value 0
+INFO:root: print key total and value 5
+INFO:root:json returned to client is :{"message": "success", "code": 5000, "Data": {"update": {}, "response": {"hits": {"hits": [{"sort": [1473799000000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u9648\u96c4\u8f89", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5734751473770195.01.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=bk4YsTq%2FfdwDoZTQlDbWQfb9lI8%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 20:36:40", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "127"}, {"sort": [1473777744000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5510\u5c71", "major": "\u7f8e\u672f\u5b66", "name": "\u5434\u660a\u5929", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5962751473748940.18.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=Y6okbgep3z8KbvkJG1v6rEphpjE%3D", "company": "\u4e07\u8fbe", "admission_year": "2009", "register_time": "2016-09-13 14:42:24", "job": "\u5de5\u7a0b\u5e08", "state": "\u6cb3\u5317", "faculty": "\u5efa\u7b51\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "126"}, {"sort": [1473776687000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u653f\u6cbb\u5b66\u4e0e\u884c\u653f\u5b66", "name": "\u5218\u6708", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/1660081473747884.38.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=4oEC9QHiK4dheo1duMnd1u1IiyE%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 14:24:47", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u4eba\u6587\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "125"}, {"sort": [1473776421000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u7269\u7406\u5b66", "name": "\u4e8e\u6d0b", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/1712871473747618.81.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=mf1EBlaoNhHXgLs33mvW8UxED%2FQ%3D", "company": "the SEU", "admission_year": "2012", "register_time": "2016-09-13 14:20:21", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u7269\u7406\u7cfb", "country": "\u4e2d\u56fd"}, "_id": "124"}, {"sort": [1473775861000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u5218\u9f99\u98de", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/821771473747058.45.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=97BvvaJ5GjlgNhOJIiTirzzRy2k%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 14:11:01", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "123"}, {"sort": [1473775401000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b\u7855\u58eb", "name": "\u97e9\u96ea\u6ee2", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/2%7C57df68f5%7Caf9f2732638f14370f0ba55bcc3776ba%7C14733854851473746600.46.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=TTEm15eNjy%2Fy2NvuWDJQz6byOdY%3D", "company": "The SEU", "admission_year": 2014, "register_time": "2016-09-13 14:03:21", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662(\u7814)", "country": "\u4e2d\u56fd"}, "_id": "122"}, {"sort": [1473775195000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u5434\u6b63\u51e1", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/3216811473746388.89.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=HAKt5LAT8HfGXT2EqCq9iuJ3Qho%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 13:59:55", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "121"}, {"sort": [1473773054000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u66fe\u535a\u6656", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/9993031473744250.17.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=rGCUqkLw6ykXNL04kpO1Na6FfFM%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 13:24:14", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "120"}, {"sort": [1473772379000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u5218\u7545", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/5790061473743575.3.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=Oyj2Tvfe46LG4h3hmsVbVtv2T2U%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 13:12:59", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "119"}, {"sort": [1473772234000], "_type": "user", "_index": "alumnuscircle", "_score": "empty", "_source": {"city": "\u5357\u4eac", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "name": "\u767d\u6d0b", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/319791473743423.0.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475393724&Signature=4PZ%2BTBTCM6BdsKVDheWliRVpZUY%3D", "company": "the SEU", "admission_year": "2014", "register_time": "2016-09-13 13:10:34", "job": "student", "state": "\u6c5f\u82cf", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "country": "\u4e2d\u56fd"}, "_id": "118"}], "total": 20, "max_score": "empty"}, "took": 11, "timed_out": "False", "_shards": {"successful": 5, "failed": 0, "total": 5}}}}
+INFO:tornado.access:200 POST /search_user (127.0.0.1) 66.81ms

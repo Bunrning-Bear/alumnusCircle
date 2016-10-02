@@ -51,12 +51,14 @@ class UserFilterHandler(ContactHandler):
     @tornado.gen.coroutine
     def post(self):
         """
-        filter_admission_year_min
-        filter_admission_year_max
-        filter_major_list 
-        filter_city_list
-        all_match 
-        query     
+        filter_admission_year_min: 入学年份的最小值
+        filter_admission_year_max：入学年份的最大值
+        filter_major_list ：专业筛选列表
+        filter_city_list：居住城市筛选列表
+        all_match ：0 模糊搜索；1 筛选搜索；2获取全部用户
+        query     ：筛选语句
+        page：分页的页码
+        size：每页显示的数据数
         """
         filter_admission_year_min=int(self.get_argument("filter_admission_year_min"))
         filter_admission_year_max=int(self.get_argument("filter_admission_year_max"))
@@ -64,10 +66,12 @@ class UserFilterHandler(ContactHandler):
         filter_city_list = json.loads(self.get_argument("filter_city_list"))
         all_match = self.get_argument("all_match")
         query = self.get_argument("query")
+        page = int(self.get_argument("page"))
+        size = int(self.get_argument("size"))
         logging.info("filter_major_list : %s type is %s"%(filter_major_list,type(filter_major_list)))
         Data = self._elastic_user_module.keyword_search(
             all_match,query,filter_admission_year_min,filter_admission_year_max,
-            filter_major_list,filter_city_list)
+            filter_major_list,filter_city_list,page,size)
         code = 5000
         message = "success"
         self.return_to_client(code,message,Data)

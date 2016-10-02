@@ -42,7 +42,7 @@ from tornado.options import define, options
 from common.lib.message import Message
 
 define("port", default = 8000, help = "run on the given port", type = int)
-define("mysql_host", default = "127.0.0.1", help = "community database host")
+define("host", default = "127.0.0.1", help = "community database host")
 define("mysql_database", default = "alumnuscircle", help = "community database name")
 define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
@@ -150,7 +150,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers,**settings)
         # add db to global variable.
         self.db = torndb.Connection(
-            host = options.mysql_host, database = options.mysql_database,
+            host = options.host, database = options.mysql_database,
             user = options.mysql_user, password = options.mysql_password
         )
         self.message = Message(self.db)
@@ -161,7 +161,7 @@ class Application(tornado.web.Application):
             a = self.db.get("SELECT COUNT(*) from user_info")
         except MySQLdb.ProgrammingError:
         """
-        self.es = Elasticsearch([{'host':options.mysql_host,'port':9200}])
+        self.es = Elasticsearch([{'host':options.host,'port':9200}])
 
 def main():
     tornado.options.parse_command_line()
