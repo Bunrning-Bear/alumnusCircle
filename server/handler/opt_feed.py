@@ -1,6 +1,7 @@
 #!usr/bin/env python
 # coding=utf-8
 # opt_feed.py
+#Author ChenXionghui
 """
 opt_feed define all of operate to feed:
 include 

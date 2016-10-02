@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # feed_list.py
+#Author ChenXionghui
 """
 several kind of feed list can not been package as one class.
 because the parameters are different.

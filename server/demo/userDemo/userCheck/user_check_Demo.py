@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #user_check_Demo.py
+#Author ChenXionghui
 """
 使用安全cookie标志用户
 当首次在某个客户端[或者cookie过期]访问我们的页面的时候，展示的一个登陆页面。

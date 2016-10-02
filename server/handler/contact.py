@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # contact.py
+#Author ChenXionghui
 """
 contact :
     1. get all of user in elasticsearch.

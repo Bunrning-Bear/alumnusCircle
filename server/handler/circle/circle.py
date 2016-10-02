@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # topic.py
+#Author ChenXionghui
 import json
 import re
 import ConfigParser
@@ -452,14 +453,16 @@ class GetTopicTypeHandler(RequestHandler):
         self.methodUsed = 'GET'    
         self.requestName ='topictype'
 
+    @request.authenticated('topictype')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
         Data = self.get_argument("info_json")
+        uid = self.get_secure_cookie('uid')
+        access_token = self.get_redis_dict_access_token(uid)
         Data = json.loads(Data)
         code = 0
-        access_token = self._public_access
-        code,message,Data = yield self.public_Umeng_request(Data)
+        code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
         self.return_to_client(code,message,Data)
         self.finish()
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 #user_list.py
+#Author ChenXionghui
 """
 This file define classes about reponse some list.
 example:
@@ -62,7 +63,7 @@ class FollowsListHandler(RequestHandler):
         logging.info("result Data %s"%resultData)
         def user_filter(unit):
             logging.info("unit is %s"%(unit['id'] != u'57d2a965b9a9967859f13886'))
-            if unit['id'] != u'57d2a965b9a9967859f13886' and unit['id'] != u'57b18b0fea77f731e29e41de':
+            if unit['id'] != u'57b18b0fea77f731e29e41de' and unit['id'] != u'57d77926d36ef3cdf599aea7':
                 return unit
         resultData['results'] = filter(user_filter,resultData['results'])
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)

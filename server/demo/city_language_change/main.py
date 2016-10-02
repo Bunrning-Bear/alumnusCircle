@@ -1,5 +1,6 @@
 #encoding=utf-8
 # main.py
+#Author ChenXionghui
 import MySQLdb
 import urllib2
 import json

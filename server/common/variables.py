@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env 
+#Author ChenXionghui
+
 import redis
 import logging
 import os

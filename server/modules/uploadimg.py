@@ -123,10 +123,22 @@ class Aliyun(object):
 
 	
 	def parseUrlByFakeKey(self, fakeKey):
+
+		print '----------------------------------------------------------------------------'
+		print '----------------------------------------------------------------------------'
+		print fakeKey
+		print '----------------------------------------------------------------------------'
+		print '----------------------------------------------------------------------------'
+		# logging.info("---------------------------------------------fackkey is %s"%fackkey)
+
 		# logging.info("fackkey is %s"%fackkey)
 		keyPrefix = r'http://www.seu.edu.cn/'
+		asciiKeyPrefix = r'http%3A%2F%2Fwww.seu.edu.cn%2F'
 		if(keyPrefix in fakeKey):
 			key = fakeKey[22:]
+			return self.parseUrlByKey(key)
+		elif(asciiKeyPrefix in fakeKey):
+			key = fakeKey[30:]
 			return self.parseUrlByKey(key)
 		else:
 			return fakeKey

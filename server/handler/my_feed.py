@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # my_feed.py
+#Author ChenXionghui
 """
 operate to my feed.
 include:

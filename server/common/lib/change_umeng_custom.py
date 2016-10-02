@@ -1,4 +1,5 @@
 # change_umeng_custom.py
+#Author ChenXionghui
 import json
 
 def change_custom_string_to_json(dic):

@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-prefix ="http://139.196.207.155:8000"
-# prefix = "http://127.0.0.1:8003"
+# prefix ="http://139.196.207.155:8000"
+prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -365,6 +365,7 @@ def circle_apply_test():
         "circle_name":"大神带你装逼带你飞",
         "circle_url":"http: //img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg"
     }
+
     info_json[num] = {
     }
     message[num] = "agree the user apply to the circle."
@@ -454,11 +455,11 @@ def loginTest():
     #     "telephone":"15689236999"
     # }
     # otherPara[num] = {}
-    # setMessage(message,num,"密码错误")
+    # setMessage(message,num,"密码错误")(.*)
     # num = num + 1
     info_json[num] = {
-        "password":"llf123456",
-        "telephone":"15888888888"
+        "password":"lc123456",
+        "telephone":"13938862118"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
@@ -618,7 +619,6 @@ def reviewTest():
     otherPara[num] ={
         "result":1,
         "review_id":21
-
     }
     setMessage(message,num,"review topic")
     do_request(api,info_json,message,"POST",otherPara)
@@ -735,9 +735,14 @@ def leaveCircle():
     setMessage(message,num,"telephone has been register")
     do_request(api,info_json,message,"POST",otherPara)    
 # checkPhone()
-registerTest()    
+# registerTest()    
 # adminloginTest()
-# loginTest()
+
+#---------------first need to do, login admin account.
+loginTest()
+
+
+
 # apply_circle()
 # getcommentlist()
 # getmessage()
@@ -764,8 +769,17 @@ registerTest()
 # leave_circle()
 # createTopic()
 # reviewListTest()
-# reviewTest()    
+
+# ------------------------review create circle
+# reviewTest()   
+
+
+#-------------------------circle admin review the apply to join in circle
 # circle_apply_test()
+
+
+
+
 # get_my_filter_circle_test()
 # logoutTest()
 # update_feed()

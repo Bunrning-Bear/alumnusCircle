@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # user.py
+#Author ChenXionghui
 """
 user.py define classes about login, logout, register.
 """
@@ -55,11 +56,13 @@ class UserHandler(RequestHandler):
         # gender
         self._regex_dict[self.user_list_module._gender] = ur"^[0-1]$\Z"
         # job
-        self._regex_dict[self.user_list_module._job] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
+        # self._regex_dict[self.user_list_module._job] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
+        self._regex_dict[self.user_list_module._job] = ur"(.*)"
         # city
         self._regex_dict[self.user_list_module._city] = ur"^[\u4e00-\u9fa5\w]{1,20}$"
         # state
-        self._regex_dict[self.user_list_module._state] = ur"^[\u4e00-\u9fa5\w]{2,20}$"# ur"^[\x{4e00}-\x{9fa5}\w]{2,20}$"    
+        # self._regex_dict[self.user_list_module._state] = ur"^[\u4e00-\u9fa5\w]{2,20}$"# ur"^[\x{4e00}-\x{9fa5}\w]{2,20}$"    
+        self._regex_dict[self.user_list_module._state] = ur"(.*)"   
         # country
         self._regex_dict[self.user_list_module._country] =ur"^[\u4e00-\u9fa5\w]{2,20}$"            
         # company 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # base.py
+#Author ChenXionghui
 
 """
 Processed logic:
@@ -163,7 +164,10 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
         [string] global status code.
         """
-        return self._code_dict[self.requestName] + code
+        if self._code_dict.has_key(self.requestName):
+            return self._code_dict[self.requestName] + code
+        else:
+            return 0
 
     def return_to_client(self,code,message, Data = {}):
         """
@@ -184,6 +188,7 @@ class BaseHandler(tornado.web.RequestHandler):
         # logging.info(" data : %s"%Data)
         temp = temp.replace("null","\"empty\"")
         json_after_replace = json.loads(temp)#dict
+        logging.info("in return to client")
         # logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
         self.change_custom_string_to_json(json_after_replace)# change custom type
 
@@ -199,17 +204,22 @@ class BaseHandler(tornado.web.RequestHandler):
         return {}
 
     def change_custom_string_to_json(self, dic):
+        logging.info("in change custom string to json")
         if isinstance(dic,dict):
             for key,value in dic.items():
                 # print "in dictory : ",key, value
 #               if value == [] or value == {}:
                     # change all of empty list and dicotry to "empty"
 #                    dic[key] = str("empty")
+                logging.info(" print key %s and value %s"%(key,value))
                 if type(value) == bool:
+                    logging.info("in bool value ,key is%s"%key)
                     dic[key] = str(value)
                 elif key == 'custom' and value !='' and dic[key] !={}:
                     # change custom string into json style data.
                     # print "in custom:%s type is : %s"%(value,type(value))
+
+                    logging.info("in custom ,key is%s"%key)
                     try:
                         dic[key] = json.loads(value)
                     except Exception, e:
@@ -217,10 +227,11 @@ class BaseHandler(tornado.web.RequestHandler):
                             dic[key]  = eval(value)
                         except Exception, e:
                             dic[key] = value
-                elif key == 'icon_url' and isinstance(value,dict) and dic[key] != {}:
-                    # delete 360.720 origin.
-                    dic[key] = value['origin']
-                
+                elif key == 'icon_url':
+                    if isinstance(value,dict) and dic[key] != {}:
+                        # delete 360.720 origin.
+                        logging.info("in icon_url ,key is%s"%key)
+                        dic[key] = value['origin']
                     dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
                 elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:
                     count = 0

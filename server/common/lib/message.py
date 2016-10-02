@@ -1,6 +1,7 @@
 #!usr/bin/env python
 # coding=utf-8
 # message.py
+#Author ChenXionghui
 import sys
 import os
 reload(sys)   

@@ -3,6 +3,7 @@
 # ex_test1.py
 #urllibtest.py
 # coding=utf-8
+#Author ChenXionghui
 from elasticsearch import Elasticsearch
 import elasticsearch
 es = Elasticsearch([{'host':'localhost','port':9200}])
