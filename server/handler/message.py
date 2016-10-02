@@ -146,9 +146,15 @@ class GetMyCommentHandler(RequestHandler):
         uid = self.get_secure_cookie('uid')
         code = 0
         access_token = self.get_redis_dict_access_token(uid)
+        umengid = self.user_module.get_umeng_id_from_uid(uid)
         count,message,umengData =yield self.Umeng_asyn_request(access_token,Data)
         # umengData = json.loads(umengData)
         # logging.info("data in comment list \n %s"%umengData['results'])
+        def comment_list_filter(unit):
+            logging.info("unit creator is %s"%(unit['creator']))
+            if unit['creator']['id'] != umengid:
+                return unit
+        umengData['results'] = filter(comment_list_filter,umengData['results'])
         for dictUnit in umengData['results']:
             del dictUnit['status']
             del dictUnit['feed']['status']

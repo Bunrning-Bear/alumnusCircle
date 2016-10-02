@@ -47,9 +47,9 @@ define("mysql_database", default = "alumnuscircle", help = "community database n
 define("mysql_user", default = "root", help = "community database user")
 define("mysql_password", default = "zp19950310", help = "community database password")
 
-logging.basicConfig(level=logging.INFO)
-             #  filename='err.log',  
-             #  filemode='w')
+logging.basicConfig(level=logging.INFO,
+               filename='err.log',  
+               filemode='w')
 
 class Application(tornado.web.Application):
     def __init__(self, *argc, **argkw):
@@ -161,7 +161,7 @@ class Application(tornado.web.Application):
             a = self.db.get("SELECT COUNT(*) from user_info")
         except MySQLdb.ProgrammingError:
         """
-        self.es = Elasticsearch([{'host':'localhost','port':9200}])
+        self.es = Elasticsearch([{'host':options.mysql_host,'port':9200}])
 
 def main():
     tornado.options.parse_command_line()

@@ -5,6 +5,7 @@ from datetime import datetime
 import time
 import json
 import string
+import logging
 from elasticsearch import Elasticsearch
 from common.lib.to_list import custom_list_to_list
 class ElasticUserModule(object):
@@ -14,8 +15,8 @@ class ElasticUserModule(object):
         self._type = "user"
         
     def createInfo(
-        self,uid,faculty,major,name,country,state,city,admission_year,icon_url="default",job="student",
-        company="the seu"):
+        self,uid,faculty,major,name,country,state,city,admission_year,icon_url="default",job="学生",
+        company="东南大学"):
         """
             "icon_url" : { "type" : "string", "index" : "not_analyzed" },
             "faculty": {"type" : "string","index": "not_analyzed"},
@@ -122,7 +123,7 @@ class ElasticUserModule(object):
             body["query"]["filtered"]["filter"]["bool"]["must"],
             filter_admission_year_min,filter_admission_year_max)
         res = self.es.search(index=self._index,doc_type=self._type, body=body)
-        print json.dumps(body,)
+        logging.info(" print the serch body %s",body)
         return res
     
     def set_admission_filter(self,body,filter_admission_year_min=0,filter_admission_year_max=9999):
