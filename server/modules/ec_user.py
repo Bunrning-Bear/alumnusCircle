@@ -92,6 +92,7 @@ class ElasticUserModule(object):
         self,all_match,q='',filter_admission_year_min=0,filter_admission_year_max=9999,
         filter_major_list=[],filter_city_list=[],page=1,size=10):
         #admission_year_query = self.set_admission_filter(filter_admission_year_min,filter_admission_year_max)
+        logging.info("in keyword search \n page is %s size is %s",(page,size))
         from_num = size*(page - 1)
         body={
             "query":{
@@ -125,7 +126,7 @@ class ElasticUserModule(object):
             body["query"]["filtered"]["filter"]["bool"]["must"],
             filter_admission_year_min,filter_admission_year_max)
         res = self.es.search(index=self._index,doc_type=self._type, body=body)
-        logging.info(" print the serch body %s",body)
+        logging.info(" in keyword search print the serch body %s",body)
         return res
     
     def set_admission_filter(self,body,filter_admission_year_min=0,filter_admission_year_max=9999):
