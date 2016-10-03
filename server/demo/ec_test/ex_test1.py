@@ -3,6 +3,7 @@
 # ex_test1.py
 #urllibtest.py
 # coding=utf-8
+#Author ChenXionghui
 from elasticsearch import Elasticsearch
 import elasticsearch
 es = Elasticsearch([{'host':'localhost','port':9200}])
@@ -21,6 +22,7 @@ body1={
                 "instroduction":{"type":"string","analyzer":"ik_max_word"},
                 "company":{"type":"string","analyzer":"ik_max_word"},
                 "job_list":{"type":"string","analyzer":"ik_max_word"},
+                "register_time":{"type":"date","format":"yyyy-MM-dd HH:mm:ss"},
                 "gender":{"type":"boolean"}
             }   
         }

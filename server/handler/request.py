@@ -1,4 +1,5 @@
 #request.py
+#Author ChenXionghui
 """
 request.py define RequestHandler, 
 which is parents class for all of request handler except login and open app
@@ -55,7 +56,7 @@ def authenticated(request):
                 code,message = self.request_identifier_check(uid,self.requestName)
                 # code == 3,means it is the real user.
                 if code != 3:
-                    code = self.return_code_process(self.requestName,code)
+                    code = self.return_code_process(code)
                     self.return_to_client(code,message)
                     self.finish()
                     return
@@ -116,6 +117,7 @@ class RequestHandler(BaseHandler):
         self.count = 10
         self.requestName ='default'
         self.message = self.application.message
+        
     def get_optional_argument(self,argu):
         try:
             result = self.get_argument(argu)
@@ -166,16 +168,17 @@ class RequestHandler(BaseHandler):
         code = 0
         message = ''
         request = self.set_Umeng_request(self.url,access_token,Data,self.methodUsed)
-        logging.info("Umeng_asyn_request request is :")
-        logging.info(', '.join(['%s:%s' % item for item in request.__dict__.items()]))
+        logging.info("Umeng_asyn_request request url %s \n body %s:"%(request.url,request.body))
+        # logging.info(', '.join(['%s:%s \n' % item for item in request.__dict__.items()]))
         response = yield tornado.gen.Task(client.fetch,request)
+        logging.info("umeng response is %s"%response)
         body =  json.loads(response.body)
         code,message,Data = self.set_UmengCode(body)
         raise tornado.gen.Return((code,message,Data))
  
     @public_access_decorator
     @tornado.gen.coroutine
-    def public_Umeng_request(self,access_token,Data):
+    def public_Umeng_request(self,Data):
         """This request is use to send all of feed request to Umeng which login is not need 
         """
         config = ConfigParser.ConfigParser()
@@ -322,3 +325,6 @@ class RequestHandler(BaseHandler):
             Data = body
 
         return code,message,Data
+
+    def get_umeng_api_success(self,code):
+        return code == self._code_dict[self.requestName]

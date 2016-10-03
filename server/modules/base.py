@@ -1,4 +1,5 @@
 # user_module.py
+#Author ChenXionghui
 import ConfigParser
 from common.variables import AP
 

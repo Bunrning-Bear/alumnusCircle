@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # base.py
+#Author ChenXionghui
 
 """
 Processed logic:
@@ -43,11 +44,13 @@ import logging
 import json
 import modules.user
 import modules.message
+import modules.ec_user
 import urllib
 import tornado.web
 import tornado.gen
 import tornado.httpclient
 
+from modules.uploadimg import Aliyun
 from common.lib.prpcrypt import set_encrypt
 
 from common.variables import AP,CODE_DICT
@@ -72,9 +75,16 @@ class BaseHandler(tornado.web.RequestHandler):
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
         self._user_message_module = modules.message.UserMessageModule(self._db)
-        self._code_dict =CODE_DICT    
+        self._code_dict =CODE_DICT
+        self._elastic_user_module = modules.ec_user.ElasticUserModule(self.application.es)
         logging.info("request is : %s \n \n"%self.request)
+        args = self.request.arguments
+        logging.info("request arguments: %s"%args)
 
+    @property
+    def elastic_user_module(self):
+        return self._elastic_user_module
+    
     @property
     def user_module(self):
         return self._user_module
@@ -113,9 +123,9 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._redis_dict.hexists("user:" + uid,"_xsrf"):
+        if not self._redis_dict.hexists("user:" + str(uid),"_xsrf"):
             return 0
-        elif self._redis_dict.hget("user:" + uid,"_xsrf") != _xsrf:
+        elif self._redis_dict.hget("user:" + str(uid),"_xsrf") != _xsrf:
             return 1
         else:
             return 2
@@ -125,21 +135,24 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         dic = {
         "_xsrf":_xsrf,
-        "access_token":access_token,
         "last_update_time":last_update_time,
+        "access_token":access_token,
         "adlevel":adlevel}
         
-        self._redis_dict.hmset("user:" + uid,dic)
-        self.message.init_message(uid)
+        self._redis_dict.hmset("user:" + str(uid),dic)
+        # self.message.init_message(uid)
         
     def get_redis_dict(self,uid):
-        return self._redis_dict.hvals("user:"+uid)
+        return self._redis_dict.hvals("user:"+str(uid))
+
+    def get_redis_dict_access_token(self,uid):
+        return self._redis_dict.hget("user:"+str(uid),"access_token")
 
     def delete_redis_dict(self,uid):
-        self._redis_dict.hdel("user:" + uid,"_xsrf")
+        self._redis_dict.hdel("user:" + str(uid),"_xsrf")
 
     def get_user_last_update_time(self,uid):
-        return self._redis_dict.hget('user:'+uid, "last_update_time")
+        return self._redis_dict.hget('user:'+str(uid), "last_update_time")
     # [todo]:2016.8.26 restructure the logic of return code.
     def return_code_process(self,code):
         """Return status code to client after get a code from handler.
@@ -151,9 +164,11 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
         [string] global status code.
         """
-        return self._code_dict[self.requestName] + code
+        if self._code_dict.has_key(self.requestName):
+            return self._code_dict[self.requestName] + code
+        else:
+            return 0
 
-    @tornado.web.asynchronous
     def return_to_client(self,code,message, Data = {}):
         """
         This method is to return status code and message to client.
@@ -166,34 +181,69 @@ class BaseHandler(tornado.web.RequestHandler):
         Returns:
             not return, just send {'code':code,'message':message} json string to client.
         """
+
+        update_Data = self.get_user_update()
+        Data={'update':update_Data,'response':Data}
+        temp = str(json.dumps(Data))# json
+        # logging.info(" data : %s"%Data)
+        temp = temp.replace("null","\"empty\"")
+        json_after_replace = json.loads(temp)#dict
+        logging.info("in return to client")
+        # logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
+        self.change_custom_string_to_json(json_after_replace)# change custom type
+
         if Data == {}:
-            resultJson = json.dumps({'code':code,'message':message,'Data':{}})
+            resultJson = json.dumps({'code':code - 1,'message':message,'Data':{}})
         else:
-            resultJson = json.dumps({'code':code,'message':message,'Data':Data})
+            resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
+        logging.info('json returned to client is :%s'%resultJson)        
         self.write(resultJson) 
+#        self.finish()
 
+    def get_user_update(self):
+        return {}
 
+    def change_custom_string_to_json(self, dic):
+        logging.info("in change custom string to json")
+        if isinstance(dic,dict):
+            for key,value in dic.items():
+                # print "in dictory : ",key, value
+#               if value == [] or value == {}:
+                    # change all of empty list and dicotry to "empty"
+#                    dic[key] = str("empty")
+                logging.info(" print key %s and value %s"%(key,value))
+                if type(value) == bool:
+                    logging.info("in bool value ,key is%s"%key)
+                    dic[key] = str(value)
+                elif key == 'custom' and value !='' and dic[key] !={}:
+                    # change custom string into json style data.
+                    # print "in custom:%s type is : %s"%(value,type(value))
 
-class UploadFileHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write('''
-<html>
-  <head><title>Upload File</title></head>
-  <body>
-    <form action='/uploadfile' enctype="multipart/form-data" method='post'>
-    <input type='file' name='file'/><br/>
-    <input type='submit' value='submit'/>
-    </form>
-  </body>
-</html>
-''')
+                    logging.info("in custom ,key is%s"%key)
+                    try:
+                        dic[key] = json.loads(value)
+                    except Exception, e:
+                        try:
+                            dic[key]  = eval(value)
+                        except Exception, e:
+                            dic[key] = value
+                elif key == 'icon_url':
+                    if isinstance(value,dict) and dic[key] != {}:
+                        # delete 360.720 origin.
+                        logging.info("in icon_url ,key is%s"%key)
+                        dic[key] = value['origin']
+                    dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
+                elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:
+                    count = 0
+                    while count < len(value):
+                        dic[key][count] = value[count]['origin']
+                        dic[key][count] = Aliyun().parseUrlByFakeKey(dic[key][count])                        
+                        count += 1
+                if isinstance(value,dict):
+                    self.change_custom_string_to_json(value)
+                elif isinstance(value,list):
+                    # print " out of list ", value
+                    for list_value in value:
+                        # print "in list : "+str(list_value)
+                        self.change_custom_string_to_json(list_value)
 
-    def post(self):
-        upload_path=os.path.join(os.path.dirname(AP),'files')  #文件的暂存路径
-        file_metas=self.request.files['Filename']    #提取表单中‘name’为‘file’的文件元数据
-        for meta in file_metas:
-            filename=meta['filename']
-            filepath=os.path.join(upload_path,filename)
-            with open(filepath,'wb') as up:      #有些文件需要已二进制的形式存储，实际中可以更改
-                up.write(meta['body'])
-            self.write('finished!')

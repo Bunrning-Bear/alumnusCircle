@@ -178,9 +178,10 @@ class MessagesListModule(MessageModule):
         Returns:
             mid: the id [primary key] of ac_message_table    
         """
+        # message = json.dumps(message)
         mid = self.db.execute(
             "INSERT INTO " + self._message_table + " ( "+ self._type + " , " + self._message + ")" + 
-            " VALUES ( %s, %s ) ",message_type,message)
+            " VALUES ( %s, %s ) ",message_type, str(message))
         return mid
 
     def get_message_by_mid_list(self,mid_list,update_time = 0):
@@ -194,18 +195,20 @@ class MessagesListModule(MessageModule):
         """
         count = 0
         where_str = ''
+        logging.info("get meesage_by_mid_list %s "%mid_list)
+        logging.info("get message by mid list , update time %s "%update_time)
         while count < len(mid_list):
             where_str = where_str + self._mid + "= %s OR "
             count +=1
         if update_time == 0:
             result = self.db.query(
-                "SELECT "+ self._message + " , "+ self._type +
+                "SELECT "+ self._message + " , "+ self._type + " , " +  self._update_time + 
                 " FROM " + self._message_table + 
                 " WHERE " + where_str[:-3],*mid_list)
         else:
             mid_list.append(update_time)
             result = self.db.query(
-                "SELECT "+ self._message + " , " + self._type +
+                "SELECT "+ self._message + " , " + self._type + " , "+ self._update_time + 
                 " FROM " + self._message_table + 
                 " WHERE " + where_str[:-3] +  
                 " AND UNIX_TIMESTAMP( " + self._update_time +" ) >= " + "UNIX_TIMESTAMP( %s )",*mid_list)

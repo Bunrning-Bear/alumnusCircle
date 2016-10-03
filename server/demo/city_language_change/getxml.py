@@ -1,6 +1,8 @@
 # getxml.py
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+#Author ChenXionghui
 import sys
 reload(sys)   
 sys.setdefaultencoding('utf-8')

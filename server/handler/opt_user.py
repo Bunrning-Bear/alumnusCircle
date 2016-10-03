@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
+#Author ChenXionghui
 """
 this file define all of handlers from user to user.
 include:
     follow and unfollow
-    search user
 """
 import json
 
@@ -17,7 +17,7 @@ from request import RequestHandler
 
 """
 Complete follow and unfollow operate
-
+    
 """
 class FollowHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
@@ -39,13 +39,16 @@ class FollowHandler(RequestHandler):
         target = self.get_argument('target')
         uid = self.get_secure_cookie('uid')
         self.url = self.url + target
-        DataJson = self.get_argument('info_json')
-        Data = json.loads(DataJson)
-        access_token = self.get_user_dict(uid)[1]
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
+        user_id = self.get_argument('uid')
+        umeng_id = self.user_module.get_umeng_id_from_uid(user_id)
+        Data = {'target_uid':umeng_id}
+        access_token = self.get_redis_dict_access_token(uid)
+        count,message,Data =yield self.Umeng_asyn_request(access_token,Data) 
+        code = self.return_code_process(count)      
         self.return_to_client(code,message,Data)
 
 """
+[needn't]
 search a user by part of "username"
 
 """
@@ -70,12 +73,8 @@ class SearchUserHandler(RequestHandler):
         page = self.get_argument('page')
         q = self.get_argument('q')
         Data = {"count":self.count,"page":page,"q":q}
-        access_token = self.get_user_dict(uid)[1]
+        access_token = self.get_redis_dict_access_token(uid)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)       
         self.return_to_client(code,message)
         self.finish()
 
-
-"""Update user's information to database.
-
-"""

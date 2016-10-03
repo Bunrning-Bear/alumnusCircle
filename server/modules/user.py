@@ -81,6 +81,7 @@ class UserInfoModule(UserModule):
         self._user_stu_id = config.get(self._user_base_table,"stu_id")
         self._user_update_time = config.get(self._user_base_table,"update_time")
         self._user_adlevel = config.get(self._user_base_table,"adlevel")
+        self._umeng_id = config.get(self._user_base_table,"umeng_id")
         
     def get_info_from_phone(self,phone):
         """Get all of user information from user_table.
@@ -105,6 +106,41 @@ class UserInfoModule(UserModule):
             hasRegister = False
         return hasRegister
 
+    def get_umeng_id_from_uid(self,uid):
+        """Get user's umeng id from mysql.
+        to execute some ooperate which need umeng id in umeng api
+
+        Args:
+            uid
+
+        Returns:
+
+        """
+        entity = self.db.get(
+            "SELECT "+ self._umeng_id +
+            " FROM " + self._user_base_table + 
+            " WHERE "+ self._uid  +" = %s LIMIT 1",
+            uid)
+        return entity['umeng_id']
+
+    def get_access_token_from_uid(self,uid):
+        """Get user's access_token from mysql.
+        to execute some operate in umeng.
+
+        Args:
+            uid:
+
+        Returns:
+            access_token
+        """
+        entity = self.db.get(
+            "SELECT "+ self._user_access_token +
+            " FROM " + self._user_base_table + 
+            " WHERE "+ self._uid  +" = %s LIMIT 1",
+            uid)
+        logging.info("entity of access_token is %s"%entity)
+        return entity
+
     def set_info_to_user(
         self,access_token,passwd,user_phone,stu_id,adlevel=0):
         """Set user information into user table
@@ -124,6 +160,15 @@ class UserInfoModule(UserModule):
             " , " + self._user_stu_id  + " , "+ self._user_adlevel + " )" +
             "VALUES (%s, %s, %s, %s,%s )",access_token,  passwd, int(user_phone), str(stu_id),adlevel)
         return author_id
+
+    def update_umeng_id(self,umeng_id,uid):
+        logging.info
+        logging.info("update umeng id is :" +" UPDATE " + self._user_base_table + 
+    " SET " + self._umeng_id + " = "+ str(umeng_id) +"WHERE " + self._uid + " = " + str(uid))
+        entity = self.db.update(
+            "UPDATE " + self._user_base_table + 
+            " SET " + self._umeng_id + " = %s WHERE " + self._uid + " = %s",
+            str(umeng_id),uid)
 
     def update_time_from_user_id(self,uid,update_time):
         pass
@@ -155,6 +200,7 @@ class UserListModule(UserModule):
         Returns:
             return list_id in user_list_info table of this user.
         """
+        logging.info("icon_url %s"%icon_url)
         author_id = self.db.execute(
             "INSERT INTO " + self._user_table + " ( " + self._uid + " , "
             + self._admission_year + " , " + self._faculty+
@@ -164,6 +210,7 @@ class UserListModule(UserModule):
             " )" +
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s , %s , %s )",
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country)
+
         return author_id
 
 
@@ -188,7 +235,7 @@ class UserDetailModule(UserModule):
         self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
         self._instroduction = config.get(self._user_table,"instroduction")
         self._user_last_update_time = config.get(self._user_table,"last_update_time")
-        
+        self._create_circle_list = config.get(self._user_table,"create_circle_list")
         self._change_allowed = (
             self._job, self._icon_url,self._city,self._company,self._instroduction,
             self._job_list,self._public_contact_list,self._protect_contact_list,
@@ -217,6 +264,12 @@ class UserDetailModule(UserModule):
             uid,admission_year,faculty_id,major_id,name,gender,job,icon_url,city,state,country,company)
         return author_id
 
+    def get_name_from_uid(self,uid):
+
+        entity = self.db.query(
+            "SELECT "+ self._name +" FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._name]
+
     def get_info_from_uid(self,uid):
         """Get all of information in user_detail_info table.
         Args:
@@ -226,6 +279,8 @@ class UserDetailModule(UserModule):
             a dictory store all of information in mysql, if not find in mysql, will return []
         """
         entity = self.db.query("SELECT * FROM " + self._user_table + " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        entity = entity[0]
+        entity['last_update_time'] = str(entity['last_update_time'])
         return entity
 
     def update_last_update_time_by_uid(self,uid,last_update_time):
@@ -233,3 +288,40 @@ class UserDetailModule(UserModule):
             "UPDATE " + self._user_table + 
             " SET " + self._user_last_update_time + " = %s WHERE " + self._uid + " = %s",
             last_update_time,uid)
+
+    def add_create_circle_list(self,circle_id,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = CONCAT("+ self._create_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._create_circle_list  + " = CONCAT("+ self._create_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
+    def update_my_circle_list(self,circle_id,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = CONCAT("+ self._my_circle_list  + ", %s ) "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+
+    def get_create_circle_list(self,uid):
+        entity = self.db.query(
+            "SELECT "+ self._create_circle_list +
+            " FROM " + self._user_table + 
+            " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._create_circle_list]      
+
+    def get_my_circle_list(self,uid):
+        entity = self.db.query(
+            "SELECT "+ self._my_circle_list +
+            " FROM " + self._user_table + 
+            " WHERE "+ self._uid +" = %s LIMIT 1",uid)
+        return entity[0][self._my_circle_list]      
+
+    def leave_circle(self,string_my_circle_list,string_create_circle_list,uid):
+        entity = self.db.update(
+            "UPDATE "+ self._user_table + 
+            " SET " + self._my_circle_list + " = %s , "+ self._create_circle_list  + " = %s  "+ 
+            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)

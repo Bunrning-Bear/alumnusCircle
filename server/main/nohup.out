@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "app.py", line 110, in <module>
-    main()
-  File "app.py", line 107, in main
-    tornado.ioloop.IOLoop.instance().start()
-  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/ioloop.py", line 646, in start
-    event_pairs = self._impl.poll(poll_timeout)
-KeyboardInterrupt

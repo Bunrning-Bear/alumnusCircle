@@ -1,5 +1,7 @@
-
-def custom_list_to_list(self,custom_list):
+#Author ChenXionghui
+import string
+import logging
+def custom_list_to_list(custom_list,is_num = True):
     """We define list as "_item_item_item", this function change it to python list.
     
     Args:
@@ -8,9 +10,14 @@ def custom_list_to_list(self,custom_list):
     Returns
         message_list: python list.
     """
+    logging.info("custom_list is %s"%custom_list)
     custom_list = custom_list.split('_')
+    logging.info("custom_list %s"%custom_list)
     print custom_list
     del custom_list[0]
     del custom_list[-1]
-    message_list = [string.atoi(elem) for elem in custom_list]
+    if is_num:
+        message_list = [string.atoi(elem) for elem in custom_list]
+    else:
+        message_list = custom_list
     return message_list

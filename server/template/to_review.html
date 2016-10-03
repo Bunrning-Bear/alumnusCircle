@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/common.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/main.css') }}"/>
+    <script type="text/javascript" src="{{ static_url('js/libs/modernizr.min.js') }}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</head>
+<body>
+<div class="topbar-wrap white">
+    <div class="topbar-inner clearfix">
+        <div class="topbar-logo-wrap clearfix">
+            <h1 class="topbar-logo none"><a href="/admin_main" class="navbar-brand">后台管理</a></h1>想`
+            <ul class="navbar-list clearfix">
+                <li><a class="on" href="/admin_main">首页</a></li>
+            </ul>
+        </div>
+        <div class="top-info-wrap">
+            <ul class="top-info-list clearfix">
+                <li><a href="#">管理员</a></li>
+                <li><a href="#">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="sidebar-wrap">
+        <div class="sidebar-title">
+            <h1>菜单</h1>
+        </div>
+        <div class="sidebar-content">
+            <ul class="sidebar-list">
+                <li>
+                    <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
+                    <ul class="sub-menu">
+                        <li><a href="/admin_toreview?result=0&max_id=99999&limit_num=10"><i class="icon-font">&#xe008;</i>待审核的圈子</a></li>
+                        <li><a href="/admin_toreview?result=1&max_id=99999&limit_num=10"><i class="icon-font">&#xe005;</i>已审核的圈子</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="index.html">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">待审核的圈子</span></div>
+        </div>
+
+        <div class="result-wrap">
+            <form name="myform" id="myform" method="post">
+
+                <div class="result-content">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th class="tc" width="5%"><input class="allChoose" name="" type="checkbox"></th>
+                            <th>圈子名称</th>
+                            <th>圈子头像</th>
+                            <th>圈子类型</th>
+                            <th>创建人</th>
+                            <th>创建理由</th>
+                            <th>操作</th>
+                        </tr>
+                        {% for value in resultdata%}
+                        <tr>
+                            <td class="tc"><input name="id[]" value="58" type="checkbox"></td>
+    
+                            <td>{{value['circle_name']}}</td>
+                            
+                            <td><img src= "{{value['circle_icon_url']}}" height="50" width="50"></td>
+                            <td>{{value['circle_type_name']}}</td>
+                            <td>{{value['creator_name']}}</td>
+                            <td>{{value['reason_message']}}</td>
+                            <td>
+                               <form action="/reviewresult" method="post"> 
+                                   <input type="hidden" name="result" value="1" /> 
+                                   <input type="hidden" name="review_id" value="{{value['review_id']}}" /> 
+                                    <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['circle_name']}}" /> 
+                                    <input type="hidden" name="name" value="{{value['creator_uid']}}" /> 
+
+                                   {% raw xsrf_form_html() %}    
+                                   <button button="submit" value="同意" >同意</button> 
+                               </form> 
+                               <form action="/reviewresult" method="post"> 
+                                   <input type="hidden" name="result" value="2" /> 
+                                  <input type="hidden" name="review_id" value="{{value['review_id']}}" /> 
+                                   <input type="hidden" name="icon_url" value="{{value['circle_icon_url']}}" /> 
+                                  <input type="hidden" name="name" value="{{value['circle_name']}}" />
+                                  <input type="hidden" name="name" value="{{value['creator_uid']}}" /> 
+                                   {% raw xsrf_form_html() %}    
+                                   <button button="submit" value="拒绝">拒绝</button> 
+                               </form> 
+                            </td>
+                        </tr>
+                        {% end %}
+                    </table>
+                    <div class="list-page"> 2 条 1/1 页</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
