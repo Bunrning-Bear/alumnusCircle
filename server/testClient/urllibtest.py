@@ -235,7 +235,7 @@ def search():
         "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
         "all_match":2,# 0 for filter search. 1 for query search ,2 to get all people
         "query":"",
-        "page":1,
+        "page":2,
         "size":10
     }
     info_json[num] = {
@@ -460,8 +460,8 @@ def loginTest():
     # setMessage(message,num,"密码错误")(.*)
     # num = num + 1
     info_json[num] = {
-        "password":"cxh123456",
-        "telephone":"15195861108"
+        "password":"by123456",
+        "telephone":"15851856958"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
@@ -497,15 +497,16 @@ def updateInfoTest():
     message = {}
     otherPara = {}
     info_json[num] = {
+        'icon_url':'http://www.seu.edu.cn/319791473743423.0.jpg',
+        'job':'首席架构师',
+        'city':'周口',
+        'state' : '河南',
+        'country':'中国',
+        'company': '阿里巴巴',
+        'public_contact_list':json.dumps({'telephone':'15195861108'}),
+        'introduction':'我是帅气的白洋哈哈哈哈哈'
     }
-    update_json = {
-        "icon_url":"defauslts",        
-    }
-    update_json = json.dumps(update_json)
-    otherPara[num] = {
-
-    }
-    setMessage(message,num,"更新信息，icon_url 是 defaults")
+    setMessage(message,num,"更新信息")
    
     do_request(api,info_json,message,"POST",otherPara)
 
@@ -754,14 +755,14 @@ loginTest()
 # like()
 # commit_list()
 #pub_comment()
-search()
+# search()
 # follow_test()
 # get_follow_list() 
 # update_feed()
 # circle_feed_list()
 # feed_detail()
 # logoutTest()
-# updateInfoTest()
+updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()

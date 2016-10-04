@@ -34,6 +34,17 @@ class UserModule(BaseModule):
         return argu + "= %s"
 
     def update_optional_argu(self,table,dic_argu):
+        """Create update sql statement dynamic.
+
+        call update_optional_argu_unit in a for-loop to complete this fuction
+
+        Args:
+            table: the mysql table wanted to update.
+            dic_argu:all of key and value want to update
+        
+        Return:
+            sql statement as a string.
+        """
         update = "UPDATE " + table + " SET "
         assignment = ''
         for key,value in dic_argu.items():
@@ -41,7 +52,7 @@ class UserModule(BaseModule):
         return update + assignment[:-2]
 
     def update_filter(self,dic):
-        """filter useless dic key of request, just hold those useful which define by __changed_allowed list
+        """Filter useless dic key of request, just hold those useful which define by _changed_allowed list
 
         """
         dic_return = {}
@@ -51,7 +62,14 @@ class UserModule(BaseModule):
         return dic_return
 
     def update_info_to_user(self,dic,uid):
-        """
+        """Update user infomation to special mysql table.
+        
+        filter useless key at first
+        then create sql statement dynamic
+
+        Args:
+            dic: all of key and value want to update
+            uid: user id.
         """
         dic = self.update_filter(dic)
         sql = self.update_optional_argu(self._user_table, dic)
@@ -60,9 +78,9 @@ class UserModule(BaseModule):
             temp_list.append(str(value))
         temp_list.append(str(uid))
         para = tuple(temp_list)
-
         sql =sql + "WHERE "+ self._uid + " = %s"
         logging.info("sql is : %s  %s"%(sql,para))
+        
         return self.db.updatemany(sql,[para])
 
 
@@ -170,6 +188,12 @@ class UserInfoModule(UserModule):
             " SET " + self._umeng_id + " = %s WHERE " + self._uid + " = %s",
             str(umeng_id),uid)
 
+    def get_telephone_from_uid(self,uid):
+        result = self.db.get(
+            'SELECT '+ self._user_phone + 
+            ' FROM ' + self._user_base_table + 
+            ' WHERE '+ self._uid + ' = %s',uid)
+        return result[self._user_phone]
     def update_time_from_user_id(self,uid,update_time):
         pass
 
@@ -213,8 +237,8 @@ class UserListModule(UserModule):
 
         return author_id
 
-
-
+    def get_info_from_uid(self,uid):
+        return self.db.get('SELECT * FROM ' + self._user_table + ' WHERE ' + self._uid + ' = %s',uid)
 
 """
 UserListModule is a module operate mysql table: ac_user_detail_info
@@ -233,7 +257,7 @@ class UserDetailModule(UserModule):
         self._job_list_level = config.get(self._user_table,"job_list_level")
         self._public_contact_list = config.get(self._user_table,"public_contact_list")
         self._protect_contact_list = config.get(self._user_table,"protect_contact_list")
-        self._instroduction = config.get(self._user_table,"instroduction")
+        self._instroduction = config.get(self._user_table,"instroduction")  
         self._user_last_update_time = config.get(self._user_table,"last_update_time")
         self._create_circle_list = config.get(self._user_table,"create_circle_list")
         self._change_allowed = (

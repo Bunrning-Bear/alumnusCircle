@@ -57,14 +57,14 @@ class UserHandler(RequestHandler):
         self._regex_dict[self.user_list_module._gender] = ur"^[0-1]$\Z"
         # job
         # self._regex_dict[self.user_list_module._job] = ur"^[\u4e00-\u9fa5\w]{2,20}$"
-        self._regex_dict[self.user_list_module._job] = ur"(.*)"
+        self._regex_dict[self.user_list_module._job] = ur"^[\u4e00-\u9fa5\w\s]{2,20}$"
         # city
-        self._regex_dict[self.user_list_module._city] = ur"^[\u4e00-\u9fa5\w]{1,20}$"
+        # self._regex_dict[self.user_list_module._city] = ur"^[\u4e00-\u9fa5\w]{1,20}$"
         # state
         # self._regex_dict[self.user_list_module._state] = ur"^[\u4e00-\u9fa5\w]{2,20}$"# ur"^[\x{4e00}-\x{9fa5}\w]{2,20}$"    
-        self._regex_dict[self.user_list_module._state] = ur"(.*)"   
+        # self._regex_dict[self.user_list_module._state] = ur"(.*)"   
         # country
-        self._regex_dict[self.user_list_module._country] =ur"^[\u4e00-\u9fa5\w]{2,20}$"            
+        # self._regex_dict[self.user_list_module._country] =ur"^[\u4e00-\u9fa5\w]{2,20}$"            
         # company 
         self._regex_dict[self._user_detail_module._company]=ur"^[\u4e00-\u9fa5\w\s]{2,25}$"
         # icon_url is a url or a string "default"
@@ -91,19 +91,14 @@ class UserHandler(RequestHandler):
             False: did not matched.
             True: matched.
         """
-#        if check_type == self._user_module._user_password: 
         #pdb.set_trace()
         regex = self._regex_dict[check_type]
-        # print "check unit :%s"%chardet.detect(string)['encoding']
-        #print "coding type %s"%coding_type
         if isinstance(string,str):
             coding_type = chardet.detect(string)['encoding']
             if coding_type != 'unicode':
                 string = string.decode('utf-8')
         result = False
-        # pdb.set_trace()
-        try:
-            
+        try:    
             if re.match(regex,string):
                 result = True
             else:
@@ -133,18 +128,20 @@ class UserHandler(RequestHandler):
             message: explain the meaning of code.
         """
         count = 1
-        
+        #pdb.set_trace()
         message = ''
+        format_right = True
         # check all of key-value is valid through UserModule._check function
         # print "data in check %s"%Data
         for key, value in Data.items():
             # logging.info("key:%s value:%s"%(str(key),str(value)))
-            equal = self._check_unit(str(key),str(value))
-            message = key
-            if not equal:
-                break              
-            count = count + 1
-        if (count - 1) == len(Data):
+            if self._regex_dict.has_key(str(key)):
+                equal = self._check_unit(str(key),str(value))
+                message = key
+                if not equal:
+                    format_right = False
+                    break              
+        if format_right:
             message = "all data input is valid, this message will not appear in normal"
             count = 0
         else: 
@@ -154,11 +151,15 @@ class UserHandler(RequestHandler):
 
       
     @tornado.gen.coroutine
-    def update_icon(self,access_token,icon_url):
+    def update_umeng_icon(self,access_token,icon_url):
+        url = self.url
+        methodUsed = self.methodUsed
         self.url = '/0/user/icon'
         self.methodUsed = 'PUT'
         icon_url_dic = {'icon_url':icon_url}
         count,message,DataTemp =yield self.Umeng_asyn_request(access_token,icon_url_dic)
+        self.url = url
+        self.methodUsed = methodUsed
         raise tornado.gen.Return((count,message,DataTemp))    
 
 
@@ -278,7 +279,7 @@ class RegisterHandler(UserHandler):
                     logging.info("after register code is %s message is %s"%(count,message))
                     # update umeng icon_url
                     icon_url = Data[self._user_module._icon_url]
-                    count,message,tempData = yield self.update_icon(access_token,icon_url)
+                    count,message,tempData = yield self.update_umeng_icon(access_token,icon_url)
                     if count != 0:
                         code = count
                     else:
@@ -482,6 +483,33 @@ class LogoutHandler(UserHandler):
 # it will be low-efficient when update, but it is convenient.
 # consider that update is not a high frequent operate
 # so we just save data as a json string rather than some entities for each contact record and job record.  
+
+"""
+Update user infomation in all of database, except icon_url property.
+
+We should update info into elasticsearch, mysql and umeng:
+in elasticsearch, we should update:
+    "icon_url" 
+    "job"
+    "country"
+    "state"
+    "city"
+    "instroduction"
+    "company"
+in mysql we should update:
+    icon_url
+    job
+    city
+    country
+    state
+    company
+    telephone
+    introduction.
+in umeng:
+    icon_url
+    job
+    city
+"""
 class UpdataInfoHandler(UserHandler):
     def __init__(self, *argc, **argkw):
         super(UpdataInfoHandler, self).__init__(*argc, **argkw)
@@ -495,61 +523,74 @@ class UpdataInfoHandler(UserHandler):
     def post(self):
         """
         POST from client:
-        "info_json":
-            POST['icon_url']:
-            # POST['publicity_level']:
-            POST['city']:
-            POST['state']
-            POST['country']
-            POST['job']:
-            POST['public_contact_list'] # at this version, we treat it as telephone.
-            # POST['protect_contact_list']
-            # POST['job_list']
-            # POST['job_list_level']
-            POST['company']
-            # POST['company_publicity_level ']
-            POST['instoduction']
-            POST['telephone']
-            POST['name']
-        """
+            will been updated as followed:
+            job:string
+            city：string. pass '' if empty 
+            state : string. pass '' if empty
+            country: string
+            company: string
+            public_contact_list:# at this version, we just send key 'telephone'.
+                example: {'telephone':'15195861108','wechat':'zpcxh95'}
+            instoduction:string
+        """        
+        # get static data from user list info:
+        uid = self.get_secure_cookie(self._user_module._uid)
+
+        entity = self.user_list_module.get_info_from_uid(uid)
+        faculty = entity[self.user_list_module._faculty]
+        major = entity[self.user_list_module._major]
+        admission_year = entity[self.user_list_module._admission_year]
+        name = entity[self.user_list_module._name]
         code = 0 
         count = 0
-        uid = self.get_secure_cookie(self._user_module._uid)
-        info_json = self.ger_argument('info_json')
-        json_data = json.loads(info_json)
-        count,message =self._check(json_data)
+        info_json = self.get_argument('info_json')
+        info_json = json.loads(info_json)
+        #[todo]2016.10.4: well, I just spell introdcution as instroduction as module layer
+        info_json[self.user_detail_module._instroduction] = info_json['introduction']
+        count,message =self._check(info_json)
         if count == 0:
-            access_token = self.get_redis_dict(uid)[1]
-            custom = {
-                "ay":json_data['admission_year'],
-                "fa":json_data['faculty'],
-                "ma":json_data['major'],
-                "jo":json_data['job'],
-                "uid":uid,
-                "ct":json_data['city']
-            }
-            custom = json.dumps(custom)
-            name = json_data['telephone'] + json_data['name']
-            Data = {
-                "custom":custom,
-                "name":name,
-            }
-            countumeng,message,Data =yield self.Umeng_asyn_request(access_token,Data)
-            logging.info("in update_list to umeng")
-        # update data to mysql
-        if countumeng != 0 or count != 0 :
-            # request Umeng error!
-            code = self.return_code_process(count)
-            self.return_to_client(code,message)
-            self.finish()
-        else:
-            # update message in mysql.
-            message = self.user_list_module.update_info_to_user(update_dic,uid)
-            message = self.user_detail_module.update_info_to_user(update_dic,uid)
-            # update message in elastisearch
-            message = self.elastic_user_module.updateinfo(update_dic,uid)
-            code = self.return_code_process(count)
-            self.return_to_client(code,message)
+            access_token = self.get_redis_dict_access_token(uid)
+            icon_url = info_json[self._user_module._icon_url]
+            count,message,tempData = yield self.update_umeng_icon(access_token,icon_url)
+            if count == 0:
+                job = info_json[self.user_list_module._job]
+                city = info_json[self.user_list_module._city]
+                state = info_json[self.user_list_module._state]
+                country = info_json[self.user_list_module._country]
+                company = info_json[self.user_detail_module._company]
+                # get telephone[username] from mysql.
+                username = self.user_module.get_telephone_from_uid(uid)
+                if city == '':
+                    city = state
+                if city == '':
+                    city = country
+                custom = {
+                    "ay":admission_year,
+                    "fa":faculty,
+                    "ma":major,
+                    "jo":job,
+                    "uid":uid,
+                    "ct":city
+                }
+                custom = json.dumps(custom)
+                name = username + name
+                Data = {
+                    "custom":custom,
+                    "name":name,
+                }
+                count,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+                # update data to mysql
+                if count == 0:
+                    # update message in mysql.
+                    message = self.user_list_module.update_info_to_user(info_json,uid)
+                    message = self.user_detail_module.update_info_to_user(info_json,uid)
+                    # update message in elastisearch
+                    message = self.elastic_user_module.updateinfo(info_json,uid)          
+        code = self.return_code_process(count)
+        self.return_to_client(code,message)            
+        self.finish()
+
+
 
 """
 Register admin user.
@@ -583,6 +624,9 @@ class RegisterAdminHandler(UserHandler):
     def post(self):
         """
         Request from client:
+            job
+            city
+            state
             POST['info_json'][string]:
                 "user_phone"
                 "user_passwd"

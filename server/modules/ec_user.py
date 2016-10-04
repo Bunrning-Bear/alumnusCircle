@@ -78,7 +78,8 @@ class ElasticUserModule(object):
             "job_list":job_list
         }
         """
-        return self.es.create(index=self._index,doc_type="user",id=uid,body=body)
+        body = {"doc":body}
+        return self.es.update(index=self._index,doc_type="user",id=uid,body=body)
 
     def get_all_user(self):
         body={
