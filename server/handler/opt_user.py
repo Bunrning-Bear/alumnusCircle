@@ -29,6 +29,7 @@ class FollowHandler(RequestHandler):
     @request.authenticated('follow')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
+    @request.throwBaseException
     def post(self):
         """
         Request from client:
@@ -63,6 +64,7 @@ class SearchUserHandler(RequestHandler):
     @request.authenticated('searchuser')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
+    @request.throwBaseException
     def get(self):
         """
         Request from client:

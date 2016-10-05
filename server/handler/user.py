@@ -379,7 +379,9 @@ class LoginHandler(UserHandler):
         super(LoginHandler, self).__init__(*argc, **argkw)
         self.requestName = 'login'
 
+
     @tornado.gen.coroutine        
+    @request.throwBaseException
     def post(self):
         """
         Request from client:
@@ -450,6 +452,7 @@ class LogoutHandler(UserHandler):
         self.requestName = 'logout'
 
     @request.authenticated(str('logout'))
+    @request.throwBaseException
     def post(self):
         """
         Request just nothing.
@@ -519,7 +522,8 @@ class UpdataInfoHandler(UserHandler):
 
     @request.authenticated(str('update_user_info'))
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine   
+    @request.throwBaseException 
     def post(self):
         """
         POST from client:

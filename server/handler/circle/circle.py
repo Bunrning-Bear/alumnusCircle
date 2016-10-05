@@ -90,6 +90,7 @@ class GetMyCircleHandler(TopicHandler):
 
     @request.authenticated('get_all_topic')
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         uid = self.get_secure_cookie('uid')
         code,message,Data = yield self.get_user_topic(uid)
@@ -106,6 +107,7 @@ class GetMyfilterCircleHander(TopicHandler):
 
     @request.authenticated('get_my_filter_circle')
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         result_data = []
         my_filter_circle = self.get_argument('my_filter_circle')
@@ -142,6 +144,7 @@ class CeateTopicHandler(TopicHandler):
     @request.authenticated('create_topic')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
             circle_name:
@@ -204,6 +207,7 @@ class ReviewResultHandler(TopicHandler):
 
     @request.authenticated('review_topic')
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
             result: must be 1 or 2.
@@ -329,6 +333,7 @@ class ReviewResultHandler(TopicHandler):
             description = Data[self.message_review_module._description]
             creator_uid = Data[self.message_review_module._creator_uid]
             creator_name = Data[self.message_review_module._creator_name]
+            # todo : add admin user property
             if not virtual:
                 custom = {"creator_uid":creator_uid,"creator_name":creator_name,"virtual_cid":virtual_cid}
             else:
@@ -364,6 +369,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
     @request.authenticated('receive_apply')        
     @tornado.web.asynchronous
     @tornado.gen.coroutine   
+    @request.throwBaseException
     def post(self):
         """
             result: 0 or 1 receive result. 0 reject ,1 agree.
@@ -424,6 +430,7 @@ class AdminSetHandler(TopicHandler):
 
 """
     [needn't this version] edit circle information 
+    update: icon_url,name,description.
 """
 class EditTopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
@@ -435,6 +442,7 @@ class EditTopicHandler(RequestHandler):
     @request.authenticated('topicedit')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         Data = self.get_argument('info_json')
         Data = json.loads(Data)
@@ -456,6 +464,7 @@ class GetTopicTypeHandler(RequestHandler):
     @request.authenticated('topictype')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         Data = self.get_argument("info_json")
         uid = self.get_secure_cookie('uid')
@@ -480,6 +489,7 @@ class SearchTopicHandler(RequestHandler):
     @request.authenticated('searchtopic')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         Data = self.get_argument('info_json')
         Data = json.loads(Data)

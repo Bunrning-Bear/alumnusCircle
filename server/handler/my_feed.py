@@ -31,6 +31,7 @@ class UpdateFeedHandler(RequestHandler):
     @request.authenticated('update')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
         request from client:
@@ -68,6 +69,7 @@ class DeleteFeedHandler(RequestHandler):
     @request.authenticated('delete')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
         Request from client:

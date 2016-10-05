@@ -77,6 +77,12 @@ class LeaveCircleHandler(TopicHandler):
         self.return_to_client(code,message,Data)
         self.finish()
 
+class CircleMemberHandler(TopicHandler):
+    def __init__(self, *argc, **argkw):
+        super(CircleMemberHandler, self).__init__(*argc, **argkw)
+        self.url = '/0/topic/unfocus'
+        self.methodUsed = 'DELETE'    
+        self.requestName ='leave circle'      
 
 class DetailCircleHadnler(TopicHandler):
     pass

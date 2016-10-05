@@ -233,9 +233,9 @@ def search():
         "filter_admission_year_max":9999,# 9999 for not filter
         "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
         "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
-        "all_match":2,# 0 for filter search. 1 for query search ,2 to get all people
-        "query":"",
-        "page":2,
+        "all_match":1,# 0 for filter search. 1 for query search ,2 to get all people
+        "query":"李",
+        "page":1,
         "size":10
     }
     info_json[num] = {
@@ -507,7 +507,7 @@ def updateInfoTest():
         'introduction':'我是帅气的白洋哈哈哈哈哈'
     }
     setMessage(message,num,"更新信息")
-   
+    otherPara[num] = {}
     do_request(api,info_json,message,"POST",otherPara)
 
 
@@ -754,7 +754,7 @@ loginTest()
 # user_detail()
 # like()
 # commit_list()
-#pub_comment()
+# pub_comment()
 # search()
 # follow_test()
 # get_follow_list() 
@@ -762,7 +762,7 @@ loginTest()
 # circle_feed_list()
 # feed_detail()
 # logoutTest()
-updateInfoTest()
+# updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()

@@ -49,6 +49,7 @@ class UserFilterHandler(ContactHandler):
     @request.authenticated('user_filter')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
         filter_admission_year_min: 入学年份的最小值
@@ -89,6 +90,7 @@ class UserDetailHandler(RequestHandler):
 
     @request.authenticated('user_detail')
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         user_id = self.get_argument('uid')
         umeng_id =self.user_module.get_umeng_id_from_uid(user_id)

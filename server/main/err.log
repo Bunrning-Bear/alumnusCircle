@@ -3,13 +3,31 @@ INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', metho
  
 
 INFO:root:request arguments: {}
-INFO:tornado.access:200 GET / (127.0.0.1) 10.82ms
-INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '127', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=3e953f553bab4461b3c2be7a473b1688', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+INFO:tornado.access:200 GET / (127.0.0.1) 9.11ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '126', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=df36f4e59fac48b29d60cf76568c9f6f', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
  
 
-INFO:root:request arguments: {'_xsrf': ['3e953f553bab4461b3c2be7a473b1688'], 'info_json': ['{"password": "by123456", "telephone": "15851856958"}']}
+INFO:root:request arguments: {'_xsrf': ['df36f4e59fac48b29d60cf76568c9f6f'], 'info_json': ['{"telephon": "15851856958", "password": "by123456"}']}
+INFO:root:in exception in finally False
+INFO:root:in return
+INFO:tornado.access:200 POST /login (127.0.0.1) 19.28ms
+ERROR:tornado.application:Uncaught exception POST /login (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '126', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=df36f4e59fac48b29d60cf76568c9f6f', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1145, in _when_complete
+    raise ValueError('Expected None, got %r' % result)
+ValueError: Expected None, got <tornado.concurrent.TracebackFuture object at 0x7f29f3add990>
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='GET', uri='/', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Host': '127.0.0.1:8000', 'User-Agent': 'Python-urllib/2.7', 'Connection': 'close', 'Accept-Encoding': 'identity'}) 
+ 
+
+INFO:root:request arguments: {}
+INFO:tornado.access:200 GET / (127.0.0.1) 8.84ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '127', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=423f3ea916d1472886e4841e08e89d9f', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+ 
+
+INFO:root:request arguments: {'_xsrf': ['423f3ea916d1472886e4841e08e89d9f'], 'info_json': ['{"password": "by123456", "telephone": "15851856958"}']}
 INFO:root: uid is 118
-INFO:root:data ['0', '2016-09-13 05:10:34', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838', '3e953f553bab4461b3c2be7a473b1688', '2016-09-28 15:47:22']
+INFO:root:data ['0', '3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838', '2016-09-13 05:10:34', '423f3ea916d1472886e4841e08e89d9f', '2016-09-28 15:47:22']
 INFO:root:in return to client
 INFO:root:in change custom string to json
 INFO:root: print key update and value {}
@@ -41,29 +59,30 @@ INFO:root: print key job_list_level and value 0
 INFO:root: print key country and value 中国
 INFO:root: print key adlevel and value 0
 INFO:root: print key job_list and value {}
-INFO:root:json returned to client is :{"message": "login successfully!", "code": 1204, "Data": {"update": {}, "response": {"last_update_time": "2016-09-13 05:10:34", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "uid": 118, "admission_year": 2014, "instroduction": "\u6211\u662f\u5e05\u6c14\u7684\u767d\u6d0b\u54c8\u54c8\u54c8\u54c8\u54c8", "create_circle_list": "_26_28_30_33_", "city": "\u5468\u53e3", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/319791473743423.0.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475574910&Signature=Dd9RKG8Z7wXrG0jhQExZHOzqNGY%3D", "my_circle_list": "_26_28_30_33_36_35_37_27_39_", "state": "\u6c5f\u82cf", "protect_contact_list": "{}", "detail_id": 73, "company_publicity_level": 0, "public_contact_list": "{\"telephone\": \"15195861108\"}", "admin_circle_list": "_", "tags": "{}", "company": "\u963f\u91cc\u5df4\u5df4", "job": "\u9996\u5e2d\u67b6\u6784\u5e08", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "name": "\u767d\u6d0b", "gender": 1, "job_list_level": 0, "country": "\u4e2d\u56fd", "adlevel": 0, "job_list": "{}"}}}
-INFO:tornado.access:200 POST /login (127.0.0.1) 197.37ms
-INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/updateinfo', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '597', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=3e953f553bab4461b3c2be7a473b1688; uid=MTE4|1475574610|6c1e9d50a13277891c45e88e3243e94b6dda4ea6', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+INFO:root:json returned to client is :{"message": "login successfully!", "code": 1204, "Data": {"update": {}, "response": {"last_update_time": "2016-09-13 05:10:34", "major": "\u8f6f\u4ef6\u5de5\u7a0b", "uid": 118, "admission_year": 2014, "instroduction": "\u6211\u662f\u5e05\u6c14\u7684\u767d\u6d0b\u54c8\u54c8\u54c8\u54c8\u54c8", "create_circle_list": "_26_28_30_33_", "city": "\u5468\u53e3", "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/319791473743423.0.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1475646410&Signature=zq%2BOqMQF%2Flbr%2FOx8ja48szLj3uw%3D", "my_circle_list": "_26_28_30_33_36_35_37_27_39_", "state": "\u6c5f\u82cf", "protect_contact_list": "{}", "detail_id": 73, "company_publicity_level": 0, "public_contact_list": "{\"telephone\": \"15195861108\"}", "admin_circle_list": "_", "tags": "{}", "company": "\u963f\u91cc\u5df4\u5df4", "job": "\u9996\u5e2d\u67b6\u6784\u5e08", "faculty": "\u8f6f\u4ef6\u5b66\u9662", "name": "\u767d\u6d0b", "gender": 1, "job_list_level": 0, "country": "\u4e2d\u56fd", "adlevel": 0, "job_list": "{}"}}}
+INFO:tornado.access:200 POST /login (127.0.0.1) 70.81ms
+INFO:root:in exception in finally True
+ERROR:tornado.application:Uncaught exception POST /login (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '127', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=423f3ea916d1472886e4841e08e89d9f', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1145, in _when_complete
+    raise ValueError('Expected None, got %r' % result)
+ValueError: Expected None, got <tornado.concurrent.TracebackFuture object at 0x7f29f3a886d0>
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='GET', uri='/', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Host': '127.0.0.1:8000', 'User-Agent': 'Python-urllib/2.7', 'Connection': 'close', 'Accept-Encoding': 'identity'}) 
  
 
-INFO:root:request arguments: {'_xsrf': ['3e953f553bab4461b3c2be7a473b1688'], 'info_json': ['{"city": "\\u5468\\u53e3", "job": "\\u9996\\u5e2d\\u67b6\\u6784\\u5e08", "public_contact_list": "{\\"telephone\\": \\"15195861108\\"}", "country": "\\u4e2d\\u56fd", "introduction": "\\u6211\\u662f\\u5e05\\u6c14\\u7684\\u767d\\u6d0b\\u54c8\\u54c8\\u54c8\\u54c8\\u54c8", "icon_url": "http://www.seu.edu.cn/319791473743423.0.jpg", "company": "\\u963f\\u91cc\\u5df4\\u5df4", "state": "\\u6cb3\\u5357"}']}
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/user/icon?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838
-INFO:root:Umeng_asyn_request request url https://rest.wsq.umeng.com/0/user/icon?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838 
- body icon_url=http%3A%2F%2Fwww.seu.edu.cn%2F319791473743423.0.jpg:
-INFO:root:umeng response is HTTPResponse(_body=None,buffer=<_io.BytesIO object at 0x7ff0aa99f9b0>,code=200,effective_url='https://rest.wsq.umeng.com/0/user/icon?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838',error=None,headers={'Content-Encoding': 'gzip', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=0', 'Vary': 'Accept, Cookie', 'Server': 'Tengine/Aserver', 'Connection': 'close', 'Allow': 'PUT, OPTIONS', 'Access-Control-Allow-Credentials': 'true', 'Date': 'Tue, 04 Oct 2016 09:50:10 GMT', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', 'Content-Type': 'application/json', 'Timing-Allow-Origin': '*'},reason='OK',request=<tornado.httpclient.HTTPRequest object at 0x7ff0aa9b01d0>,request_time=0.35396885871887207,time_info={})
-INFO:root:url of set_umengrequest:https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838
-INFO:root:Umeng_asyn_request request url https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838 
- body name=15851856958%E7%99%BD%E6%B4%8B&custom=%7B%22ma%22%3A+%22%5Cu8f6f%5Cu4ef6%5Cu5de5%5Cu7a0b%22%2C+%22uid%22%3A+%22118%22%2C+%22fa%22%3A+%22%5Cu8f6f%5Cu4ef6%5Cu5b66%5Cu9662%22%2C+%22jo%22%3A+%22%5Cu9996%5Cu5e2d%5Cu67b6%5Cu6784%5Cu5e08%22%2C+%22ay%22%3A+2014%2C+%22ct%22%3A+%22%5Cu5468%5Cu53e3%22%7D:
-INFO:root:umeng response is HTTPResponse(_body=None,buffer=<_io.BytesIO object at 0x7ff0aa99fa70>,code=200,effective_url='https://rest.wsq.umeng.com/0/user/update?ak=57b18b2ee0f55ac368001dc8&access_token=3eb436281264285cfa0d429a44b14617714371c8d2d7bcc5e1accc72735fd98d0000aeb7abdc5f87e009dad81615c94a8e6764db49f316d3f527eaa83909d838',error=None,headers={'Content-Encoding': 'gzip', 'Transfer-Encoding': 'chunked', 'Strict-Transport-Security': 'max-age=0', 'Vary': 'Accept, Cookie', 'Server': 'Tengine/Aserver', 'Connection': 'close', 'Allow': 'PUT, OPTIONS', 'Access-Control-Allow-Credentials': 'true', 'Date': 'Tue, 04 Oct 2016 09:50:11 GMT', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', 'Content-Type': 'application/json', 'Timing-Allow-Origin': '*'},reason='OK',request=<tornado.httpclient.HTTPRequest object at 0x7ff0aa9b0650>,request_time=0.26967501640319824,time_info={})
-INFO:root:sql is : UPDATE ac_user_list_info SET icon_url= %s , job= %s , city= %s WHERE uid = %s  ('http://www.seu.edu.cn/319791473743423.0.jpg', '\xe9\xa6\x96\xe5\xb8\xad\xe6\x9e\xb6\xe6\x9e\x84\xe5\xb8\x88', '\xe5\x91\xa8\xe5\x8f\xa3', '118')
-INFO:root:sql is : UPDATE ac_user_detail_info SET city= %s , icon_url= %s , company= %s , job= %s , instroduction= %s , public_contact_list= %s WHERE uid = %s  ('\xe5\x91\xa8\xe5\x8f\xa3', 'http://www.seu.edu.cn/319791473743423.0.jpg', '\xe9\x98\xbf\xe9\x87\x8c\xe5\xb7\xb4\xe5\xb7\xb4', '\xe9\xa6\x96\xe5\xb8\xad\xe6\x9e\xb6\xe6\x9e\x84\xe5\xb8\x88', '\xe6\x88\x91\xe6\x98\xaf\xe5\xb8\x85\xe6\xb0\x94\xe7\x9a\x84\xe7\x99\xbd\xe6\xb4\x8b\xe5\x93\x88\xe5\x93\x88\xe5\x93\x88\xe5\x93\x88\xe5\x93\x88', '{"telephone": "15195861108"}', '118')
-INFO:urllib3.connectionpool:Starting new HTTP connection (1): 139.196.207.155
-INFO:elasticsearch:POST http://139.196.207.155:9200/alumnuscircle/user/118/_update [status:200 request:0.123s]
-INFO:root:in return to client
-INFO:root:in change custom string to json
-INFO:root: print key update and value {}
-INFO:root:in change custom string to json
-INFO:root: print key response and value {}
-INFO:root:in change custom string to json
-INFO:root:json returned to client is :{"message": {"_type": "user", "_id": "118", "_shards": {"successful": 1, "failed": 0, "total": 2}, "_version": 13, "_index": "alumnuscircle"}, "code": 2700, "Data": {"update": {}, "response": {}}}
-INFO:tornado.access:200 POST /updateinfo (127.0.0.1) 997.04ms
+INFO:root:request arguments: {}
+INFO:tornado.access:200 GET / (127.0.0.1) 8.36ms
+INFO:root:request is : HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '87', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=e6ff9e1ec12f4f8b968d7eca8ee6ee09', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'}) 
+ 
+
+INFO:root:request arguments: {'_xsrf': ['e6ff9e1ec12f4f8b968d7eca8ee6ee09'], 'info_json': ['{"password": "by123456"}']}
+INFO:root:in exception in finally False
+INFO:root:in return
+INFO:tornado.access:200 POST /login (127.0.0.1) 11.28ms
+ERROR:tornado.application:Uncaught exception POST /login (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8000', method='POST', uri='/login', version='HTTP/1.1', remote_ip='127.0.0.1', headers={'Content-Length': '87', 'Host': '127.0.0.1:8000', 'Cookie': '_xsrf=e6ff9e1ec12f4f8b968d7eca8ee6ee09', 'Accept-Encoding': 'identity', 'Content-Type': 'application/x-www-form-urlencoded', 'Connection': 'close', 'User-Agent': 'Python-urllib/2.7'})
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/tornado-3.1-py2.7.egg/tornado/web.py", line 1145, in _when_complete
+    raise ValueError('Expected None, got %r' % result)
+ValueError: Expected None, got <tornado.concurrent.TracebackFuture object at 0x7f29f25c4fd0>

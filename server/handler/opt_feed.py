@@ -34,6 +34,7 @@ class PubCommentHandler(RequestHandler):
     @request.authenticated('pubcomment')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
+    @request.throwBaseException
     def post(self):
         """
         request from client: 
@@ -67,6 +68,7 @@ class DeleteCommentHandler(RequestHandler):
     @request.authenticated('deleteComment')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
+    @request.throwBaseException
     def post(self):
         """
         request from client: 

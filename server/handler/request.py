@@ -9,7 +9,7 @@ import logging
 import json
 import urllib
 import functools
-
+import exceptions
 import base
 import tornado.web
 import tornado.gen
@@ -110,6 +110,36 @@ def public_access_decorator(method):
         raise tornado.gen.Return((code,message,Data))
     return wrapper
 
+def throwBaseException(method):
+    """This is a decorator to handler all of common exception in this App
+
+    Should be add in all of post or get method in xxxHandler.
+    """
+    @tornado.gen.coroutine
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):  
+        success = False
+        try:
+            method(self, *args, **kwargs)
+            success = True
+        except tornado.web.MissingArgumentError,e:
+            message = "missing argument %s"%str(e)
+            code = 1102
+        except exceptions.KeyError,e:
+            message = 'request key error %s'%str(e)
+            code = 1103
+        except Exception, e:
+            message = "base exception %s type is %s"%(str(e),str(type(e)))
+            code = 1101
+
+        finally:
+            logging.info("in exception in finally %s",str(success))
+            if not success:
+                logging.info("in return")
+                result = json.dumps({'code':code,'message':message,'Data':{}})
+                self.write(result)
+                self.finish()
+    return wrapper
 
 class RequestHandler(BaseHandler):
     def __init__(self, *argc, **argkw):

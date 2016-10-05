@@ -34,6 +34,7 @@ class FollowsListHandler(RequestHandler):
     @request.authenticated('followsList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
         Requet from client:
@@ -83,6 +84,7 @@ class FansListHandler(RequestHandler):
     @request.authenticated('fansList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine    
+    @request.throwBaseException
     def post(self):
         page = self.get_argument('page')
         uid = self.get_argument('uid')
@@ -111,7 +113,8 @@ class FavouriteslistHandler(RequestHandler):
         self.requestName = 'favourites'
 
     @request.authenticated('favourites')
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine   
+    @request.throwBaseException 
     def get(self):
         page = self.get_argument('page')
         Data = {'page':page,'count':self.count}

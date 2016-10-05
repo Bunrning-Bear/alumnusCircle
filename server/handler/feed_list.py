@@ -36,6 +36,7 @@ class TimelineHandler(RequestHandler):
 
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def get(self):
         """
         request from client:
@@ -64,6 +65,7 @@ class UserTimeLineHandler(RequestHandler):
 
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def get(self):
         """
             GET value page from client:
