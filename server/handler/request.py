@@ -115,23 +115,23 @@ def throwBaseException(method):
 
     Should be add in all of post or get method in xxxHandler.
     """
-    @tornado.gen.coroutine
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):  
-        success = False
+        success = True
         try:
-            method(self, *args, **kwargs)
-            success = True
+            return method(self, *args, **kwargs)
         except tornado.web.MissingArgumentError,e:
+            success = False
             message = "missing argument %s"%str(e)
             code = 1102
         except exceptions.KeyError,e:
             message = 'request key error %s'%str(e)
+            success = False
             code = 1103
         except Exception, e:
             message = "base exception %s type is %s"%(str(e),str(type(e)))
+            success = False
             code = 1101
-
         finally:
             logging.info("in exception in finally %s",str(success))
             if not success:

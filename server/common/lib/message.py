@@ -209,8 +209,8 @@ class Message(object):
             True: If update time now is later than last update time. return True
             False: else return false.
         """
-        print "update_time_now %s"%update_time_now  
-        strp_now = time.strptime(update_time_now,self.format_time)
+        logging.info("update_time_now %s"%update_time_now)  
+        strp_now = time.strptime(str(update_time_now),self.format_time)
         strp_last = time.strptime(last_update_time,self.format_time)
         result = time.mktime(strp_now) - time.mktime(strp_last)
         if result >= 0:            

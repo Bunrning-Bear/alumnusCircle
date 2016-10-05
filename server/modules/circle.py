@@ -4,7 +4,7 @@
 import ConfigParser
 from base import BaseModule
 from common.variables import AP
-
+import logging
 class CircleModule(BaseModule):
     def __init__(self,db):
         BaseModule.__init__(self,db)

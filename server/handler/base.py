@@ -204,22 +204,22 @@ class BaseHandler(tornado.web.RequestHandler):
         return {}
 
     def change_custom_string_to_json(self, dic):
-        logging.info("in change custom string to json")
+        # logging.info("in change custom string to json")
         if isinstance(dic,dict):
             for key,value in dic.items():
                 # print "in dictory : ",key, value
 #               if value == [] or value == {}:
                     # change all of empty list and dicotry to "empty"
 #                    dic[key] = str("empty")
-                logging.info(" print key %s and value %s"%(key,value))
+                # logging.info(" print key %s and value %s"%(key,value))
                 if type(value) == bool:
-                    logging.info("in bool value ,key is%s"%key)
+                    # logging.info("in bool value ,key is%s"%key)
                     dic[key] = str(value)
                 elif key == 'custom' and value !='' and dic[key] !={}:
                     # change custom string into json style data.
                     # print "in custom:%s type is : %s"%(value,type(value))
 
-                    logging.info("in custom ,key is%s"%key)
+                    # logging.info("in custom ,key is%s"%key)
                     try:
                         dic[key] = json.loads(value)
                     except Exception, e:
@@ -230,7 +230,7 @@ class BaseHandler(tornado.web.RequestHandler):
                 elif key == 'icon_url':
                     if isinstance(value,dict) and dic[key] != {}:
                         # delete 360.720 origin.
-                        logging.info("in icon_url ,key is%s"%key)
+                        # logging.info("in icon_url ,key is%s"%key)
                         dic[key] = value['origin']
                     dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
                 elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:

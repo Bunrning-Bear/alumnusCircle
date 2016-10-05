@@ -31,10 +31,10 @@ class FollowsListHandler(RequestHandler):
         self.methodUsed = 'GET'
         self.requestName = 'followsList'   
 
+    @request.throwBaseException
     @request.authenticated('followsList')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
-    @request.throwBaseException
     def post(self):
         """
         Requet from client:

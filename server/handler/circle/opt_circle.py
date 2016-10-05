@@ -16,6 +16,7 @@ class CircleApplyHandler(TopicHandler):
     @request.authenticated('circle_apply')        
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    # @request.throwBaseException
     def post(self):
         circle_id = self.get_argument('circle_id')
 
@@ -46,6 +47,7 @@ class LeaveCircleHandler(TopicHandler):
     @request.authenticated('circle_apply')        
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    @request.throwBaseException
     def post(self):
         """
             this is umeng cid.: circle_id

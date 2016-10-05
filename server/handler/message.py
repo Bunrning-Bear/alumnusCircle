@@ -31,9 +31,9 @@ class GetMessageHandler(RequestHandler):
         super(GetMessageHandler, self).__init__(*argc, **argkw)
         self.requestName='sendmessage'
 
+    @request.throwBaseException
     @request.authenticated('sendmessage')
     @tornado.gen.coroutine  
-    @request.throwBaseException
     def post(self):
         """
             my_circle_list: to get all of message updated in mysql.
@@ -83,9 +83,9 @@ class GetMyCommentHandler(RequestHandler):
         self.url = '/0/my/comments'
         self.methodUsed = 'GET' 
 
+    @request.throwBaseException  
     @request.authenticated('get_comment_list')
     @tornado.gen.coroutine
-    @request.throwBaseException  
     def post(self):
         """
         Args:

@@ -35,7 +35,8 @@ class DetailCircleHandler(RequestHandler):
 
     @request.authenticated('topicdetail')        
     @tornado.web.asynchronous
-    @tornado.gen.coroutine        
+    @tornado.gen.coroutine     
+    @request.throwBaseException   
     def post(self):
         """
             info_json:
@@ -62,7 +63,8 @@ class CircleFeedListHandler(RequestHandler):
 
     @request.authenticated('circle_feed')        
     @tornado.web.asynchronous
-    @tornado.gen.coroutine      
+    @tornado.gen.coroutine   
+    @request.throwBaseException   
     def post(self):
         """
             info_json:
@@ -171,7 +173,8 @@ class CircleMemberHandler(RequestHandler):
 
     @request.authenticated('circle_member')        
     @tornado.web.asynchronous
-    @tornado.gen.coroutine      
+    @tornado.gen.coroutine    
+    # @request.throwBaseException  
     def post(self):
         """
             count   integer     否   30  返回结果的数量，默认为30

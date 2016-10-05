@@ -76,7 +76,7 @@ def apply_circle():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        "circle_id":"57d2ca3eb9a9960c9cb47a56",
+        "circle_id":"57d792bcd36ef3cdf599b9f1",
         "circle_name":"软院大团圆",
         "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg" ,
         "reason":"我喜欢这个圈子,我想加入呢~",
@@ -125,7 +125,7 @@ def getmessage():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        'my_circle_list':'_17_18_24',
+        'my_circle_list':'_27_28_26',
     }
     info_json[num] = {
     }
@@ -214,7 +214,7 @@ def user_detail():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "uid":98
+        "uid":'117'
     }
     info_json[num] = {
     }
@@ -233,8 +233,8 @@ def search():
         "filter_admission_year_max":9999,# 9999 for not filter
         "filter_major_list":json.dumps([]),#([u'_金融_',u'_软件学院_']), # [] for not filter
         "filter_city_list": json.dumps([]), # ([u'_中国_福建_漳州_']), # [] for not filter 
-        "all_match":1,# 0 for filter search. 1 for query search ,2 to get all people
-        "query":"李",
+        "all_match":2,# 0 for filter search. 1 for query search ,2 to get all people
+        "query":"",
         "page":1,
         "size":10
     }
@@ -253,7 +253,7 @@ def circle_member_list():
     }
     info_json[num] = {
         "count":1000,
-        "topic_id":"57d2dd11d36ef3fc508aee94",# this is the only circle can be use when test.
+        "topic_id":"57d835b1b9a9964cc69af298",# this is the only circle can be use when test.
         "page":1
     }
     message[num] = "circle member list .\n"    
@@ -743,14 +743,11 @@ def leaveCircle():
 
 #---------------first need to do, login admin account.
 loginTest()
-
-
-
 # apply_circle()
 # getcommentlist()
 # getmessage()
 # checkmessage()
-# circle_member_list()
+#　circle_member_list()
 # user_detail()
 # like()
 # commit_list()
@@ -762,7 +759,7 @@ loginTest()
 # circle_feed_list()
 # feed_detail()
 # logoutTest()
-# updateInfoTest()
+updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
