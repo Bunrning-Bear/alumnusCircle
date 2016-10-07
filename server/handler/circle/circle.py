@@ -112,19 +112,19 @@ class GetMyfilterCircleHander(TopicHandler):
         result_data = []
         my_filter_circle = self.get_argument('my_filter_circle')
         my_filter_circle_list = custom_list_to_list(my_filter_circle)
-        logging.info(" before mapping  my admin circle list : %s"%my_filter_circle_list)
+        # logging.info(" before mapping  my admin circle list : %s"%my_filter_circle_list)
         my_filter_circle_list = map(self.circle_module.get_circle_umeng_cid,my_filter_circle_list)
         uid = self.get_secure_cookie('uid')
-        logging.info("my admin circle list %s"%my_filter_circle_list)
+        # logging.info("my admin circle list %s"%my_filter_circle_list)
         code,message,Data = yield self.get_user_topic(uid)
-        logging.info("get user topic :%s"%Data)
+        # logging.info("get user topic :%s"%Data)
         total = 0
         for value in my_filter_circle_list:
             count = 0
             while count < len(Data['results']):
-                logging.info(" value is %s , circle is %s"%(value,Data['results'][count]['id'] ))
+                # logging.info(" value is %s , circle is %s"%(value,Data['results'][count]['id'] ))
                 if Data['results'][count]['id'] == value:
-                    logging.info(" count is : %s  data resuls count is :%s"%(count,Data['results']))
+                    # logging.info(" count is : %s  data resuls count is :%s"%(count,Data['results']))
                     result_data.append(Data['results'][count])
                     total += 1
                 count += 1
@@ -219,7 +219,7 @@ class ReviewResultHandler(TopicHandler):
         review_id = self.get_argument("review_id")
         reviewData = self.message_review_module.get_review_by_id(review_id)
         count = 1
-        if result > 2 or result <=0:
+        if result>2 or result<=0:
             code = self.return_code_process(count)
             self.return_to_client(0,"fail")
         else:
@@ -353,9 +353,7 @@ class ReviewResultHandler(TopicHandler):
             # Data['type_id'] = type_id
         raise tornado.gen.Return((code,message,Data))
 
-class ApplyTopicHanlder(TopicHandler):
-    pass
-    
+
 """
     After admin deal the apply message, execute user's apply result.
 """
@@ -419,7 +417,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
                 self.message.deal_message_to_all(mid1,circle_id)
                 # create message to applyer, tell he review result
                 mid2 = self.message.create_message(type_id=self.message.TYPE['apply circle result'],
-                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
+                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=results)
                 # send message to apply user.
                 self.message.deal_message_to_one(mid2,apply_user_id)
         self.return_to_client(code,message,Data)

@@ -740,7 +740,7 @@ def leaveCircle():
 # checkPhone()
 # registerTest()    
 # adminloginTest()
-
+# server/common,server/handler,server/init,server/main,server/modules
 #---------------first need to do, login admin account.
 loginTest()
 # apply_circle()
@@ -759,7 +759,7 @@ loginTest()
 # circle_feed_list()
 # feed_detail()
 # logoutTest()
-updateInfoTest()
+# updateInfoTest()
 # editTest()
 # detailTest()
 # searchTopicTest()
@@ -769,7 +769,6 @@ updateInfoTest()
 # leave_circle()
 # createTopic()
 # reviewListTest()
-
 # ------------------------review create circle
 # reviewTest()   
 

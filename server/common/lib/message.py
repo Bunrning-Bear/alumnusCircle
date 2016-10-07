@@ -58,19 +58,23 @@ class Message(object):
         """
         if type_id == 0:
             # create circle successfully.
-            dic = {'circle_name':circle_name,'circle_id':circle_id,"circle_url":circle_url}
+            dic = {
+            'circle_name':circle_name,
+            'circle_id':circle_id,
+            "circle_url":circle_url}
         elif type_id == 1:
             # create circle failed.
-            dic = {'circle_name':circle_name,"circle_url":circle_url}
+            dic = {
+            'circle_name':circle_name,
+            "circle_url":circle_url}
         elif type_id == 2:
-            # apply to a circle.
+            # welcome to new member
             dic = {
             'circle_name':circle_name,# apply circle name.
             "circle_id":circle_id,# apply circle id.
             "circle_url":circle_url,# apply circle url.
             "apply_uid":uid,# apply user id.
             "apply_name":username,
-            "reason":reason# apply join reason. 
             }
         elif type_id == 3:
             dic = {
