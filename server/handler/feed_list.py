@@ -3,7 +3,7 @@
 # feed_list.py
 #Author ChenXionghui
 """
-several kind of feed list can not been package as one class.
+several kinds of feed list can not been package as one class.
 because the parameters are different.
 the better way is create a new class for every feed list request.
 The class following are public feed list and comment list. shose API need check identifier

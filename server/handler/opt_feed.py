@@ -1,7 +1,7 @@
 #!usr/bin/env python
 # coding=utf-8
 # opt_feed.py
-#Author ChenXionghui
+# Author ChenXionghui
 """
 opt_feed define all of operate to feed:
 include 
@@ -23,6 +23,8 @@ import request
 """
 pub my comment to a feed.
 """
+
+
 class PubCommentHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(PubCommentHandler, self).__init__(*argc, **argkw)
@@ -32,7 +34,7 @@ class PubCommentHandler(RequestHandler):
 
     @request.authenticated('pubcomment')
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine
     @request.throwBaseException
     def post(self):
         """
@@ -49,14 +51,16 @@ class PubCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
         uid = self.get_secure_cookie('uid')
         access_token = self.get_redis_dict_access_token(uid)
-        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        count, message, Data = yield self.Umeng_asyn_request(access_token, Data)
         code = self.return_code_process(count)
-        self.return_to_client(code,message,Data)
+        self.return_to_client(code, message, Data)
 
 """
 delete a comment by pub user or feed creator.
 [todo]:can Umeng check the comment deleted come from the creator of puber?
 """
+
+
 class DeleteCommentHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(DeleteCommentHandler, self).__init__(*argc, **argkw)
@@ -66,7 +70,7 @@ class DeleteCommentHandler(RequestHandler):
 
     @request.authenticated('deleteComment')
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine
     @request.throwBaseException
     def post(self):
         """
@@ -79,15 +83,17 @@ class DeleteCommentHandler(RequestHandler):
         Data = json.loads(DataJson)
 
         access_token = self.get_redis_dict_access_token(uid)
-        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)  
-        code = self.return_code_process(count)     
+        count, message, Data = yield self.Umeng_asyn_request(access_token, Data)
+        code = self.return_code_process(count)
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message,Data)
+        self.return_to_client(code, message, Data)
 
 
 """
 this handler is to excute like feed, like comment, cancel like feed and cancel like comment.
 """
+
+
 class LikeHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(LikeHandler, self).__init__(*argc, **argkw)
@@ -96,7 +102,7 @@ class LikeHandler(RequestHandler):
 
     @request.authenticated('like')
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine
     def post(self):
         """
         Request from client: 
@@ -110,12 +116,12 @@ class LikeHandler(RequestHandler):
         # self.url = self.url + self.get_argument('target')
         self.methodUsed = self.get_argument('method')
         feed_id = self.get_argument('feed_id')
-        Data = {'feed_id':feed_id}
+        Data = {'feed_id': feed_id}
         access_token = self.get_redis_dict_access_token(uid)
-        count,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        count, message, Data = yield self.Umeng_asyn_request(access_token, Data)
         code = self.return_code_process(count)
         #code,message = self.umeng_Api(self.url,self._public_access,Data,0,self.methodUsed)
-        self.return_to_client(code,message,Data)
+        self.return_to_client(code, message, Data)
 
 # [toodo] can not be used now!!!
 
@@ -124,14 +130,16 @@ class LikeHandler(RequestHandler):
 Get the detail of a sepcial feed.
 
 """
+
+
 class FeedDetailHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(FeedDetailHandler, self).__init__(*argc, **argkw)
         self.url = '/0/feed/show'
         self.methodUsed = 'GET'
-        self.count =10
+        self.count = 10
         self.requestName = 'showfeed'
-    
+
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
@@ -143,23 +151,25 @@ class FeedDetailHandler(RequestHandler):
         # page = self.get_argument('page')
         feed_id = self.get_argument('feed_id')
         # Data = {'page':page,'count':self.count,'feed_id':feed_id}
-        Data = {'feed_id':feed_id}
+        Data = {'feed_id': feed_id}
         access_token = self._public_access
-        count,message,Data = yield self.public_Umeng_request(Data)
+        count, message, Data = yield self.public_Umeng_request(Data)
         code = self.return_code_process(count)
-        self.return_to_client(code,message,Data)
+        self.return_to_client(code, message, Data)
         self.finish()
 
 
 """
 Get comment list of a special feed
 """
+
+
 class CommentListHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(CommentListHandler, self).__init__(*argc, **argkw)
         self.url = '/0/feed/comments'
         self.methodUsed = 'GET'
-        self.order = "seq"# result order  
+        self.order = "seq"  # result order
         self.requestName = 'commentlist'
 
     @tornado.web.asynchronous
@@ -223,9 +233,10 @@ class CommentListHandler(RequestHandler):
         page = self.get_argument('page')
         feed_id = self.get_argument('feed_id')
         count = self.get_argument('count')
-        Data = {'page':page,'count':self.count,'feed_id':feed_id,"count":count}
+        Data = {'page': page, 'count': self.count,
+                'feed_id': feed_id, "count": count}
         access_token = self._public_access
-        count,message,umengData = yield self.public_Umeng_request(Data)
+        count, message, umengData = yield self.public_Umeng_request(Data)
 
         for dictUnit in umengData['results']:
             del dictUnit['status']
@@ -235,21 +246,23 @@ class CommentListHandler(RequestHandler):
             del dictUnit['creator']['medal_ids']
             del dictUnit['creator']['source_uid']
             del dictUnit['image_urls']
-            del dictUnit['create_time']  
+            del dictUnit['create_time']
             del dictUnit['feed']
             del dictUnit['readable_create_time']
             del dictUnit['reply_comment']
-            del dictUnit['id']            
-            del dictUnit['floor']     
-            del dictUnit['source']   
+            del dictUnit['id']
+            del dictUnit['floor']
+            del dictUnit['source']
         code = self.return_code_process(count)
-        self.return_to_client(code,message,umengData)
+        self.return_to_client(code, message, umengData)
         self.finish()
 
 """
 [needn't now] 
 this handler is to forwoard a feed.
 """
+
+
 class ForwoardHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(ForwoardHandler, self).__init__(*argc, **argkw)
@@ -260,7 +273,7 @@ class ForwoardHandler(RequestHandler):
 
     @request.authenticated('forward')
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine
     def post(self):
         """
             request from client: 
@@ -275,14 +288,16 @@ class ForwoardHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_redis_dict_access_token(uid)
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
+        code, message, Data = yield self.Umeng_asyn_request(access_token, Data)
 
-        self.return_to_client(code,message,Data)    
+        self.return_to_client(code, message, Data)
 
 """
 [needn't]
 This handler is to favourite a feed or cancel a favourited feed. 
 """
+
+
 class FavouritesHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(FavouritesHandler, self).__init__(*argc, **argkw)
@@ -292,7 +307,7 @@ class FavouritesHandler(RequestHandler):
 
     @request.authenticated('favourites')
     @tornado.web.asynchronous
-    @tornado.gen.coroutine    
+    @tornado.gen.coroutine
     def post(self):
         uid = self.get_secure_cookie('uid')
         """
@@ -307,5 +322,5 @@ class FavouritesHandler(RequestHandler):
         DataJson = self.get_argument('info_json')
         Data = json.loads(DataJson)
         access_token = self.get_user_dict(uid)[1]
-        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)    
-        self.return_to_client(code,message,Data)    
+        code, message, Data = yield self.Umeng_asyn_request(access_token, Data)
+        self.return_to_client(code, message, Data)

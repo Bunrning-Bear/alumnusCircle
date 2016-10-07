@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # base.py
-#Author ChenXionghui
+# Author ChenXionghui
 
 """
 Processed logic:
@@ -53,8 +53,7 @@ import tornado.httpclient
 from modules.uploadimg import Aliyun
 from common.lib.prpcrypt import set_encrypt
 
-from common.variables import AP,CODE_DICT
-
+from common.variables import AP, CODE_DICT
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -64,32 +63,33 @@ class BaseHandler(tornado.web.RequestHandler):
         self._redis_dict = self.application._redis_dict
         # load all of variable needed into BaseHandler.
         config = ConfigParser.ConfigParser()
-        config.readfp(open(AP+'/common/conf.ini'))
-        self._aes_key = config.get('app','secret')
-        self._appkey = config.get('app','appkey')
-        self._prefix = config.get('url','prefix')
-        self._public_access = config.get('app','public_access')
-        self._virtual_access = config.get('app','virtual_access')
+        config.readfp(open(AP + '/common/conf.ini'))
+        self._aes_key = config.get('app', 'secret')
+        self._appkey = config.get('app', 'appkey')
+        self._prefix = config.get('url', 'prefix')
+        self._public_access = config.get('app', 'public_access')
+        self._virtual_access = config.get('app', 'virtual_access')
         # load all of module operate into BaseHandler.
         self._user_module = modules.user.UserInfoModule(self._db)
         self._user_list_module = modules.user.UserListModule(self._db)
         self._user_detail_module = modules.user.UserDetailModule(self._db)
         self._user_message_module = modules.message.UserMessageModule(self._db)
-        self._code_dict =CODE_DICT
-        self._elastic_user_module = modules.ec_user.ElasticUserModule(self.application.es)
-        logging.info("request is : %s \n \n"%self.request)
+        self._code_dict = CODE_DICT
+        self._elastic_user_module = modules.ec_user.ElasticUserModule(
+            self.application.es)
+        logging.info("request is : %s \n \n" % self.request)
         args = self.request.arguments
-        logging.info("request arguments: %s"%args)
+        logging.info("request arguments: %s" % args)
 
     @property
     def elastic_user_module(self):
         return self._elastic_user_module
-    
+
     @property
     def user_module(self):
         return self._user_module
 
-    @property    
+    @property
     def user_list_module(self):
         return self._user_list_module
 
@@ -100,7 +100,7 @@ class BaseHandler(tornado.web.RequestHandler):
     @property
     def user_message_module(self):
         return self._user_message_module
-    
+
     def get_current_user(self):
         """
         If this function return None 0 or [], function which has decorator
@@ -108,8 +108,9 @@ class BaseHandler(tornado.web.RequestHandler):
         has define.
         """
         return self.get_secure_cookie("uid")
-    # [todo]2016.8.4 user_dict should been store in redis   
-    def redis_dict_check(self,uid,_xsrf):
+    # [todo]2016.8.4 user_dict should been store in redis
+
+    def redis_dict_check(self, uid, _xsrf):
         """
         Check the status of user_dict
 
@@ -123,38 +124,39 @@ class BaseHandler(tornado.web.RequestHandler):
         2: user_dict[uid] is not equal to _xsrf.
 
         """
-        if not self._redis_dict.hexists("user:" + str(uid),"_xsrf"):
+        if not self._redis_dict.hexists("user:" + str(uid), "_xsrf"):
             return 0
-        elif self._redis_dict.hget("user:" + str(uid),"_xsrf") != _xsrf:
+        elif self._redis_dict.hget("user:" + str(uid), "_xsrf") != _xsrf:
             return 1
         else:
             return 2
 
-    def set_redis_dict(self,uid,_xsrf,access_token,last_update_time,adlevel=0):
+    def set_redis_dict(self, uid, _xsrf, access_token, last_update_time, adlevel=0):
         """Set User_dict when login.
         """
         dic = {
-        "_xsrf":_xsrf,
-        "last_update_time":last_update_time,
-        "access_token":access_token,
-        "adlevel":adlevel}
-        
-        self._redis_dict.hmset("user:" + str(uid),dic)
+            "_xsrf": _xsrf,
+            "last_update_time": last_update_time,
+            "access_token": access_token,
+            "adlevel": adlevel}
+
+        self._redis_dict.hmset("user:" + str(uid), dic)
         # self.message.init_message(uid)
-        
-    def get_redis_dict(self,uid):
-        return self._redis_dict.hvals("user:"+str(uid))
 
-    def get_redis_dict_access_token(self,uid):
-        return self._redis_dict.hget("user:"+str(uid),"access_token")
+    def get_redis_dict(self, uid):
+        return self._redis_dict.hvals("user:" + str(uid))
 
-    def delete_redis_dict(self,uid):
-        self._redis_dict.hdel("user:" + str(uid),"_xsrf")
+    def get_redis_dict_access_token(self, uid):
+        return self._redis_dict.hget("user:" + str(uid), "access_token")
 
-    def get_user_last_update_time(self,uid):
-        return self._redis_dict.hget('user:'+str(uid), "last_update_time")
+    def delete_redis_dict(self, uid):
+        self._redis_dict.hdel("user:" + str(uid), "_xsrf")
+
+    def get_user_last_update_time(self, uid):
+        return self._redis_dict.hget('user:' + str(uid), "last_update_time")
     # [todo]:2016.8.26 restructure the logic of return code.
-    def return_code_process(self,code):
+
+    def return_code_process(self, code):
         """Return status code to client after get a code from handler.
 
         Args:
@@ -169,10 +171,10 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             return 0
 
-    def return_to_client(self,code,message, Data = {}):
+    def return_to_client(self, code, message, Data={}):
         """
         This method is to return status code and message to client.
-        
+
         Args:
             code[string]: a global status code.
             It will be created by function return_code_process or Umeng's 'err_code'(look for detail at UmengApi)
@@ -183,21 +185,24 @@ class BaseHandler(tornado.web.RequestHandler):
         """
 
         update_Data = self.get_user_update()
-        Data={'update':update_Data,'response':Data}
-        temp = str(json.dumps(Data))# json
+        Data = {'update': update_Data, 'response': Data}
+        temp = str(json.dumps(Data))  # json
         # logging.info(" data : %s"%Data)
-        temp = temp.replace("null","\"empty\"")
-        json_after_replace = json.loads(temp)#dict
+        temp = temp.replace("null", "\"empty\"")
+        json_after_replace = json.loads(temp)  # dict
         logging.info("in return to client")
         # logging.info("response code%s message%s  data is : %s"%(code,message,json_after_replace))
-        self.change_custom_string_to_json(json_after_replace)# change custom type
+        self.change_custom_string_to_json(
+            json_after_replace)  # change custom type
 
         if Data == {}:
-            resultJson = json.dumps({'code':code - 1,'message':message,'Data':{}})
+            resultJson = json.dumps(
+                {'code': code - 1, 'message': message, 'Data': {}})
         else:
-            resultJson = json.dumps({'code':code,'message':message,'Data':json_after_replace})
-        logging.info('json returned to client is :%s'%resultJson)        
-        self.write(resultJson) 
+            resultJson = json.dumps(
+                {'code': code, 'message': message, 'Data': json_after_replace})
+        logging.info('json returned to client is :%s' % resultJson)
+        self.write(resultJson)
 #        self.finish()
 
     def get_user_update(self):
@@ -205,17 +210,14 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def change_custom_string_to_json(self, dic):
         # logging.info("in change custom string to json")
-        if isinstance(dic,dict):
-            for key,value in dic.items():
+        if isinstance(dic, dict):
+            for key, value in dic.items():
                 # print "in dictory : ",key, value
-#               if value == [] or value == {}:
-                    # change all of empty list and dicotry to "empty"
-#                    dic[key] = str("empty")
                 # logging.info(" print key %s and value %s"%(key,value))
                 if type(value) == bool:
                     # logging.info("in bool value ,key is%s"%key)
                     dic[key] = str(value)
-                elif key == 'custom' and value !='' and dic[key] !={}:
+                elif key == 'custom' and value != '' and dic[key] != {}:
                     # change custom string into json style data.
                     # print "in custom:%s type is : %s"%(value,type(value))
 
@@ -224,26 +226,28 @@ class BaseHandler(tornado.web.RequestHandler):
                         dic[key] = json.loads(value)
                     except Exception, e:
                         try:
-                            dic[key]  = eval(value)
+                            dic[key] = eval(value)
                         except Exception, e:
                             dic[key] = value
                 elif key == 'icon_url':
-                    if isinstance(value,dict) and dic[key] != {}:
+                    if isinstance(value, dict) and dic[key] != {}:
                         # delete 360.720 origin.
                         # logging.info("in icon_url ,key is%s"%key)
                         dic[key] = value['origin']
                     dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
-                elif key == 'image_urls' and isinstance(value,list) and dic[key] != []:
+                elif key == 'image_urls' and isinstance(value, list) and dic[key] != []:
                     count = 0
                     while count < len(value):
                         dic[key][count] = value[count]['origin']
-                        dic[key][count] = Aliyun().parseUrlByFakeKey(dic[key][count])                        
+                        dic[key][count] = Aliyun().parseUrlByFakeKey(
+                            dic[key][count])
                         count += 1
-                if isinstance(value,dict):
+                elif key == 'circle_url' and dic[key] != {}:
+                    dic[key] = Aliyun().parseUrlByFakeKey(dic[key])
+                if isinstance(value, dict):
                     self.change_custom_string_to_json(value)
-                elif isinstance(value,list):
+                elif isinstance(value, list):
                     # print " out of list ", value
                     for list_value in value:
                         # print "in list : "+str(list_value)
                         self.change_custom_string_to_json(list_value)
-

@@ -43,8 +43,9 @@
        {
         $("#submit").click(function()
             {
-                var passw = hex_md5($("#pwd").val())
-                alert(passw)
+                var passw = $("#pwd").val();
+                //var passw = hex_md5($("#pwd").val())
+                //alert(passw)
                 var info_json = {'telephone':$("#user").val(),'password':passw};
                 var info_json_string = JSON.stringify(info_json)
               //alert($("input[name='_xsrf']").val());

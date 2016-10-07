@@ -153,6 +153,8 @@ class RequestHandler(BaseHandler):
         self.count = 10
         self.requestName = 'default'
         self.message = self.application.message
+        self.url = 'defaulturl'
+        self.methodUsed = 'defaultmethod'
 
     def get_optional_argument(self, argu):
         try:

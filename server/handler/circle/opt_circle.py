@@ -7,6 +7,9 @@ from handler.circle.circle import TopicHandler
 from handler import request
 from common.lib.to_list import custom_list_to_list
 
+"""Send a join in circle message to circle admin and creator.
+"""
+
 
 class CircleApplyHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
@@ -22,8 +25,8 @@ class CircleApplyHandler(TopicHandler):
     def post(self):
         circle_id = self.get_argument('circle_id')
         circle_name = self.get_argument('circle_name')
-        circle_url = self.get_argument('circle_url')
         circle_id = self.circle_module.get_cid_from_umeng_id(circle_id)
+        circle_url = self.circle_module.get_icon_url_from_cid(circle_id)
         reason = self.get_argument('reason')
         uid = self.get_secure_cookie('uid')
         creator_id = self.get_argument('creator_id')
@@ -64,7 +67,7 @@ class LeaveCircleHandler(TopicHandler):
         create_circle_list = self.user_detail_module.get_create_circle_list(
             uid)
         create_circle_list = custom_list_to_list(create_circle_list)
-        def circle_filter(self, list_unit):
+        def circle_filter(list_unit):
             if list_unit != cid:
                 return cid
         my_circle_list = filter(circle_filter, my_circle_list)

@@ -348,4 +348,4 @@ class UserDetailModule(UserModule):
         entity = self.db.update(
             "UPDATE "+ self._user_table + 
             " SET " + self._my_circle_list + " = %s , "+ self._create_circle_list  + " = %s  "+ 
-            "WHERE "+self._uid + "= %s",str(circle_id)+"_",uid)
+            "WHERE "+self._uid + "= %s",str(string_my_circle_list),str(string_create_circle_list),uid)

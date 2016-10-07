@@ -381,7 +381,7 @@ class LoginHandler(UserHandler):
 
 
     @tornado.gen.coroutine        
-    @request.throwBaseException
+    # @request.throwBaseException
     def post(self):
         """
         Request from client:

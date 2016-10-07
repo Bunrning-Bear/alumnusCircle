@@ -268,6 +268,13 @@ class Message(object):
             result_message_list = []
             amount = 0
             tempcount = 0
+            def __message_fileter(unit):
+                if unit['type'] != 2:
+                    return unit
+                else:
+                    if unit['message']['apply_uid'] != uid:
+                        return unit
+
             for value in message_list['user']:
                 # change time format
                 # logging.info("value is : %s"%value)
@@ -275,6 +282,14 @@ class Message(object):
                 # change dictory string to dictory object
                 value['message'] = eval(value['message'])
                 result_message_list.append(value)
+            for value in message_list['circle']:
+                # change time format
+                # logging.info("value is : %s"%value)
+                value['update_time'] = value['update_time'].strftime(self.format_time)
+                # change dictory string to dictory object
+                value['message'] = eval(value['message'])
+                result_message_list.append(value)        
+            result_message_list = filter(__message_fileter,result_message_list)    
             return result_message_list
         return []
 

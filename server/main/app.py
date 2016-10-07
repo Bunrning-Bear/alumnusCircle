@@ -50,9 +50,9 @@ define("mysql_user", default="root", help="community database user")
 define("mysql_password", default="zp19950310",
        help="community database password")
 
-logging.basicConfig(level=logging.INFO,
-                    filename='log.log',
-                    filemode='w')
+logging.basicConfig(level=logging.INFO)
+                    #filename='log.log',
+                    #filemode='w')
 
 
 class Application(tornado.web.Application):

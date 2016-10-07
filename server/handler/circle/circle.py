@@ -11,9 +11,11 @@ import urllib
 import pdb
 import logging
 import random
+
 import tornado.httpclient
 import tornado.web
-import pdb
+from modules.uploadimg import Aliyun
+
 from handler import user
 from handler import base
 from handler import request
@@ -222,6 +224,7 @@ class ReviewListHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
         super(ReviewListHandler, self).__init__(*argc, **argkw)
 
+
     def get(self):
         """Get to-review list or has-review list for admin user.
 
@@ -231,14 +234,46 @@ class ReviewListHandler(TopicHandler):
             limit_num: to get the max num for a page.
 
         Returns:
-
+        
+        return example:
+            [
+                {
+                    "result": 0,
+                    "circle_icon_url": "http: //www.seu.edu.cn/4838461475374051.16.jpg",
+                    "circle_name": "\\u521b\\u4e1a\\u534f\\u4f1a\\u603b\\u90e8",
+                    "circle_type_name": "\\u793e\\u56e2\\u5708",
+                    "review_id": 42,
+                    "creator_name": "\\u9648\\u5c0f\\u718a",
+                    "creator_uid": "127",
+                    "reason_message": "\\u6211\\u662f\\u521b\\u534f2016\\u5e74\\u4f1a\\u957f\\uff0c\\u7533\\u8bf7\\u521b\\u5efa\\u5e76\\u7ba1\\u7406\\u8fd9\\u4e2a\\u5708\\u5b50",
+                    "description": "\\u521b\\u4e1a\\u534f\\u4f1a\\u6210\\u7acb\\u81ea2000\\u5e74\\uff0c\\u6c47\\u805a\\u4e86\\u4e1c\\u5927\\u6700\\u6fc0\\u60c5\\u4e0e\\u70ed\\u8840\\u7684\\u4e00\\u6279\\u4eba\\u3002\\u6211\\u8fd9\\u4e2a\\u7fa4\\u7ed9\\u521b\\u534f\\u5185\\u90e8\\u4eba\\u4f7f\\u7528\\uff0c\\u65b9\\u4fbf\\u5927\\u5bb6\\u4ea4\\u6d41\\u548c\\u8d44\\u6e90\\u5bf9\\u63a5"
+                },
+                {
+                    "result": 0,
+                    "circle_icon_url": "http: //www.seu.edu.cn/192781473786574.34.jpg",
+                    "circle_name": "\\u4eba\\u5de5\\u667a\\u80fd\\u5708",
+                    "circle_type_name": "\\u5174\\u8da3\\u5708",
+                    "review_id": 39,
+                    "creator_name": "\\u9648\\u5c0f\\u718a",
+                    "creator_uid": "127",
+                    "reason_message": "\\u4e3a\\u4eba\\u5de5\\u667a\\u80fd\\u5708\\u63d0\\u4f9b\\u4ea4\\u4e92\\u5e73\\u53f0",
+                    "description": "\\u667a\\u80fd\\u65f6\\u4ee3\\uff0c\\u4ea4\\u6362\\u60f3\\u6cd5\\uff0c\\u4ea4\\u6362\\u601d\\u60f3\\uff0c\\u4f60\\u6211\\u90fd\\u4f1a\\u662f\\u4e00\\u4e2a\\u8fd9\\u4e2a\\u667a\\u80fd\\u65f6\\u4ee3\\u7684\\u667a\\u8005\\u3002"
+                }
+            ]
         """
+        def __url_filter(unit):
+            logging.info("unit creator is %s"%(unit['circle_icon_url']))
+            unit['circle_icon_url'] = Aliyun().parseUrlByFakeKey(unit['circle_icon_url'])
+            return unit
         # [todo] data check
         result = int(self.get_argument("result"))
         max_id = self.get_argument("max_id")
         limit_num = self.get_argument("limit_num")
+        
         if result == 0 or result == 1:
             Data = self.message_review_module.get_review_list(result,max_id,limit_num)
+            # url filter:
+            Data = filter(__url_filter,Data)
             logging.info("review list data is : %s"%Data)
             if result == 0:
                 self.render('to_review.html',resultdata=Data)
@@ -439,14 +474,13 @@ class ReceiveApplyReviewHandler(TopicHandler):
             * follow this circle for the apply in umeng
             * update user data info in mysql (my_circle_list)
             * send result message to applicant;
-            * send new member message to all of member in the circle/
+            * send new member message to all of member in the circle.
         
         Post Args:    
             result: 0 or 1 receive result. 0 reject ,1 agree.
             apply_user_id: apply user id.
             apply_user_name: needn't when reject.
             circle_id:
-            circle_url:
             circle_name:
             review_id:
 
@@ -456,7 +490,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
         apply_user_id = self.get_argument("apply_user_id")
         circle_id = self.get_argument("circle_id")
         logging.info("circle id after change is %s"%circle_id)
-        circle_url = self.get_argument("circle_url")
+        circle_url = self.circle_module.get_icon_url_from_cid(circle_id)
         circle_name = self.get_argument("circle_name")
         # todo : check if the message has been review by other user.
         if result == 0:
@@ -491,7 +525,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
                 self.message.deal_message_to_all(mid1,circle_id)
                 # create message to applicant, tell he review result
                 mid2 = self.message.create_message(type_id=self.message.TYPE['apply circle result'],
-                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=results)
+                    circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
                 # send message to apply user.
                 self.message.deal_message_to_one(mid2,apply_user_id)
         self.return_to_client(code,message,Data)

@@ -6,7 +6,7 @@ import cookielib
 import json
 import random
 import hashlib
-# prefix ="http://139.196.207.155:8000"
+#prefix ="http://139.196.207.155:8000"
 prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
@@ -62,11 +62,11 @@ def leave_circle():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        "umeng_circle_id":"57d14cc1b9a996288566c031",#the circle you want to leave. this is a string get from circle list.
+        "umeng_circle_id":"57d79ab1d36ef3cdf599bd89",#the circle you want to leave. this is a string get from circle list.
     }
     info_json[num] = {
     }
-    message[num] = "clear my message list : \n"    
+    message[num] = "leave circle : \n"    
     do_request(api,info_json,message,"POST",otherPara) 
 
 def apply_circle():
@@ -76,11 +76,11 @@ def apply_circle():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        "circle_id":"57d792bcd36ef3cdf599b9f1",
-        "circle_name":"软院大团圆",
-        "circle_url":"http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg" ,
+        "circle_id":"57d79ab1d36ef3cdf599bd89",
+        "circle_name":"互联网创业圈",
         "reason":"我喜欢这个圈子,我想加入呢~",
-        "creator_id":"30",
+        "creator_id":"118",
+        # change delete icon_url
     }
     info_json[num] = {
     }
@@ -125,7 +125,7 @@ def getmessage():
     otherPara = {}
     num = 0
     otherPara[num] = {
-        'my_circle_list':'_27_28_26',
+        'my_circle_list':'_26_28_30_33_36_35_37_27_39_',
     }
     info_json[num] = {
     }
@@ -361,11 +361,11 @@ def circle_apply_test():
     otherPara = {}
     otherPara[num] = {
         "result":1,
-        "apply_user_id":40,
-        "apply_user_name":"大神",
-        "circle_id":"18",
-        "circle_name":"大神带你装逼带你飞",
-        "circle_url":"http: //img1.imgtn.bdimg.com/it/u=1372134302,958716461&fm=206&gp=0.jpg"
+        "apply_user_id":118,
+        "apply_user_name":"白洋",
+        "circle_id":"30",
+        "circle_name":"互联网创业圈"
+        # change
     }
 
     info_json[num] = {
@@ -462,6 +462,8 @@ def loginTest():
     info_json[num] = {
         "password":"by123456",
         "telephone":"15851856958"
+        #"password":"cxh123456",
+        #"telephone":"15195867777"
     }
     otherPara[num] = {}
     setMessage(message,num,"登陆成功")
@@ -547,9 +549,9 @@ def gettypetopicTest():
     message = {}
     otherPara = {}
     info_json[num] = {
-    "t_cat_id":"57cd04ba55c400f83aa1384d",
+    "t_cat_id":"57cd049d55c400f83aa1384c",
     "page":1,
-    "count":2
+    "count":10
     }
     otherPara[num] = {}
     setMessage(message,num,"get topic type")
@@ -583,14 +585,14 @@ def createTopic():
 
     }
     otherPara[num] = {
-        "circle_name":"android开发小组2",
-        "circle_icon_url":"http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg",
-        "creator_uid":36,
-        "creator_name":"吴卓凡",
+        "circle_name":"python开发小组",
+        "circle_icon_url":"http://www.seu.edu.cn/319791473743423.0.jpg",
+        "creator_uid":143,
+        "creator_name":"陈雄辉",
         # "circle_type_id":"57bdcad0d0146385e6abb6be",
         "circle_type_name":"职业圈",
-        "reason_message":"汇聚android开发的大神,一起谈到交流",
-        "description":" 汇聚所有android开发大神"
+        "reason_message":"汇聚python开发的大神,一起交流",
+        "description":" 汇聚所有python开发大神"
     }
     setMessage(message,num,"create topic")
     num = num + 1
@@ -621,7 +623,7 @@ def reviewTest():
     info_json[num] = {}
     otherPara[num] ={
         "result":1,
-        "review_id":21
+        "review_id":45
     }
     setMessage(message,num,"review topic")
     do_request(api,info_json,message,"POST",otherPara)
@@ -722,30 +724,16 @@ def checkPhone():
     }
     setMessage(message,num,"telephone has been register")
     do_request(api,info_json,message,"POST",otherPara)    
-
-def leaveCircle():
-
-    api = '/leave_circle'
-    num = 0
-    info_json = {}
-    message = {}
-    otherPara = {}
-    info_json[num] = {
-    }
-    otherPara[num] = {
-        "umeng_circle_id":"57d2ca3eb9a9960c9cb47a56"
-    }
-    setMessage(message,num,"telephone has been register")
-    do_request(api,info_json,message,"POST",otherPara)    
+    
 # checkPhone()
 # registerTest()    
 # adminloginTest()
 # server/common,server/handler,server/init,server/main,server/modules
-#---------------first need to do, login admin account.
 loginTest()
 # apply_circle()
 # getcommentlist()
-# getmessage()
+# circle_apply_test()
+getmessage()
 # checkmessage()
 #　circle_member_list()
 # user_detail()
@@ -764,21 +752,11 @@ loginTest()
 # detailTest()
 # searchTopicTest()
 # gettypetopicTest()
-# leaveCircle()
 # get_all_circle_test()
 # leave_circle()
 # createTopic()
 # reviewListTest()
-# ------------------------review create circle
-# reviewTest()   
-
-
-#-------------------------circle admin review the apply to join in circle
-# circle_apply_test()
-
-
-
-
+#　reviewTest()   
 # get_my_filter_circle_test()
 # logoutTest()
 # update_feed()
