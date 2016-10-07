@@ -24,7 +24,12 @@ from common.lib.to_list import custom_list_to_list
 from handler.request import RequestHandler
 
 
+"""This is base handler for all of handler about circle.
 
+This handler has those functions:
+1. define some related modules;
+2. define some common functions, most of about umneg api.
+"""
 class TopicHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
         super(TopicHandler, self).__init__(*argc, **argkw)
@@ -47,6 +52,13 @@ class TopicHandler(RequestHandler):
     @request.authenticated('user_topic')        
     @tornado.gen.coroutine       
     def get_user_topic(self,uid):
+        """Get all of cirlce user has followed, include join, admin and create.
+
+        Args:
+            uid: the circle want to return.
+
+        Returns:
+        """
         self.requestName= "user_topic"
         self.url = '/0/topic/user/topics'
         self.methodUsed = 'GET'    
@@ -58,14 +70,24 @@ class TopicHandler(RequestHandler):
         "page":1,
         "uid":umeng_uid
         }
-        logging.info("umeng uid is : %s"%umeng_uid)
+        # logging.info("umeng uid is : %s"%umeng_uid)
         code,message,Data = yield self.Umeng_asyn_request(access_token,Data)
-
         raise tornado.gen.Return((code,message,Data))
 
     @request.authenticated('focus_on_circle')        
     @tornado.gen.coroutine      
     def focus_on_circle(self,uid,topic_id):
+        """To follow a circle for a special user.
+        In our app, "follow" function will not been operated by client directly.
+        all of "follow" operate need to "apply" and "review"
+        
+        Args:
+            uid: the user id who want to follow a circle.
+            topic_id: target circle id
+        
+        Returns:
+
+        """
         self.requestName= "receive_apply"
         self.url = '/0/topic/focus'
         self.methodUsed = 'POST'    
@@ -109,6 +131,18 @@ class GetMyfilterCircleHander(TopicHandler):
     @tornado.gen.coroutine
     @request.throwBaseException
     def post(self):
+        """Get my admin circle and my create circle.
+
+        Implement though 'get_my_filter_circle' parameter.
+        Client pass 'my_admin_circle' or 'my_create_cirlce'.
+        We get all of user's circles and filter by this parameter and return to client.
+
+        Post Args:
+            'my_filter_circle':client should pass 'my_admin_circle' or 'my_create_cirlce'.
+
+        Returns:
+
+        """
         result_data = []
         my_filter_circle = self.get_argument('my_filter_circle')
         my_filter_circle_list = custom_list_to_list(my_filter_circle)
@@ -146,15 +180,20 @@ class CeateTopicHandler(TopicHandler):
     @tornado.gen.coroutine
     @request.throwBaseException
     def post(self):
-        """
+        """User send a create circle request, store it in mysql. app amin will review it later.
+
+        Args:
             circle_name:
             circle_icon_url:
             creator_uid:
             creator_name
             circle_type_id:
             circle_type_name:
-            reason_message:
-            description
+            reason_message: the reason why user want to create this circle.
+            description:circle description
+
+        Returns:
+
         """
 
         circle_name = self.get_argument(self.message_review_module._circle_name)
@@ -177,12 +216,23 @@ class CeateTopicHandler(TopicHandler):
         self.return_to_client(code,"success send create circle message.",Data)
         self.finish()
 
-
+"""Get to-review list or has-review list.
+"""
 class ReviewListHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
         super(ReviewListHandler, self).__init__(*argc, **argkw)
 
     def get(self):
+        """Get to-review list or has-review list for admin user.
+
+        Args:
+            result: 0 stand for to-erview list. 1 stand for has-review list.
+            max_id: pass the largest number this time, pass 0 for the first time.
+            limit_num: to get the max num for a page.
+
+        Returns:
+
+        """
         # [todo] data check
         result = int(self.get_argument("result"))
         max_id = self.get_argument("max_id")
@@ -198,8 +248,8 @@ class ReviewListHandler(TopicHandler):
             Data = []
             self.return_to_client(1,"fail",Data)
     
-
-
+"""App admin user review a special create-circle apply.
+"""
 class ReviewResultHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
         super(ReviewResultHandler, self).__init__(*argc, **argkw)
@@ -209,11 +259,24 @@ class ReviewResultHandler(TopicHandler):
     @tornado.gen.coroutine
     @request.throwBaseException
     def post(self):
-        """
-            result: must be 1 or 2.
+        """App admin user review a special create-circle apply.
+        
+        If reject, just send result message to creator.
+        If agree:
+            * send result message to creator;
+            * create virtual circle for this new create circle.[virtual circle is used to update 'contact me' feed]
+            * create circle in umeng and store circle data in mysql;
+            * follow this new creatre circle for user;
+            * update user data in mysql (create_circle_list)
+
+        Args:
+            result: must be 1 or 2. 
                 1: agree
                 2: reject
             review_id : the entities id of the manual review information
+        
+        Returns:
+
         """
         result = int(self.get_argument("result"))
         review_id = self.get_argument("review_id")
@@ -355,7 +418,7 @@ class ReviewResultHandler(TopicHandler):
 
 
 """
-    After admin deal the apply message, execute user's apply result.
+    After circle admin deal a apply message, execute apply result for circle admin user.
 """
 class ReceiveApplyReviewHandler(TopicHandler):
     def __init__(self, *argc, **argkw):
@@ -369,7 +432,16 @@ class ReceiveApplyReviewHandler(TopicHandler):
     @tornado.gen.coroutine   
     @request.throwBaseException
     def post(self):
-        """
+        """After circle admin deal a apply message, execute apply result for circle admin user.
+        If result == 0 :[means reject]
+            just send message to applicant;
+        If result == 1 :[means agree]
+            * follow this circle for the apply in umeng
+            * update user data info in mysql (my_circle_list)
+            * send result message to applicant;
+            * send new member message to all of member in the circle/
+        
+        Post Args:    
             result: 0 or 1 receive result. 0 reject ,1 agree.
             apply_user_id: apply user id.
             apply_user_name: needn't when reject.
@@ -377,6 +449,8 @@ class ReceiveApplyReviewHandler(TopicHandler):
             circle_url:
             circle_name:
             review_id:
+
+        Returns:
         """
         result = int(self.get_argument("result"))
         apply_user_id = self.get_argument("apply_user_id")
@@ -386,7 +460,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
         circle_name = self.get_argument("circle_name")
         # todo : check if the message has been review by other user.
         if result == 0:
-            # create message to applyer, tell he review result
+            # create message to applicant, tell he review result
             mid2 = self.message.create_message(type_id=self.message.TYPE['appply circle result'],
                 circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=result)
             # send message to apply user.
@@ -415,7 +489,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
                     circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,uid=apply_user_id,username=username)
                 # set message to circle queue.
                 self.message.deal_message_to_all(mid1,circle_id)
-                # create message to applyer, tell he review result
+                # create message to applicant, tell he review result
                 mid2 = self.message.create_message(type_id=self.message.TYPE['apply circle result'],
                     circle_name=circle_name,circle_id=circle_id,circle_url=circle_url,result=results)
                 # send message to apply user.
@@ -425,6 +499,7 @@ class ReceiveApplyReviewHandler(TopicHandler):
 
 class AdminSetHandler(TopicHandler):
     pass
+
 
 """
     [needn't this version] edit circle information 
