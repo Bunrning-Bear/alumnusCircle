@@ -106,9 +106,10 @@ class Application(tornado.web.Application):
             (r'/get_my_comment', handler.message.GetMyCommentHandler),
             (r'/checkmessage', handler.message.CheckMessageHandler),
 
+            # feedlist
             (r'/timefeedList', handler.feed_list.TimelineHandler),
             (r'/myfavouritelist', handler.user_list.FavouriteslistHandler),
-
+            (r'/followcircleslist',handler.circle.circle_detail.FollowCircleFeedListHandler),
             # feed detail:
             (r'/feed_detail', handler.opt_feed.FeedDetailHandler),
             (r'/pubcomment', handler.opt_feed.PubCommentHandler),
@@ -154,10 +155,12 @@ class Application(tornado.web.Application):
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
         # add db to global variable.
+        logging.info("init mysql..")
         self.db = torndb.Connection(
             host=options.host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password
         )
+        logging.info("init mysql ok")
         self.message = Message(self.db)
         self.message.init_message_to_all()
         """
@@ -166,8 +169,10 @@ class Application(tornado.web.Application):
             a = self.db.get("SELECT COUNT(*) from user_info")
         except MySQLdb.ProgrammingError:
         """
+        logging.info("init elasticsearch...")
         self.es = Elasticsearch([{'host': options.host, 'port': 9200}])
-
+        logging.info("init elasticsearch ok")
+        logging.info("start server finish.")
 
 def main():
     tornado.options.parse_command_line()

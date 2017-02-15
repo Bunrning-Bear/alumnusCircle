@@ -191,3 +191,117 @@ class CircleMemberHandler(RequestHandler):
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         self.return_to_client(code,message,Data)
         self.finish()
+
+
+
+"""
+Get following circle and person's feed list by timeline
+"""
+class FollowCircleFeedListHandler(RequestHandler):
+    def __init__(self, *argc, **argkw):
+        super(FollowCircleFeedListHandler, self).__init__(*argc, **argkw)
+        self.url = '/0/feed/home_timeline'
+        self.methodUsed = 'GET'
+        self.count =10
+        self.requestName = 'follow circle feed list'
+        self.only_friends = 0
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    @request.throwBaseException
+    def post(self):
+        """
+            GET value page from client:
+            page[integer]:[must] represent the page will return the next request.
+            uid[string]:[must] reprsent the comment of a special uid
+            count[int]:the feed amount server return a time      
+{
+    page: 1,
+    count: 30,
+    total: 60,
+    results: [
+    {
+        id: "54c367c50bbbafdc433b6964",
+        seq: 1282, 
+        content: "@titi, #话题测试1000# #话题测试1# only for test7",
+        creator: {
+            id: "54b5e5ac0bbbaf274978d2fb",
+            name: "a7_testing",
+            icon_url: {
+                240: "http://static.social.umeng.com/icon_e69494577e048cc9a8e1557aa7103414@240h_50Q.jpeg",
+                640: "http://static.social.umeng.com/icon_e69494577e048cc9a8e1557aa7103414@640h_90Q.jpeg",
+                origin: "http://static.social.umeng.com/icon_e69494577e048cc9a8e1557aa7103414",
+                format: "jpeg"
+            }
+        },
+        status: 1,
+        image_urls: [
+            {
+                360: "http://static.social.umeng.com/image_834ae6e0f1b08c8fc256d1b9e66e0a95@360h_50Q.jpeg",
+                750: "http://static.social.umeng.com/image_834ae6e0f1b08c8fc256d1b9e66e0a95@750w_90Q.jpeg",
+                origin: "http://static.social.umeng.com/image_834ae6e0f1b08c8fc256d1b9e66e0a95",
+                format: "jpeg"
+            },
+        ],
+        topics: [
+        {
+            id: "541fea3c0bbbaf58bfc53f71",
+            name: "话题测试1_694"
+        }
+        ],
+        related_users: [
+        {
+            id: "54bf0e730bbbaf6814d66faa",
+            name: "titi_148_1437635473"
+        }
+        ],
+        origin_feed: null,
+        liked: false,
+        share_link: "http://test.wsq.umeng.com:8084/feeds/54c367c50bbbafdc433b6964/",
+        title: null,
+        type: 0,
+        is_top: 0,
+        parent_feed_id: "",
+        create_time: "2015-01-24T17:37:09.800",
+        location: {
+            name: "北京电影学院"
+            geo_point: [
+                116.361413,
+                39.978919
+            ],
+        },
+        stats: {
+            liked: 0,
+            forwards: 0,
+            comments: 0
+        },
+        has_collected: false
+    },
+    ],
+}       
+        """
+        page = self.get_argument('page')
+        count = self.get_argument('count')
+        logging.info("in usertime line handler")
+        Data = {'page':page,'count':count,'only_friends':self.only_friends}
+        uid = self.get_secure_cookie('uid')
+        code = 0
+        access_token = self.get_redis_dict_access_token(uid)
+        logging.info("circle member of access_token : %s"%access_token)
+#        logging.info("access_token :%s"%access_token)
+        code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
+        for dictUnit in Data['results']:
+            del dictUnit['seq']
+            del dictUnit['creator']['medal_ids']
+            del dictUnit['creator']['source_uid']       
+            del dictUnit['topics']
+            del dictUnit['tag']
+            del dictUnit['readable_create_time']     
+            del dictUnit['origin_feed']     
+            del dictUnit['custom']
+            del dictUnit['source']
+            del dictUnit['location']
+            del dictUnit['media_type']
+            del dictUnit['type']
+            del dictUnit['status']
+        self.return_to_client(code,message,Data)
+        self.finish()

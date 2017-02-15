@@ -6,7 +6,7 @@ import cookielib
 import json
 import random
 import hashlib
-#prefix ="http://139.196.207.155:8000"
+# prefix ="http://139.196.207.155:8000"
 prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
@@ -724,7 +724,21 @@ def checkPhone():
     }
     setMessage(message,num,"telephone has been register")
     do_request(api,info_json,message,"POST",otherPara)    
-    
+
+def feedlist():
+    api = '/followcircleslist'
+    info_json = {}
+    message = {}
+    otherPara = {}
+    num = 0
+    otherPara[num] = {
+        "page":1,
+        "count":10,
+    }
+    info_json[num] = {
+    }
+    message[num] = "my comment list : \n"    
+    do_request(api,info_json,message,"POST",otherPara) 
 # checkPhone()
 # registerTest()    
 # adminloginTest()
@@ -733,7 +747,7 @@ loginTest()
 # apply_circle()
 # getcommentlist()
 # circle_apply_test()
-getmessage()
+feedlist()
 # checkmessage()
 #　circle_member_list()
 # user_detail()
