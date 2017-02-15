@@ -217,7 +217,7 @@ class BaseHandler(tornado.web.RequestHandler):
                 if type(value) == bool:
                     # logging.info("in bool value ,key is%s"%key)
                     dic[key] = str(value)
-                elif key == 'custom' and value != '' and dic[key] != {}:
+                elif (key == 'custom' or key =='public_contact_list') and value != '' and dic[key] != {}:
                     # change custom string into json style data.
                     # print "in custom:%s type is : %s"%(value,type(value))
 
