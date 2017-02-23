@@ -147,6 +147,68 @@ class FeedDetailHandler(RequestHandler):
         Request from client:
             GET['page']:[integer][must]represent the page will return the next request.
             GET['feed_id']:[string][must] reprsent the detail of a special feed
+        {
+            "total": 1,
+            "results": [
+                {
+                    "liked": "False",
+                    "seq": 5756205,
+                    "creator": {
+                        "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/319791473743423.0.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1487824536&Signature=kHRziMfICCt18Ko%2Bajk6jK728Bw%3D",
+                        "medal_ids": [],
+                        "id": "57d78a4ab9a9963fa44b2b3a",
+                        "source_uid": "15851856958",
+                        "name": "15851856958白洋"
+                    },
+                    "topics": [
+                        {
+                            "stats": "empty",
+                            "description": "我们是有理想的IT精英",
+                            "icon_url": "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/4327821473747285.5.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1487824536&Signature=Z9rL3d4s7rzFUwBAi2blU8wePjo%3D",
+                            "image_urls": [],
+                            "custom": {
+                                "virtual_cid": "57d79ab1b9a9964d13fd96ef",
+                                "creator_uid": "118",
+                                "creator_name": "陈小熊"
+                            },
+                            "id": "57d79ab1d36ef3cdf599bd89",
+                            "name": "互联网创业圈"
+                        }
+                    ],
+                    "tag": 0,
+                    "readable_create_time": "01-18",
+                    "id": "587f6bc7b9a9967cc4c35443",
+                    "stats": {
+                        "liked": 0,
+                        "forwards": 0,
+                        "comments": 1
+                    },
+                    "title": "沉雄辉bsb",
+                    "origin_feed": "empty",
+                    "custom": "",
+                    "content": "萝莉控",
+                    "source": "社区",
+                    "location": {},
+                    "media_type": 0,
+                    "type": 0,
+                    "rich_text": "",
+                    "status": 0,
+                    "is_topic_top": "empty",
+                    "image_urls": [
+                        "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/8851171484745633.04.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1487824536&Signature=ydv3mGiUW3%2F4ZWa6yqID5V6mL3E%3D",
+                        "http://alumnuscircle.oss-cn-shanghai.aliyuncs.com/279761484745660.58.jpg?OSSAccessKeyId=LTAIkY3jD1E5hu8z&Expires=1487824536&Signature=DpnjLgo3HNWeYF1lm72%2BDWlHPpE%3D"
+                    ],
+                    "is_top": 0,
+                    "topic_tag": "",
+                    "related_users": "empty",
+                    "has_collected": "False",
+                    "create_time": "2017-01-18 21:21:11",
+                    "parent_feed_id": "",
+                    "is_recommended": "True",
+                    "share_link": "http://wsq.umeng.com/feeds/587f6bc7b9a9967cc4c35443/"
+                }
+            ]
+        }
         """
         # page = self.get_argument('page')
         feed_id = self.get_argument('feed_id')
@@ -154,15 +216,15 @@ class FeedDetailHandler(RequestHandler):
         Data = {'feed_id': feed_id}
         access_token = self._public_access
         count, message, Data = yield self.public_Umeng_request(Data)
+        result = self.deleted_useless_feed(Data['results'][0])
         code = self.return_code_process(count)
-        self.return_to_client(code, message, Data)
+        self.return_to_client(code, message, result)
         self.finish()
 
 
 """
 Get comment list of a special feed
 """
-
 
 class CommentListHandler(RequestHandler):
     def __init__(self, *argc, **argkw):
@@ -237,7 +299,6 @@ class CommentListHandler(RequestHandler):
                 'feed_id': feed_id, "count": count}
         access_token = self._public_access
         count, message, umengData = yield self.public_Umeng_request(Data)
-
         for dictUnit in umengData['results']:
             del dictUnit['status']
             del dictUnit['reply_user']
@@ -247,7 +308,7 @@ class CommentListHandler(RequestHandler):
             del dictUnit['creator']['source_uid']
             del dictUnit['image_urls']
             del dictUnit['create_time']
-            del dictUnit['feed']
+            dictUnit['feed'] = dictUnit['feed']['id']
             del dictUnit['readable_create_time']
             del dictUnit['reply_comment']
             del dictUnit['id']

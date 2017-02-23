@@ -374,3 +374,26 @@ class RequestHandler(BaseHandler):
 
     def get_umeng_api_success(self, code):
         return code == self._code_dict[self.requestName]
+
+    def deleted_useless_feed(self,dictUnit):
+        """delete all of useless field response from umeng server.
+
+        Args:
+            dictUnit: feed dictory
+        
+        Returns:
+            Null
+        """
+        del dictUnit['seq']
+        del dictUnit['creator']['medal_ids']
+        del dictUnit['creator']['source_uid']       
+        del dictUnit['topics']
+        del dictUnit['tag']
+        del dictUnit['readable_create_time']     
+        del dictUnit['origin_feed']     
+        del dictUnit['custom']
+        del dictUnit['source']
+        del dictUnit['location']
+        del dictUnit['media_type']
+        del dictUnit['type']
+        del dictUnit['status']

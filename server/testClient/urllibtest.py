@@ -6,8 +6,8 @@ import cookielib
 import json
 import random
 import hashlib
-# prefix ="http://139.196.207.155:8000"
-prefix = "http://127.0.0.1:8000"
+prefix ="http://139.196.207.155:8000"
+# prefix = "http://127.0.0.1:8000"
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 urllib2.install_opener(opener)
@@ -183,7 +183,7 @@ def commit_list():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "feed_id":"57d2e44dd36ef3fbfcb032e4",
+        "feed_id":"57d84b2fb9a9960f37a1072b",
         "page":1,
         "count":30
     }
@@ -200,7 +200,7 @@ def feed_detail():
     message = {}
     otherPara = {}
     otherPara[num] = {
-        "feed_id":"57ce5a64b9a9965c03f6b679"
+        "feed_id":"587f6bc7b9a9967cc4c35443"
     }
     info_json[num] = {
     }
@@ -737,7 +737,7 @@ def feedlist():
     }
     info_json[num] = {
     }
-    message[num] = "my comment list : \n"    
+    message[num] = "my follow circle list : \n"    
     do_request(api,info_json,message,"POST",otherPara) 
 # checkPhone()
 # registerTest()    
@@ -747,7 +747,7 @@ loginTest()
 # apply_circle()
 # getcommentlist()
 # circle_apply_test()
-feedlist()
+# feedlist()
 # checkmessage()
 #　circle_member_list()
 # user_detail()
@@ -759,7 +759,7 @@ feedlist()
 # get_follow_list() 
 # update_feed()
 # circle_feed_list()
-# feed_detail()
+feed_detail()
 # logoutTest()
 # updateInfoTest()
 # editTest()

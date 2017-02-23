@@ -147,20 +147,7 @@ class CircleFeedListHandler(RequestHandler):
         access_token = self.get_redis_dict_access_token(uid)
         count,message,umengData =yield self.Umeng_asyn_request(access_token,Data)
         for dictUnit in umengData['results']:
-            del dictUnit['seq']
-            del dictUnit['creator']['medal_ids']
-            del dictUnit['creator']['source_uid']       
-            del dictUnit['topics']
-            del dictUnit['tag']
-            del dictUnit['readable_create_time']     
-            del dictUnit['origin_feed']     
-            del dictUnit['custom']
-            del dictUnit['source']
-            del dictUnit['location']
-            del dictUnit['media_type']
-            del dictUnit['type']
-            del dictUnit['status']
-
+            self.deleted_useless_feed(dictUnit)
         self.return_to_client(code,message,umengData)
         self.finish()
 
@@ -290,18 +277,6 @@ class FollowCircleFeedListHandler(RequestHandler):
 #        logging.info("access_token :%s"%access_token)
         code,message,Data =yield self.Umeng_asyn_request(access_token,Data)
         for dictUnit in Data['results']:
-            del dictUnit['seq']
-            del dictUnit['creator']['medal_ids']
-            del dictUnit['creator']['source_uid']       
-            del dictUnit['topics']
-            del dictUnit['tag']
-            del dictUnit['readable_create_time']     
-            del dictUnit['origin_feed']     
-            del dictUnit['custom']
-            del dictUnit['source']
-            del dictUnit['location']
-            del dictUnit['media_type']
-            del dictUnit['type']
-            del dictUnit['status']
+            self.deleted_useless_feed(dictUnit)
         self.return_to_client(code,message,Data)
         self.finish()
