@@ -1,6 +1,6 @@
 ## database:
 - 数据库存放原则：
-	- mysql 存放账号密码和写死的字段
+	- mysql 存放账号密码和写死的字段，以及
 	- elasticsearch 仅存放和搜索需要筛选的相关信息，以及在列表层次需要展示的信息，以及该信息在Umeng对应的id
 	- Umeng 存放所有信息。
 	- 操作
@@ -85,6 +85,7 @@
 			- 修改圈子：
 				- 管理员修改：访问后台，确认管理员身份之后，执行话题编辑操作。
 			- 不能修改公告
+-user dict:维护的用户在线信息表.
 
 - mysql
 	- user info
@@ -93,31 +94,38 @@
         - password[string]:密码
         - stu id[int]:从数据库获取的学号
         - uni id[int]:学校id，目前只有东南大学，设置为1
+        - access token[string] umeng的access token
+    - user show:
+        - show id：详情信息表的id
+        - uid：作为user info 的uid的约束的外键
         - admission year[int]:入学年份，
+        - faculty id [int] 用户的院系id
         - major id：[int] 某个major对应的id
         - name[string]： 用户的真实姓名
         - gender[string]：性别
-        - access token
-    - major id table：专业和id的对应表
+        - my circle list[field of circle id] 我加入的圈子列表
+    - major id table：专业和id的对应表[这个表放在客户端，不然每次多访问一次数据库不合适]
     	- major id[int]:user info 表格的id
     	- major name[string]:对应的专业名
     - [如果话题不支持管理员功能，管理员存储在mysql里面]
+    - circle ：[记录圈子的基本信息，防止圈子重名]
+    	- cid
+    	- umengcid
+    	- name
 - elasticsearch and umeng
-	- user
-		- source uid = (umeng)uid[int] mysql 用户id，则是友盟的source uid
+	- user[用户的自定义字段比较多，所以只存放uid，uid能够找到具体信息，所以查看用户详情的时候，直接访问mysql。]
+		- 列表级别的信息：
+			- 姓名，入学年份，院系，专业，头像，现在的职业
+		- source uid = source id 是 mysql 里面的 phone.
 		- username = telephone：
 		- icon url
 		- umeng id[string] 友盟 用户id
 		- custom
-            - huanxin id[string] 环信 用户id
             - stu id[int]:从数据库获取的学号
-            - uni id[int]:学校id，目前只有东南大学，设置为1
-            - admission year[int]:入学年份，
-            - major id：[int] 某个major对应的id
-            - name[string]： 用户的真实姓名
+            - admission year[int]:入学年份
+            - faculty id [int]:院系id
+            - major id：[int] 专业的id
             - gender[string]：性别
-            - my circle list[field of circle id] 我加入的圈子列表
-		- 其他的是友盟自带的字段
 	- feed
 		- id[string] feed id
 		- content[string] 内容
@@ -143,11 +151,12 @@ message:
 type:1 发给圈子发起人的消息，宣布其创建圈子的处理结果：
 {
 	"topic name"
-	“result”: true of false,
-    [if "result" == true]
-    [if "result" == false]
+	“agree”: true of false,
+    [if "agree" == true]
+    [if "agree" == false]
     "reason":手工填写的拒绝理由
-}
+    icon_url:
+}	
 type：2 全体成员都能接受到的消息，由圈子的管理员或者创始人发送：
 {
 	”topic“：{
@@ -198,6 +207,7 @@ type:4  申请人接受到的消息，他发出的消息的处理结果
         }
     }
 
+
 manual_review table
 review_id:
 name:
@@ -207,17 +217,11 @@ circle_name：圈子的名字
 circle_icon_url:圈子的图标
 circle_type:圈子类别
 create_reason_message:创建者填写的创建理由
-question_list[json]：圈子申请需填写的问题
-city_filter_list[json]：圈子的城市筛选信息
-admission_min_year[int]：圈子的允许进入的入学年份最小值
-adminssion_max_year[int]：圈子的允许进入的入学年份最大值
-major_filter_list[json]：圈子的允许进入专业的筛选
-deal[int] 0 not deal yet. 1 agree.2 disagree
+deal[int] 0 not deal yet. 1 agree	.2 disagree
 
 user_message_table:
 id:
 uid:
-umengid:设置索引
 message_queue[array]
 
 

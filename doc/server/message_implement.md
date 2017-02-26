@@ -18,7 +18,7 @@ user_message_table:用户消息队列表
 circle_message_table：圈子消息队列[用于群发消息]
 redis：
 - 存放用户idumengid uid 
-- 消息处理列表：user message queue ，circle message queue 
+- 消息处理列表：user message queue ，circle message queue
 - 更新时间：update time 
 - 记录是否处理消息：deal
 ### 具体分析：
@@ -26,9 +26,8 @@ redis：
 	1.  首先，圈子的发起人需要填写三方面的信息:
 		1.  用于在圈子列表展示的信息，称为show_message: 圈子名称，圈子图片[有默认值]，圈子所属类别；
         2.  发起人填写的用于后台审核的信息，称为create_reason_message: 申请圈子理由；
-        3.  发起人设置的，给申请人填写的问卷信息，称为 quession_list： 问卷列表；
-        4.  发起人设置的，自动筛选的条件信息，称为 filter_list: 城市筛选，入学年份筛选，院系筛选
-        5.  圈子发起人信息，称之为 creator_uid:发起人的 友盟uid，[mysql uid？]
+        3.  [2.0]: 发起人设置的，给申请人填写的问卷信息，称为 quession_list： 问卷列表；
+        4.  圈子发起人信息，称之为 creator_uid:发起人的 友盟uid，[mysql uid？]
     2.  4方面的信息经过合法性的检验 validation_check，如果检验失败，返回给客户端，如果成功，传递给后台服务器，写入mysql的manual_review_table里面;
     3.  后台管理员打开审核界面，进行人工审核：
     	1.  如果审核失败：
@@ -61,8 +60,8 @@ redis：
     				- 圈子的名字：circle_name
     		4. 等待用户发送http请求，进入消息队列推送处理程序
 2. 圈子发起人--->任命/撤销管理员操作/踢出群成员--->服务器--->写入友盟数据库--->告知所有成员任命和撤销决定 的逻辑实现
-	1. 圈子发起人在管理成员列表中点击触发http请求，客户端获取任命/撤销的管理员umengid，客户端带着umengid和method = set or cancel 给服务器；
-	2. 服务器向友盟修改cunstom字段.
+	1. 圈子发起人在管理成员列表中点击触发http请求，客户端获取任命/撤销的管理员uid，客户端带着umengid和method = set or cancel 给服务器；
+	2. 服务器向友盟修改custom字段.
 	3. 成功之后生成一个type2 的消息 存在 message_table 里面,需要的数据字段有:
 		- circle_id[umeng]
 		- umengid[被任免的用户的id].
@@ -76,8 +75,8 @@ redis：
 		- circle_id_list:自己加入的圈子
 		- time
 		- user_id
-	6. 找到message_id 存储到redis里面.
-3.  圈子申请人--->从服务器获取题目信息--->提交答案--->服务器--->发送给管理员审核通知--->接受第一个管理员的处理请求-->写入服务器--->反馈给申请人结果
+	6. 找到message id 存储到redis里面.
+3.  圈子申请人--->从服务器获取题目信息--->提交答案--->服务器--->发送给管理员审核通知--->接受第一个管理员的处理请求-->写入服务器--->反馈给所有人结果
 	1. 在点开圈子详情页面的时候,申请人就获取了题目的文本信息, 点击申请的时候,将输入信息上传给服务器,需要接受的信息有:
 		- 问卷的题目列表
 		- 问卷的答案列表
@@ -88,8 +87,9 @@ redis：
 	3. 创建消息：在message table 里面创建这条消息，记录一条m id
 	4. 消息处理：
 		1. 给每个友盟id的消息队列user message table 的 message queue 增加一条m id, 并更新时间戳
-		2. 查看用户是否在线，如果用户在线，更新redis上的时间戳和对应的信息
-		3. 用户发送http请求的时候发现时间戳更新，并且未被处理，则从redis上面获取信息，客户端确定正确收到消息之后，则反馈给redis，消息已经被处理。
+		2. 查看用户是否在线，如果用户在线，更新redis上的时间戳
+		3. 用户发送http请求的时候发现时间戳更新，并且未被处理，则从数据库上面获取信息，客户端确定正确收到消息之后，则反馈给redis，消息已经被处理, 清空数据库的消息队列。
+		4. 如果用户不在线,则访问user message table 列表的 该uid 的信息,获取其message update time给redis
 	7. 发起人审阅消息阶段：客户端接受到消息，选择处理结果[同意，拒绝申请]：将处理结果发送给服务器，包括以下字段：
 		- 处理结果 result.
 		- 申请人的umeng id.
@@ -102,6 +102,11 @@ redis：
 		- 圈子的 topic id
 	9. 设置消息的接受者[单人接收]：user message table [如果用户在线还要存在 redis 里面], umengid 的对应条目的消息队列增加 m id，并更新时间戳。
 	10. 用户发送http请求的时候，发现消息队列的时间戳更新，并且还没被发送给客户端[未被处理]，客户端获取消息进行处理。
-
+- 消息处理逻辑:
+    1. 新的消息出现了.
+    2. 给每个友盟id的消息队列user message table 的 message queue 增加一条m id, 并更新时间戳
+    2. 查看用户是否在线，如果用户在线，更新redis上的时间戳
+    3. 用户发送http请求的时候发现时间戳更新，并且未被处理，则从数据库上面获取信息，客户端确定正确收到消息之后，则反馈给redis，之后消息已经被处理, 清空数据库的消息队列。
+    4. 如果用户不在线,则访问user message table 列表的 该uid 的信息,获取其message update time给redis,用户登陆的时候redis获取 user message table 的 updatetime.
 ### 总结：
 思路大体理清楚了，但是实际上肯定还会遇到问题，需要持续补充
