@@ -1,0 +1,155 @@
+{
+    "message": "get umeng api successfully",
+    "code": 0,
+    "Data": {
+        "update": {},
+        "response": {
+            "count": 10,
+            "total": 2,
+            "page": 1,
+            "results": [
+                {
+                    "related_users": "empty",
+                    "liked": "False",
+                    "stats": {
+                        "liked": 1,
+                        "forwards": 0,
+                        "comments": 8
+                    },
+                    "has_collected": "False",
+                    "title": "circle feed list !",
+                    "creator": {
+                        "icon_url": "http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg",
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    },
+                    "is_topic_top": "empty",
+                    "image_urls": [
+                        "http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg",
+                        "http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
+                    ],
+                    "content": "这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!这是一条很长的中文动态,里面有很长的内容, 大神在里面评论了好多东西!!!!!",
+                    "is_top": 0,
+                    "create_time": "2016-09-10 00:33:17",
+                    "parent_feed_id": "",
+                    "topic_tag": "",
+                    "is_recommended": "True",
+                    "id": "57d2e44dd36ef3fbfcb032e4",
+                    "share_link": "http://wsq.umeng.com/feeds/57d2e44dd36ef3fbfcb032e4/"
+                },
+                {
+                    "related_users": "empty",
+                    "liked": "False",
+                    "stats": {
+                        "liked": 0,
+                        "forwards": 0,
+                        "comments": 0
+                    },
+                    "has_collected": "False",
+                    "title": "circle feed list !",
+                    "creator": {
+                        "icon_url": "http://b.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=45f10be75edf8db1bc7b74603c13f162/023b5bb5c9ea15ce2f42ea76b6003af33a87b224.jpg",
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    },
+                    "is_topic_top": "empty",
+                    "image_urls": [
+                        "http://tupian.qqjay.com/tou3/2016/0605/9848ad4d58f2cf2ac07a2645d66e20e6.jpg",
+                        "http://tupian.qqjay.com/tou3/2016/0605/222393536f052f6d5c1e293b8e065164.jpg"
+                    ],
+                    "content": "这是一条中文动态 62066",
+                    "is_top": 0,
+                    "create_time": "2016-09-10 00:11:06",
+                    "parent_feed_id": "",
+                    "topic_tag": "",
+                    "is_recommended": "True",
+                    "id": "57d2df1ad36ef3fc508af255",
+                    "share_link": "http://wsq.umeng.com/feeds/57d2df1ad36ef3fc508af255/"
+                }
+            ]
+        }
+    }
+}
+
+
+
+
+// 动态详情[评论]
+{
+    "message": "get umeng api successfully",
+    "code": 4100,
+    "Data": {
+        "update": {},
+        "response": {
+            "count": 30,
+            "total": 8,
+            "page": 1,
+            "results": [
+                {
+                    "content": "我评论了这条动态! 我评论了这条动态",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    }
+                },
+                {
+                    "content": "[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! ",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    }
+                },
+                {
+                    "content": "[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! ",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2fb1ad36ef3fc508b1459",
+                        "name": "15623232323陈三胖"
+                    }
+                },
+                {
+                    "content": "[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! ",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2fb1ad36ef3fc508b1459",
+                        "name": "15623232323陈三胖"
+                    }
+                },
+                {
+                    "content": "[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! ",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2f9dab9a9963aecd1af26",
+                        "name": "15644444444你哪呢"
+                    }
+                },
+                {
+                    "content": "[很长]我评论了这条动态! 我评论了这条动态!我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! 我评论了这条动态! ",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2f9dab9a9963aecd1af26",
+                        "name": "15644444444你哪呢"
+                    }
+                },
+                {
+                    "content": "Nihao",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    }
+                },
+                {
+                    "content": "2345",
+                    "liked": "False",
+                    "creator": {
+                        "id": "57d2c60fd36ef3ede3236ebb",
+                        "name": "15888888888大神"
+                    }
+                }
+            ]
+        }
+    }
+}
